@@ -8,6 +8,12 @@ Integrantes: Caio Luzano, Gustavo Diogo, Henrique Shodi e Luiz Frederico
 
 https://wiki.libsdl.org/Installation
 
+Não é oficial nem muito bonito, mas é muito bom as lessons
+http://lazyfoo.net/tutorials/SDL/
+
+Lista Oficial de bons tutoriais:
+https://wiki.libsdl.org/Tutorials
+
 #### Instalação
 
 sudo apt-get install libsdl2-2.0
