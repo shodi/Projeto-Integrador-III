@@ -18,6 +18,8 @@ https://wiki.libsdl.org/Tutorials
 
 sudo apt-get install libsdl2-2.0
 
+sudo apt-get install libsdl2-dev
+
 #### Compilação
 
 gcc -o myprogram myprogram.c `sdl2-config --cflags --libs`
