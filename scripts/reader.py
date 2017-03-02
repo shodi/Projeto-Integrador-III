@@ -10,15 +10,15 @@ def formater(text_line):
 	__id = text_line[1:index_C]
 	__arrival_time = text_line[index_C + 1:index_A]
 	__stages = text_line[index_A:]
-	print ("id: %s\narrival_time: %s\nstages: %s" %(__id, __arrival_time, __stages))
+	print ("%s\n%s\n%s" %(__id, __arrival_time, __stages))
 
 def main(file_name, client_id):
-	print '%s %s' % (file_name, client_id)
 	with open(file_name, 'r') as fp:
 		line = fp.readline()
 		while not line.startswith('U' + str(client_id)):
 			line = fp.readline()
-			if line is '':
+			if line == '':
+				print 'ID fora do range'
 				return
 		formater(line)
 		
