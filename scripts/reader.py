@@ -22,7 +22,5 @@ def main(file_name, client_id):
 				return
 		formater(line)
 		
-
-
 if __name__=='__main__':
 	main(sys.argv[1], sys.argv[2])
