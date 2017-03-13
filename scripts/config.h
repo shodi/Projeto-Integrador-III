@@ -2,6 +2,14 @@
 #include <string.h>
 #define SETUP_QTD_LINE 8
 
+typedef struct cliente{
+
+    int id;
+    int arrival_time;
+    char *sequence;
+
+}Cliente;
+
 typedef struct posto{
 
     int time_to_attend;
@@ -22,6 +30,40 @@ typedef struct config{
     Posto E;
 
 }Config;
+
+char *slice_str_with_end(const char * str, size_t start, size_t end){
+
+    const size_t len = strlen(str);
+    char *buffer = (char *)malloc(len * sizeof(char));
+    size_t j = 0;
+    for ( size_t i = start; i <= end; ++i ) {
+        buffer[j++] = str[i];
+    }
+    buffer[j] = 0;
+
+    return buffer;
+}
+
+int find_arrival_position(char *str){
+
+    int i = 0;
+    s1: if(str[i] != 'C'){
+        i++;
+        goto s1;
+    }
+    return i + 1;
+}
+
+int set_arrival_time(char *str, int *helper){
+    int i = find_arrival_position(str);
+    int aux = i;
+    s2: if(str[i] != 'A'){
+        i++;
+        goto s2;
+    }
+    *helper = i;
+    return atoi(slice_str_with_end(str, aux, i + 1));
+}
 
 char* slice_str(const char * str, size_t start){  
     
@@ -116,8 +158,7 @@ Config* get_config(char *file_name){
     int i;
 
     fp = fopen(file_name, "r");
-    if(fp == NULL)
-        return 0;    
+    if(fp == NULL) return 0;    
 
     for(i = 0; i < SETUP_QTD_LINE; i++){
         getline(&line, &len, fp);
@@ -140,8 +181,30 @@ Config* get_config(char *file_name){
         }
     }
 
-    if(line)
-        free(line);
+    if(line) free(line);
     fclose(fp); 
     return setup;
+}
+
+Cliente *get_client(const char *file_name, int value){
+
+    Cliente *aux = (Cliente *)malloc(sizeof(Cliente));
+
+    FILE *fp;
+    char *line;
+    size_t len = 0;
+    int first_step;
+
+    fp = fopen(file_name, "r");
+    if(fp == NULL) printf("Erro");
+
+    while(getline(&line, &len, fp) != EOF){
+        if(atoi(slice_str_with_end(line, 1, find_arrival_position(line))) != value) continue;
+        aux->id = atoi(slice_str_with_end(line, 1, find_arrival_position(line)));
+        aux->arrival_time = set_arrival_time(line, &first_step);
+        aux->sequence = slice_str_with_end(line, first_step, strlen(line));
+    }
+
+    fclose(fp);
+    return aux;
 }
