@@ -25,12 +25,9 @@ int main(void)
 
     iniciar();
 
-     // Dizemos que vamos tratar os eventos vindos do mouse
-    al_register_event_source(fila_eventos, al_get_mouse_event_source());
- 
     // Flag indicando se o mouse está sobre o retângulo central
     int na_area_central = 0;
-    
+
     while (!sair)
     {
         // Verificamos se há eventos na fila
@@ -71,9 +68,6 @@ int main(void)
 }
 
 int iniciar(){
-    // Configura o título da janela
-    al_set_window_title(janela, "BBC PI 3 - Sistema Autônomo");   
-
     if (!al_init())
     {
         fprintf(stderr, "Falha ao inicializar a Allegro.\n");
@@ -134,6 +128,13 @@ int iniciar(){
         al_destroy_display(janela);
         return -1;
     }
+
+    // Configura o título da janela
+    al_set_window_title(janela, "BBC PI 3 - Sistema Autônomo");
+
+     // Dizemos que vamos tratar os eventos vindos do mouse
+    al_register_event_source(fila_eventos, al_get_mouse_event_source());
+    
     return 1;
 }
 
