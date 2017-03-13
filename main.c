@@ -12,8 +12,11 @@ ALLEGRO_TIMER *timer;
 const int LARGURA_TELA = 640;
 const int ALTURA_TELA = 480;
 
+int velocidadeturno = 1;
+
 //Funções
 int iniciar();
+void destruirTudo();
  
 int main(void)
 {    
@@ -21,15 +24,13 @@ int main(void)
     int sair = 0;
 
     iniciar();
- 
-    // Configura o título da janela
-    al_set_window_title(janela, "Rotinas de Mouse - www.rafaeltoledo.net"); 
- 
-    // Dizemos que vamos tratar os eventos vindos do mouse
+
+     // Dizemos que vamos tratar os eventos vindos do mouse
     al_register_event_source(fila_eventos, al_get_mouse_event_source());
  
     // Flag indicando se o mouse está sobre o retângulo central
     int na_area_central = 0;
+    
     while (!sair)
     {
         // Verificamos se há eventos na fila
@@ -63,17 +64,16 @@ int main(void)
         // Atualiza a tela
         al_flip_display();
     }
- 
-    // Desaloca os recursos utilizados na aplicação
-    al_destroy_bitmap(botao_sair);
-    al_destroy_bitmap(area_central);
-    al_destroy_display(janela);
-    al_destroy_event_queue(fila_eventos);
- 
+    
+    destruirTudo();
+
     return 0;
 }
 
 int iniciar(){
+    // Configura o título da janela
+    al_set_window_title(janela, "BBC PI 3 - Sistema Autônomo");   
+
     if (!al_init())
     {
         fprintf(stderr, "Falha ao inicializar a Allegro.\n");
@@ -87,7 +87,7 @@ int iniciar(){
         return -1;
     }
 
-    timer = al_create_timer(1.0/60);
+    timer = al_create_timer(1.0/60*velocidadeturno);
     if(!timer){
         fprintf(stderr, "Falha ao inicializar o Timer\n");
         return -1;
@@ -135,4 +135,13 @@ int iniciar(){
         return -1;
     }
     return 1;
+}
+
+void destruirTudo(){
+    // Desaloca os recursos utilizados na aplicação
+    al_destroy_bitmap(botao_sair);
+    al_destroy_bitmap(area_central);
+    al_destroy_display(janela);
+    al_destroy_event_queue(fila_eventos);
+    al_destroy_timer(timer);
 }
