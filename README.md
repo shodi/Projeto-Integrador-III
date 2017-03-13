@@ -4,22 +4,19 @@
 Integrantes: Caio Luzano, Gustavo Diogo, Henrique Shodi e Luiz Frederico
 
 
-## C++ SDL
+##Linux
+### Instalação
 
-https://wiki.libsdl.org/Installation
+>sudo apt-get install liballegro5-dev
 
-Não é oficial nem muito bonito, mas é muito bom as lessons
-http://lazyfoo.net/tutorials/SDL/
+### Compilação
 
-Lista Oficial de bons tutoriais:
-https://wiki.libsdl.org/Tutorials
+>gcc main.c -o main -lm -pedantic -std=c11 -W -Wall $(pkg-config –cflags –libs allegro-5) -lallegro -lallegro_main -lallegro_image -lallegro_font -lallegro_primitives -lallegro_ttf -lallegro_audio -lallegro_acodec
 
-#### Instalação
+*adicione as librarys que são utilizadas ao longo do projeto, estas são só um exemplo
 
-sudo apt-get install libsdl2-2.0
+>./main
 
-sudo apt-get install libsdl2-dev
+##Windows
 
-#### Compilação
-
-gcc -o myprogram myprogram.c `sdl2-config --cflags --libs`
+>Windows é para otários, se vira ai
