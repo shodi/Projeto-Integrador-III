@@ -4,9 +4,6 @@
 #include <stdlib.h>
 #include "headers/iniciarAllegro.h"
 #include "headers/iniciarJogo.h"
-
-//Funções
-void destruirTudo();
  
 int main(void)
 {   
