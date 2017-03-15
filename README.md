@@ -11,7 +11,7 @@ Integrantes: Caio Luzano, Gustavo Diogo, Henrique Shodi e Luiz Frederico
 
 ### Compilação
 
->gcc main.c -o main -lm -pedantic -std=c99 -W -Wall $(pkg-config –cflags –libs allegro-5) -lallegro -lallegro_main -lallegro_image -lallegro_font -lallegro_primitives -lallegro_ttf -lallegro_audio -lallegro_acodec
+>gcc main.c -o main.exe -lm -pedantic -std=c99 -W -Wall $(pkg-config –cflags –libs allegro-5) -lallegro -lallegro_main -lallegro_image -lallegro_font -lallegro_primitives -lallegro_ttf -lallegro_audio -lallegro_acodec
 
 *adicione as librarys que são utilizadas ao longo do projeto, estas são só um exemplo
 
