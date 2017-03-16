@@ -9,8 +9,8 @@
     while (!sair){
 
         while (!al_is_event_queue_empty(FILA_EVENTOS)){            
-            al_wait_for_event(FILA_EVENTOS, &evento);     
-            //Evento clique do mouse
+            al_wait_for_event(FILA_EVENTOS, &evento); 
+            
             if (evento.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP){                                
                 if (evento.mouse.x >= LARGURA_TELA - al_get_bitmap_width(BOTAO_SAIR) - 10 &&
                     evento.mouse.x <= LARGURA_TELA - 10 && evento.mouse.y <= ALTURA_TELA - 10 &&
