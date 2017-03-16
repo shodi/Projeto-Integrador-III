@@ -1,7 +1,13 @@
-// Os arquivos de cabeçalho
 #include <allegro5/allegro.h> 
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_native_dialog.h>
+#include <allegro5/events.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "scripts/config.h"
 #include "headers/iniciarAllegro.h"
 #include "headers/iniciarJogo.h"
@@ -21,6 +27,7 @@ int main(int argc, char *argv[]){
 
     SETUP = get_config(CONFIG_FILE);
     if(SETUP == NULL) return -1;
+
     iniciarAllegro();
 
     iniciarJogo();
