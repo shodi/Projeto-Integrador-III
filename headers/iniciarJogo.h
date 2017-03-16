@@ -3,9 +3,6 @@
     // Flag que condicionará nosso looping
     int sair = 0;
 
-    // Flag indicando se o mouse está sobre o retângulo central
-    int na_area_central = 0;
-
     while (!sair)
     {
         // Verificamos se há eventos na fila
