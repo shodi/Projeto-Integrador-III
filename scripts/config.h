@@ -1,35 +1,9 @@
 #include <stdlib.h>
 #include <string.h>
+#include "../headers/structs.h"
 #define SETUP_QTD_LINE 8
 
-typedef struct cliente{
-
-    int id;
-    int arrival_time;
-    char *sequence;
-
-}Cliente;
-
-typedef struct posto{
-
-    int time_to_attend;
-    int qtd_postos;
-    int qtd_atendentes;
-    char *flag;
-
-}Posto;
-
-typedef struct config{
-
-    int qtd_atendentes;
-    int time_to_change;
-    Posto A;
-    Posto B;
-    Posto C;
-    Posto D;
-    Posto E;
-
-}Config;
+Config *SETUP = NULL;
 
 char *slice_str_with_end(const char * str, size_t start, size_t end){
 
@@ -149,16 +123,15 @@ void _posto_setup(char *str, Config *params){
     }
 }
 
-Config* get_config(char *file_name){
+Config* get_config(const char *file_name){
 
     FILE *fp;
     char *line;
     size_t len = 0;
     Config *setup = (Config *)malloc(sizeof(Config));
     int i;
-
     fp = fopen(file_name, "r");
-    if(fp == NULL) return 0;    
+    if(fp == NULL) printf("SOMETHING WENT WRONG\n");    
 
     for(i = 0; i < SETUP_QTD_LINE; i++){
         getline(&line, &len, fp);
@@ -206,5 +179,6 @@ Cliente *get_client(const char *file_name, int value){
     }
 
     fclose(fp);
+    if(line) free(line);
     return aux;
 }
