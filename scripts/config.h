@@ -131,7 +131,7 @@ Config* get_config(const char *file_name){
     Config *setup = (Config *)malloc(sizeof(Config));
     int i;
     fp = fopen(file_name, "r");
-    if(fp == NULL) printf("SOMETHING WENT WRONG\n");    
+    if(fp == NULL) printf("SOMETHING WENT WRONG WHILE OPENING THE ARCHIVE THAT LOADS THE CONFIG\n");    
 
     for(i = 0; i < SETUP_QTD_LINE; i++){
         getline(&line, &len, fp);
@@ -169,7 +169,7 @@ Cliente *get_client(const char *file_name, int value){
     int first_step;
 
     fp = fopen(file_name, "r");
-    if(fp == NULL) printf("Erro");
+    if(fp == NULL) printf("SOMETHING WENT WRONG WHILE OPENING THE ARCHIVE THAT LOADS THE CLIENT\n");
 
     while(getline(&line, &len, fp) != EOF){
         if(atoi(slice_str_with_end(line, 1, find_arrival_position(line))) != value) continue;
