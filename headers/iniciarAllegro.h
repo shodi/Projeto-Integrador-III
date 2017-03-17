@@ -1,13 +1,13 @@
 ALLEGRO_DISPLAY *JANELA = NULL;
 ALLEGRO_EVENT_QUEUE *FILA_EVENTOS = NULL;
 ALLEGRO_BITMAP *BOTAO_SAIR = NULL, *AREA_CENTRAL = 0,*BACKGROUND = NULL;
-ALLEGRO_TIMER *TIMER;
+ALLEGRO_TIMER *TIMER = 0;
 ALLEGRO_FONT *FONT = NULL;
 
 const int LARGURA_TELA = 640;
 const int ALTURA_TELA = 480;
 
-int velocidadeturno = 1;
+int VELOCIDADETURNO = 1;
 
 bool iniciarAllegro(){
     if (!al_init()){
@@ -50,7 +50,7 @@ bool iniciarAllegro(){
         return false;
     }
 
-    TIMER = al_create_timer(1.0/60*velocidadeturno);
+    TIMER = al_create_timer(1.0);
     if (!TIMER){
         fprintf(stderr, "Falha ao inicializar o Timer\n");
         return false;
@@ -94,6 +94,7 @@ bool iniciarAllegro(){
     al_set_window_title(JANELA, "BBC PI 3 - Sistema Autônomo");
 
     al_register_event_source(FILA_EVENTOS, al_get_mouse_event_source());
+    al_register_event_source(FILA_EVENTOS,al_get_timer_event_source(TIMER));
 
     return true;
 }
