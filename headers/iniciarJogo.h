@@ -1,6 +1,7 @@
  ALLEGRO_EVENT evento;
 
  int MIN = 0, SEG = 0;
+ int TURNO = 0;
 
  void carregarMenuInferior();
  void carregarBackground();
@@ -15,9 +16,12 @@
             al_wait_for_event(FILA_EVENTOS, &evento); 
             if(evento.type == ALLEGRO_EVENT_TIMER){
                 SEG++;
-                if(SEG == 61){
+                if(SEG == 60){
                     MIN++;
                     SEG = 0;
+                }
+                if(0 == SEG % 10){
+                    TURNO++;
                 }
             }
             
@@ -73,7 +77,8 @@ void carregarMenuInferior(){
 
     al_draw_text(FONT, al_map_rgb(255, 0, 0), 580, 420, ALLEGRO_ALIGN_CENTRE, "Sair");
     //relogio
-    al_draw_textf(FONT, al_map_rgb(255, 0, 0), 580, 20, ALLEGRO_ALIGN_CENTRE, "%d:%d",MIN, SEG);    
+    al_draw_textf(FONT, al_map_rgb(255, 0, 0), 580, 20, ALLEGRO_ALIGN_CENTRE, "%d:%d",MIN, SEG);
+    al_draw_textf(FONT, al_map_rgb(0, 0, 200), 300, 20, ALLEGRO_ALIGN_CENTRE, "%d",TURNO);    
 }
 
 void carregarBackground(){  
