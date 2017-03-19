@@ -32,7 +32,7 @@ int main(int argc, char *argv[]){
 
     iniciarAllegro();
 
-    iniciarJogo();
+    iniciarJogo(CLIENT_LIST_FILE);
     
     destruirTudo();
 
