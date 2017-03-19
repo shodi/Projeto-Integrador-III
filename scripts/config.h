@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../headers/structs.h"
+#include "../headers/fila_encadeada.h"
 #define SETUP_QTD_LINE 8
 
 Config *SETUP = NULL;
@@ -159,8 +160,9 @@ Config* get_config(const char *file_name){
     return setup;
 }
 
-Cliente *get_client(const char *file_name, int value){
+Fila *get_client(const char *file_name, int value){
 
+    Fila *fila_de_clientes = NULL;
     Cliente *aux = (Cliente *)malloc(sizeof(Cliente));
 
     FILE *fp;
@@ -171,14 +173,15 @@ Cliente *get_client(const char *file_name, int value){
     fp = fopen(file_name, "r");
     if(fp == NULL) printf("SOMETHING WENT WRONG WHILE OPENING THE ARCHIVE THAT LOADS THE CLIENT\n");
 
-    while(getline(&line, &len, fp) != EOF){
-        if(atoi(slice_str_with_end(line, 1, find_arrival_position(line))) != value) continue;
+    while(getline(&line, &len, fp) != EOF && set_arrival_time(line, &first_step) >= value){
+        if(set_arrival_time(line, &first_step) != value) continue;
         aux->id = atoi(slice_str_with_end(line, 1, find_arrival_position(line)));
         aux->arrival_time = set_arrival_time(line, &first_step);
         aux->sequence = slice_str_with_end(line, first_step, strlen(line));
+        inclui_fila(&fila_de_clientes, *aux);
     }
 
     fclose(fp);
     if(line) free(line);
-    return aux;
+    return fila_de_clientes;
 }

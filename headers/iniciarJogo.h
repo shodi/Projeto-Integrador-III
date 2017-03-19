@@ -1,13 +1,16 @@
- ALLEGRO_EVENT evento;
+ALLEGRO_EVENT evento;
 
- int MIN = 0, SEG = 0;
- int TURNO = 0;
+int MIN = 0, SEG = 0;
+int TURNO = 0;
 
- void carregarMenuInferior();
- void carregarBackground();
+Fila *ARRAY_CLIENTES = NULL;
 
- int iniciarJogo(){
+void carregarMenuInferior();
+void carregarBackground();
+
+int iniciarJogo(const char *CLIENT_LIST_FILE){
     bool sair = false;
+    Fila *new_client = NULL;
 
     while (!sair){
         al_start_timer(TIMER);
@@ -22,6 +25,13 @@
                 }
                 if(0 == SEG % 10){
                     TURNO++;
+                    new_client = get_client(CLIENT_LIST_FILE, TURNO);
+                    while(new_client != NULL){
+                        printf("ID: %d\n", new_client->cliente.id);
+                        printf("ARRIVAL TIME: %d\n", new_client->cliente.arrival_time);
+                        new_client = new_client->proximo;  
+                    }
+                    new_client = NULL;
                 }
             }
             
@@ -58,7 +68,7 @@
 
         carregarBackground();
         carregarMenuInferior();   
- 
+
         // Atualiza a tela
         al_flip_display();
     }
@@ -70,7 +80,7 @@ void carregarMenuInferior(){
     al_clear_to_color(al_map_rgb(0, 120, 0));
     al_set_target_bitmap(al_get_backbuffer(JANELA));
     al_draw_bitmap(BOTAO_SAIR, LARGURA_TELA - al_get_bitmap_width(BOTAO_SAIR) - 10,
-       ALTURA_TELA - al_get_bitmap_height(BOTAO_SAIR) - 10, 0);
+        ALTURA_TELA - al_get_bitmap_height(BOTAO_SAIR) - 10, 0);
     al_draw_filled_rectangle(100,300,200,400, al_map_rgb(255,0,0));
     al_draw_filled_rectangle(200,300,300,400, al_map_rgb(0,255,0));
     al_draw_filled_rectangle(300,300,400,400, al_map_rgb(0,0,255));
@@ -79,7 +89,7 @@ void carregarMenuInferior(){
     //relogio
     al_draw_textf(FONT, al_map_rgb(255, 0, 0), 580, 20, ALLEGRO_ALIGN_CENTRE, "%d:%d",MIN, SEG);
     al_draw_textf(FONT, al_map_rgb(0, 0, 200), 300, 20, ALLEGRO_ALIGN_CENTRE, "%d",TURNO);    
-}
+    }
 
 void carregarBackground(){  
     al_clear_to_color(al_map_rgb(255, 255, 255));

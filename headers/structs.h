@@ -3,6 +3,7 @@ typedef struct cliente{
     int id;
     int arrival_time;
     char *sequence;
+    char current_step;
 
 }Cliente;
 
@@ -26,3 +27,10 @@ typedef struct config{
     Posto E;
 
 }Config;
+
+typedef struct fila{
+
+    struct fila *proximo;
+    Cliente cliente;
+
+}Fila;
