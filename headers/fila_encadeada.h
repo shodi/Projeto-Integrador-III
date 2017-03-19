@@ -8,3 +8,13 @@ void inclui_fila(Fila **a, Cliente x){
         *a = aux;
     }
 }
+
+void print_fila(Fila **a){
+
+    if(*a != NULL){
+        printf("ID >>> %d\n", (*a)->cliente.id);
+        printf("ARRIVAL TIME >>> %d\n\n", (*a)->cliente.arrival_time);
+        print_fila(&(*a)->proximo);
+    }
+
+}

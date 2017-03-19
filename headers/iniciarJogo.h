@@ -26,11 +26,11 @@ int iniciarJogo(const char *CLIENT_LIST_FILE){
                 if(0 == SEG % 10){
                     TURNO++;
                     new_client = get_client(CLIENT_LIST_FILE, TURNO);
-                    while(new_client != NULL){
-                        printf("ID: %d\n", new_client->cliente.id);
-                        printf("ARRIVAL TIME: %d\n", new_client->cliente.arrival_time);
-                        new_client = new_client->proximo;  
+                    while(new_client){
+                        inclui_fila(&ARRAY_CLIENTES, new_client->cliente);
+                        new_client = new_client->proximo;
                     }
+                    print_fila(&ARRAY_CLIENTES);
                     new_client = NULL;
                 }
             }

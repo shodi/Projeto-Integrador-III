@@ -173,7 +173,7 @@ Fila *get_client(const char *file_name, int value){
     fp = fopen(file_name, "r");
     if(fp == NULL) printf("SOMETHING WENT WRONG WHILE OPENING THE ARCHIVE THAT LOADS THE CLIENT\n");
 
-    while(getline(&line, &len, fp) != EOF && set_arrival_time(line, &first_step) >= value){
+    while(getline(&line, &len, fp) != EOF){
         if(set_arrival_time(line, &first_step) != value) continue;
         aux->id = atoi(slice_str_with_end(line, 1, find_arrival_position(line)));
         aux->arrival_time = set_arrival_time(line, &first_step);
