@@ -11,10 +11,10 @@ void carregarBackground();
 int iniciarJogo(const char *CLIENT_LIST_FILE){
     bool sair = false;
     Fila *new_client = NULL;
+    al_start_timer(TIMER);
 
     while (!sair){
-        al_start_timer(TIMER);
-
+        
         while (!al_is_event_queue_empty(FILA_EVENTOS)){            
             al_wait_for_event(FILA_EVENTOS, &evento); 
             if(evento.type == ALLEGRO_EVENT_TIMER){
@@ -42,25 +42,35 @@ int iniciarJogo(const char *CLIENT_LIST_FILE){
                     sair = true;
                 } 
                 if (evento.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP){
-                    if(evento.mouse.x >= 100 && evento.mouse.x <= 200 &&
-                        evento.mouse.y >= 300 && evento.mouse.y <= 400){
+                    if(evento.mouse.x >= 60 && evento.mouse.x <= 100 &&
+                        evento.mouse.y >= 600 && evento.mouse.y <= 700){
+                        al_start_timer(TIMER);
                         al_set_timer_speed(TIMER,1.0);
 
                     }
                 }
                 if (evento.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP){
-                    if(evento.mouse.x >= 200 && evento.mouse.x <= 300 &&
-                        evento.mouse.y >= 300 && evento.mouse.y <= 400){
+                    if(evento.mouse.x >= 120 && evento.mouse.x <= 170 &&
+                        evento.mouse.y >= 600 && evento.mouse.y <= 700){
+                        al_start_timer(TIMER);
                         al_set_timer_speed(TIMER,0.5);
 
                     }
                 } 
                 if (evento.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP){
-                    if(evento.mouse.x >= 300 && evento.mouse.x <= 400 &&
-                        evento.mouse.y >= 300 && evento.mouse.y <= 400){
+                    if(evento.mouse.x >= 230 && evento.mouse.x <= 300 &&
+                        evento.mouse.y >= 600 && evento.mouse.y <= 700){
+                        al_start_timer(TIMER);
                         al_set_timer_speed(TIMER,0.33);
 
                     }
+                    if (evento.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP){
+                    if(evento.mouse.x >= 10 && evento.mouse.x <= 50 &&
+                        evento.mouse.y >= 600 && evento.mouse.y <= 700){
+                        al_stop_timer(TIMER);
+
+                    }
+                }
                 } 
             }
 
