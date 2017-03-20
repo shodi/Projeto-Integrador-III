@@ -87,7 +87,8 @@ void carregarMenuInferior(){
     al_draw_filled_rectangle(100,300,200,400, al_map_rgb(255,0,0));
     al_draw_filled_rectangle(200,300,300,400, al_map_rgb(0,255,0));
     al_draw_filled_rectangle(300,300,400,400, al_map_rgb(0,0,255));
-    al_draw_bitmap(GUICHET,  10, 400, 100);
+    // guichês
+    al_draw_bitmap(GUICHET,  10, 500, 100);
     al_draw_bitmap(GUICHEA1,  10, 40, 100);
     al_draw_bitmap(GUICHEA2,  135, 40, 0);
     al_draw_bitmap(GUICHEB1,  265, 40, 0);
@@ -96,11 +97,19 @@ void carregarMenuInferior(){
     al_draw_bitmap(GUICHED1,  655, 40, 0);
     al_draw_bitmap(GUICHED2,  785, 40, 0);
     al_draw_bitmap(GUICHEE,   915, 40, 0);
+    
+    //botões de controle
+    al_draw_filled_rectangle(0,640,1080,720, al_map_rgb(255,255,255));
+    al_draw_bitmap(PAUSEBTTN,      10, 650, 0);
+    al_draw_bitmap(PLAYBTTN,       60, 650, 0);
+    al_draw_bitmap(TWOTIMESBTTN,   120, 650, 0);
+    al_draw_bitmap(THREETIMESBTTN, 230, 650, 0);
 
-    al_draw_text(FONT, al_map_rgb(255, 0, 0), 580, 420, ALLEGRO_ALIGN_CENTRE, "Sair");
     //relogio
-    al_draw_textf(FONT, al_map_rgb(255, 0, 0), 580, 20, ALLEGRO_ALIGN_CENTRE, "%d:%d",MIN, SEG);
-    al_draw_textf(FONT, al_map_rgb(0, 0, 200), 300, 20, ALLEGRO_ALIGN_CENTRE, "%d",TURNO);    
+    al_draw_text(FONT, al_map_rgb(0, 0, 0), 400, 655, ALLEGRO_ALIGN_CENTRE, "Turno:");
+    al_draw_textf(FONT, al_map_rgb(0, 0, 200), 480, 655, ALLEGRO_ALIGN_CENTRE, "%d",TURNO);    
+    al_draw_text(FONT, al_map_rgb(0, 0, 0), 670, 655, ALLEGRO_ALIGN_CENTRE, "Tempo:");
+    al_draw_textf(FONT, al_map_rgb(255, 0, 0), 790, 655, ALLEGRO_ALIGN_CENTRE, "%d:%d",MIN, SEG);
     }
 
 void carregarBackground(){  
