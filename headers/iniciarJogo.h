@@ -65,6 +65,9 @@ int iniciarJogo(const char *CLIENT_LIST_FILE){
             }
 
         }
+        if (evento.type == ALLEGRO_EVENT_DISPLAY_CLOSE){
+                    sair = true;
+                }
 
         carregarBackground();
         carregarMenuInferior();   
@@ -84,6 +87,15 @@ void carregarMenuInferior(){
     al_draw_filled_rectangle(100,300,200,400, al_map_rgb(255,0,0));
     al_draw_filled_rectangle(200,300,300,400, al_map_rgb(0,255,0));
     al_draw_filled_rectangle(300,300,400,400, al_map_rgb(0,0,255));
+    al_draw_bitmap(GUICHET,  10, 400, 100);
+    al_draw_bitmap(GUICHEA1,  10, 40, 100);
+    al_draw_bitmap(GUICHEA2,  135, 40, 0);
+    al_draw_bitmap(GUICHEB1,  265, 40, 0);
+    al_draw_bitmap(GUICHEB2,  395, 40, 0);
+    al_draw_bitmap(GUICHEC,   525, 40, 0);
+    al_draw_bitmap(GUICHED1,  655, 40, 0);
+    al_draw_bitmap(GUICHED2,  785, 40, 0);
+    al_draw_bitmap(GUICHEE,   915, 40, 0);
 
     al_draw_text(FONT, al_map_rgb(255, 0, 0), 580, 420, ALLEGRO_ALIGN_CENTRE, "Sair");
     //relogio
@@ -92,6 +104,6 @@ void carregarMenuInferior(){
     }
 
 void carregarBackground(){  
-    al_clear_to_color(al_map_rgb(255, 255, 255));
-    al_draw_bitmap(BACKGROUND, 0, 0, 0);
+    al_clear_to_color(al_map_rgb(190, 190, 190));
+    //al_draw_bitmap(BACKGROUND, 0, 0, 0);
 }
