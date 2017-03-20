@@ -1,11 +1,28 @@
 ALLEGRO_DISPLAY *JANELA = NULL;
 ALLEGRO_EVENT_QUEUE *FILA_EVENTOS = NULL;
-ALLEGRO_BITMAP *BOTAO_SAIR = NULL, *AREA_CENTRAL = 0,*BACKGROUND = NULL;
+ALLEGRO_BITMAP *BOTAO_SAIR = NULL, 
+               *AREA_CENTRAL = 0,  
+               *BACKGROUND = NULL, 
+               *GUICHET = NULL,
+               *GUICHEA1 = NULL,
+               *GUICHEA2 = NULL,
+               *GUICHEB1 = NULL,
+               *GUICHEB2 = NULL,
+               *GUICHEC = NULL,
+               *GUICHED1 = NULL,
+               *GUICHED2 = NULL,
+               *GUICHEE = NULL,
+               *PAUSEBTTN = NULL,
+               *PLAYBTTN = NULL,
+               *TWOTIMESBTTN = NULL,
+               *THREETIMESBTTN = NULL;
+
 ALLEGRO_TIMER *TIMER = 0;
 ALLEGRO_FONT *FONT = NULL;
 
-const int LARGURA_TELA = 640;
-const int ALTURA_TELA = 480;
+const int LARGURA_TELA = 1024;
+const int ALTURA_TELA = 720;
+const int tamanho = 300;
 
 int VELOCIDADETURNO = 1;
 
@@ -70,6 +87,30 @@ bool iniciarAllegro(){
     BACKGROUND = al_create_bitmap(LARGURA_TELA,ALTURA_TELA);
     if(!BACKGROUND){
         fprintf(stderr, "Falha ao criar bitmap BACKGROUND\n");
+        return false;
+    }
+
+    GUICHET = al_load_bitmap("headers/Images/guiche.png");
+    GUICHEA1 = al_load_bitmap("headers/Images/guiche.png");
+    //void al_set_new_bitmap_format(int tamanho);
+    GUICHEA2 = al_load_bitmap("headers/Images/guiche.png");
+    GUICHEB1 = al_load_bitmap("headers/Images/guiche.png");
+    GUICHEB2 = al_load_bitmap("headers/Images/guiche.png");
+    GUICHEC = al_load_bitmap("headers/Images/guiche.png");
+    GUICHED1 = al_load_bitmap("headers/Images/guiche.png");
+    GUICHED2 = al_load_bitmap("headers/Images/guiche.png");
+    GUICHEE = al_load_bitmap("headers/Images/guiche.png");
+    if (!GUICHEA1 || !GUICHEA2 || !GUICHEB1 ||!GUICHEB2 ||!GUICHEC ||!GUICHED1 ||!GUICHED2 ||!GUICHEE){
+        fprintf(stderr, "Falha ao criar bitmap GUICHE. \n");
+        return false;
+    }
+
+    PAUSEBTTN = al_load_bitmap("headers/Images/pausebttn.png");
+    PLAYBTTN = al_load_bitmap("headers/Images/playbttn.png");
+    TWOTIMESBTTN = al_load_bitmap("headers/Images/2timesbttn.png");
+    THREETIMESBTTN = al_load_bitmap("headers/Images/3timesbttn.png");
+    if (!PAUSEBTTN || !PLAYBTTN || !TWOTIMESBTTN ||!THREETIMESBTTN){
+        fprintf(stderr, "Falha ao criar bitmap BTTN. \n");
         return false;
     }
 
