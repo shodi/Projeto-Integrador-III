@@ -3,7 +3,6 @@ ALLEGRO_EVENT_QUEUE *FILA_EVENTOS = NULL;
 ALLEGRO_BITMAP *BOTAO_SAIR = NULL, 
                *AREA_CENTRAL = 0,  
                *BACKGROUND = NULL, 
-               *GUICHET = NULL,
                *GUICHEA1 = NULL,
                *GUICHEA2 = NULL,
                *GUICHEB1 = NULL,
@@ -90,9 +89,7 @@ bool iniciarAllegro(){
         return false;
     }
 
-    GUICHET = al_load_bitmap("headers/Images/guiche.png");
     GUICHEA1 = al_load_bitmap("headers/Images/guiche.png");
-    //void al_set_new_bitmap_format(int tamanho);
     GUICHEA2 = al_load_bitmap("headers/Images/guiche.png");
     GUICHEB1 = al_load_bitmap("headers/Images/guiche.png");
     GUICHEB2 = al_load_bitmap("headers/Images/guiche.png");
