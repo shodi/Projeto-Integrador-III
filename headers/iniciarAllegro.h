@@ -117,7 +117,7 @@ bool iniciarAllegro(){
         return false;
     } 
 
-    FONT = al_load_font("fonts/Raleway-Medium.ttf", 36, 0);
+    FONT = al_load_font("fonts/Raleway-Medium.ttf", 11, 0);
 
     FILA_EVENTOS = al_create_event_queue();
     if (!FILA_EVENTOS){
