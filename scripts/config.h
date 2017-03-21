@@ -5,6 +5,11 @@
 #define SETUP_QTD_LINE 8
 
 Config *SETUP = NULL;
+Fila *FILA_A;
+Fila *FILA_B;
+Fila *FILA_C;
+Fila *FILA_D;
+Fila *FILA_E;
 
 char *slice_str_with_end(const char * str, size_t start, size_t end){
 
@@ -122,6 +127,11 @@ void _posto_setup(char *str, Config *params){
                 params->E.flag = slice_str(str, 3);
                 break;
     }
+}
+
+Fila *memory_allocation_array_fila(int qtd_postos){
+    Fila *aux = (Fila *)malloc(qtd_postos * sizeof(Fila));
+    return aux;
 }
 
 Config* get_config(const char *file_name){
