@@ -160,31 +160,28 @@ void load_queue(Fila **principal_array){
     }
 }
 
-int check_if_each_finish(Fila **principal){
+int check_if_each_finish(Fila **principal, int counter){
     if(*principal != NULL){
-        if((*principal)->cliente.in_process){
-            printf("CLIENTE NA FILA: %d\n", (*principal)->cliente.id);
-            printf("STEP: %c\n", (*principal)->cliente.current_step);
-            return 0;
-        }
-        check_if_each_finish(&(*principal)->proximo);     
+        if((*principal)->cliente.in_process) return 0;
+        check_if_each_finish(&(*principal)->proximo, counter + 1);     
     }
+    else if(*principal == NULL && !counter) return 0;
     return 1;
 }
 
 int check_if_finish(){
 
-    if(check_if_each_finish(&FILA_A) &&
-    check_if_each_finish(&FILA_B) &&
-    check_if_each_finish(&FILA_C) &&
-    check_if_each_finish(&FILA_D) &&
-    check_if_each_finish(&FILA_E)) return 1;
+    if(check_if_each_finish(&FILA_A, 0) &&
+    check_if_each_finish(&FILA_B, 0) &&
+    check_if_each_finish(&FILA_C, 0) &&
+    check_if_each_finish(&FILA_D, 0) &&
+    check_if_each_finish(&FILA_E, 0)) return 1;
     return 0;
 
 }
 
 void finish_client(Cliente *x){
-
+    printf("\n\nfinish him\n\n");   
     x->in_process = false;
     x->is_attending = false;
 
@@ -222,7 +219,7 @@ void next_queue(Cliente *x){
     }
 }
 
-void update_queue(Fila **a, int qtd_postos, int time_to_attend){
+void update_queue(Fila **a, int qtd_atendentes, int time_to_attend){
     if(*a != NULL){
         if((*a)->cliente.is_attending){
             if(!(*a)->cliente.duration){
@@ -240,14 +237,13 @@ loop:           if((*a)->cliente.sequence[i] != '\0'){
                         if((*a)->cliente.sequence[i] == (*a)->cliente.current_step){
                             if((i + 1) < length){
                                 (*a)->cliente.current_step = (*a)->cliente.sequence[i + 1];
-                                if((*a)->cliente.id == 1){
-                                    printf("CURRENT_VALUE: %c\n", (*a)->cliente.current_step);
-                                }
+                                printf("PROXIMA FILA: %c\n", (*a)->cliente.current_step);
                                 next_queue(&(*a)->cliente);
                             }
-                            else{
-                                finish_client(&(*a)->cliente);
-                            }
+                            // else{
+
+                            //     finish_client(&(*a)->cliente);
+                            // }
                             break;
                         }
                     }
@@ -258,21 +254,21 @@ loop:           if((*a)->cliente.sequence[i] != '\0'){
                 (*a)->cliente.duration--;
             }
         }
-        if((*a)->cliente.duration == -1 && qtd_postos > 0){
+        if((*a)->cliente.duration == -1 && qtd_atendentes >= 0 && !(*a)->cliente.is_attending){
+            printf("FWAUHFIUWHAUIFHWI\n");
             (*a)->cliente.duration = time_to_attend;
             (*a)->cliente.is_attending = true;
         }
-    update_queue(&(*a)->proximo, qtd_postos--, time_to_attend);
+    update_queue(&(*a)->proximo, qtd_atendentes - 1, time_to_attend);
     }
 }
 
 void check_queue_status(){
-    printf("CHECK_QUEUE_STATUS\n");
-    update_queue(&FILA_A, SETUP->A->qtd_postos, SETUP->A->time_to_attend);
-    update_queue(&FILA_B, SETUP->B->qtd_postos, SETUP->B->time_to_attend);
-    update_queue(&FILA_C, SETUP->C->qtd_postos, SETUP->C->time_to_attend);
-    update_queue(&FILA_D, SETUP->D->qtd_postos, SETUP->D->time_to_attend);
-    update_queue(&FILA_E, SETUP->E->qtd_postos, SETUP->E->time_to_attend);
+    update_queue(&FILA_A, SETUP->A->qtd_atendentes, SETUP->A->time_to_attend);
+    update_queue(&FILA_B, SETUP->B->qtd_atendentes, SETUP->B->time_to_attend);
+    update_queue(&FILA_C, SETUP->C->qtd_atendentes, SETUP->C->time_to_attend);
+    update_queue(&FILA_D, SETUP->D->qtd_atendentes, SETUP->D->time_to_attend);
+    update_queue(&FILA_E, SETUP->E->qtd_atendentes, SETUP->E->time_to_attend);
 }
 
 Config* get_config(const char *file_name){

@@ -30,6 +30,11 @@ int main(int argc, char *argv[]){
     SETUP = get_config(CONFIG_FILE);
     if(SETUP == NULL) return -1;
 
+    printf("VALOR DA QTD_DE_POSTOS A: %d\n", SETUP->A->qtd_atendentes);
+    printf("VALOR DA QTD_DE_POSTOS B: %d\n", SETUP->B->qtd_atendentes);
+    printf("VALOR DA QTD_DE_POSTOS C: %d\n", SETUP->C->qtd_atendentes);
+    printf("VALOR DA QTD_DE_POSTOS D: %d\n", SETUP->D->qtd_atendentes);
+    printf("VALOR DA QTD_DE_POSTOS E: %d\n", SETUP->E->qtd_atendentes);
     iniciarAllegro();
 
     iniciarJogo(CLIENT_LIST_FILE);
