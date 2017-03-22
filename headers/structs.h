@@ -1,6 +1,8 @@
 typedef struct cliente{
 
     int id;
+    int duration;
+    bool in_process;
     bool is_attending;
     int arrival_time;
     char *sequence;
@@ -32,6 +34,7 @@ typedef struct config{
 
 typedef struct fila{
 
+    char posto;
     struct fila *proximo;
     Cliente cliente;
 

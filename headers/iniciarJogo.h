@@ -29,6 +29,7 @@ int iniciarJogo(const char *CLIENT_LIST_FILE){
                     while(new_client){
                         new_client->cliente.current_step = new_client->cliente.sequence[0];
                         inclui_fila(&ARRAY_CLIENTES, new_client->cliente);
+                        load_queue(&ARRAY_CLIENTES);
                         new_client = new_client->proximo;
                     }
                     print_fila(&ARRAY_CLIENTES);
