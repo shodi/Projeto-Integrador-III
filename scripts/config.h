@@ -5,6 +5,11 @@
 #define SETUP_QTD_LINE 8
 
 Config *SETUP = NULL;
+Fila *FILA_A = NULL;
+Fila *FILA_B = NULL;
+Fila *FILA_C = NULL;
+Fila *FILA_D = NULL;
+Fila *FILA_E = NULL;
 
 char *slice_str_with_end(const char * str, size_t start, size_t end){
 
@@ -58,19 +63,19 @@ void _relacao_de_postos(char *str, Config *params){
     for(i = 0; str[i] != '\0'; i++){
         switch(str[i]){
             case 'A':
-                !params->A.qtd_postos ? params->A.qtd_postos = 1 : params->A.qtd_postos++;
+                !params->A->qtd_postos ? params->A->qtd_postos = 1 : params->A->qtd_postos++;
                 break;
             case 'B':
-                !params->B.qtd_postos ? params->B.qtd_postos = 1 : params->B.qtd_postos++;
+                !params->B->qtd_postos ? params->B->qtd_postos = 1 : params->B->qtd_postos++;
                 break;
             case 'C':
-                !params->C.qtd_postos ? params->C.qtd_postos = 1 : params->C.qtd_postos++;
+                !params->C->qtd_postos ? params->C->qtd_postos = 1 : params->C->qtd_postos++;
                 break;
             case 'D':
-                !params->D.qtd_postos ? params->D.qtd_postos = 1 : params->D.qtd_postos++;
+                !params->D->qtd_postos ? params->D->qtd_postos = 1 : params->D->qtd_postos++;
                 break;
             default:
-                !params->E.qtd_postos ? params->E.qtd_postos = 1 : params->E.qtd_postos++;
+                !params->E->qtd_postos ? params->E->qtd_postos = 1 : params->E->qtd_postos++;
                 break;
         }
     }
@@ -81,19 +86,19 @@ void _relacao_de_atendimento(char *str, Config *params){
     for(i = 0; str[i] != '\0'; i++){
         switch(str[i]){
             case 'A':
-                !params->A.qtd_atendentes ? params->A.qtd_atendentes = 1 : params->A.qtd_atendentes++;
+                !params->A->qtd_atendentes ? params->A->qtd_atendentes = 1 : params->A->qtd_atendentes++;
                 break;
             case 'B':
-                !params->B.qtd_atendentes ? params->B.qtd_atendentes = 1 : params->B.qtd_atendentes++;
+                !params->B->qtd_atendentes ? params->B->qtd_atendentes = 1 : params->B->qtd_atendentes++;
                 break;
             case 'C':
-                !params->C.qtd_atendentes ? params->C.qtd_atendentes = 1 : params->C.qtd_atendentes++;
+                !params->C->qtd_atendentes ? params->C->qtd_atendentes = 1 : params->C->qtd_atendentes++;
                 break;
             case 'D':
-                !params->D.qtd_atendentes ? params->D.qtd_atendentes = 1 : params->D.qtd_atendentes++;
+                !params->D->qtd_atendentes ? params->D->qtd_atendentes = 1 : params->D->qtd_atendentes++;
                 break;
             default:
-                !params->E.qtd_atendentes ? params->E.qtd_atendentes = 1 : params->E.qtd_atendentes++;
+                !params->E->qtd_atendentes ? params->E->qtd_atendentes = 1 : params->E->qtd_atendentes++;
                 break;
         }
     }
@@ -102,26 +107,40 @@ void _relacao_de_atendimento(char *str, Config *params){
 void _posto_setup(char *str, Config *params){
     switch(str[0]){
             case 'A':
-                params->A.time_to_attend = str[1] - '0';
-                params->A.flag = slice_str(str, 3);
+                params->A->time_to_attend = str[1] - '0';
+                params->A->flag = slice_str(str, 3);
                 break;
             case 'B':
-                params->B.time_to_attend = str[1] - '0';
-                params->B.flag = slice_str(str, 3);
+                params->B->time_to_attend = str[1] - '0';
+                params->B->flag = slice_str(str, 3);
                 break;
             case 'C':
-                params->C.time_to_attend = str[1] - '0';
-                params->C.flag = slice_str(str, 3);
+                params->C->time_to_attend = str[1] - '0';
+                params->C->flag = slice_str(str, 3);
                 break;
             case 'D':
-                params->D.time_to_attend = str[1] - '0';
-                params->D.flag = slice_str(str, 3);
+                params->D->time_to_attend = str[1] - '0';
+                params->D->flag = slice_str(str, 3);
                 break;
             default:
-                params->E.time_to_attend = str[1] - '0';
-                params->E.flag = slice_str(str, 3);
+                params->E->time_to_attend = str[1] - '0';
+                params->E->flag = slice_str(str, 3);
                 break;
     }
+}
+
+Fila *memory_allocation_array_fila(int size){
+
+    Fila *aux = (Fila *)malloc(size * sizeof(Fila));
+    return aux;
+
+}
+
+void update_client_status(Fila **x, int size){
+
+    if(x[0]->proximo == NULL) printf("E NULL SIZE: %d\n", size);
+    else printf("NAO E NULL SIZE: %d\n", size);
+
 }
 
 Config* get_config(const char *file_name){
@@ -175,6 +194,7 @@ Fila *get_client(const char *file_name, int value){
 
     while(getline(&line, &len, fp) != EOF){
         if(set_arrival_time(line, &first_step) != value) continue;
+        aux->is_attending = false;
         aux->id = atoi(slice_str_with_end(line, 1, find_arrival_position(line)));
         aux->arrival_time = set_arrival_time(line, &first_step);
         aux->sequence = slice_str_with_end(line, first_step, strlen(line));
