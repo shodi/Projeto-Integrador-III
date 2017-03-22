@@ -3,21 +3,22 @@ ALLEGRO_EVENT_QUEUE *FILA_EVENTOS = NULL;
 ALLEGRO_BITMAP *BOTAO_SAIR = NULL, 
                *AREA_CENTRAL = 0,  
                *BACKGROUND = NULL, 
-               *GUICHEA1 = NULL,
-               *GUICHEA2 = NULL,
-               *GUICHEB1 = NULL,
-               *GUICHEB2 = NULL,
-               *GUICHEC = NULL,
-               *GUICHED1 = NULL,
-               *GUICHED2 = NULL,
-               *GUICHEE = NULL,
+               *GUICHE1 = NULL,
+               *GUICHE2 = NULL,
+               *GUICHE3 = NULL,
+               *GUICHE4 = NULL,
+               *GUICHE5 = NULL,
+               *GUICHE6 = NULL,
+               *GUICHE7 = NULL,
+               *GUICHE8 = NULL,
                *PAUSEBTTN = NULL,
                *PLAYBTTN = NULL,
                *TWOTIMESBTTN = NULL,
                *THREETIMESBTTN = NULL;
 
 ALLEGRO_TIMER *TIMER = 0;
-ALLEGRO_FONT *FONT = NULL;
+ALLEGRO_FONT *FONT  = NULL,
+             *FONT2 = NULL;
 
 const int LARGURA_TELA = 1024;
 const int ALTURA_TELA = 720;
@@ -89,23 +90,23 @@ bool iniciarAllegro(){
         return false;
     }
 
-    GUICHEA1 = al_load_bitmap("headers/Images/guiche.png");
-    GUICHEA2 = al_load_bitmap("headers/Images/guiche.png");
-    GUICHEB1 = al_load_bitmap("headers/Images/guiche.png");
-    GUICHEB2 = al_load_bitmap("headers/Images/guiche.png");
-    GUICHEC = al_load_bitmap("headers/Images/guiche.png");
-    GUICHED1 = al_load_bitmap("headers/Images/guiche.png");
-    GUICHED2 = al_load_bitmap("headers/Images/guiche.png");
-    GUICHEE = al_load_bitmap("headers/Images/guiche.png");
-    if (!GUICHEA1 || !GUICHEA2 || !GUICHEB1 ||!GUICHEB2 ||!GUICHEC ||!GUICHED1 ||!GUICHED2 ||!GUICHEE){
+    GUICHE1 = al_load_bitmap("headers/Images/guiche.png");
+    GUICHE2 = al_load_bitmap("headers/Images/guiche.png");
+    GUICHE3 = al_load_bitmap("headers/Images/guiche.png");
+    GUICHE4 = al_load_bitmap("headers/Images/guiche.png");
+    GUICHE5 = al_load_bitmap("headers/Images/guiche.png");
+    GUICHE6 = al_load_bitmap("headers/Images/guiche.png");
+    GUICHE7 = al_load_bitmap("headers/Images/guiche.png");
+    GUICHE8 = al_load_bitmap("headers/Images/guiche.png");
+    if (!GUICHE1 || !GUICHE2 || !GUICHE3 ||!GUICHE4 ||!GUICHE5 ||!GUICHE6 ||!GUICHE7 ||!GUICHE8){
         fprintf(stderr, "Falha ao criar bitmap GUICHE. \n");
         return false;
     }
 
     PAUSEBTTN = al_load_bitmap("headers/Images/pausebttn.png");
     PLAYBTTN = al_load_bitmap("headers/Images/playbttn.png");
-    TWOTIMESBTTN = al_load_bitmap("headers/Images/2timesbttn.png");
-    THREETIMESBTTN = al_load_bitmap("headers/Images/3timesbttn.png");
+    TWOTIMESBTTN = al_load_bitmap("headers/Images/2timesbttn2.png");
+    THREETIMESBTTN = al_load_bitmap("headers/Images/3timesbttn2.png");
     if (!PAUSEBTTN || !PLAYBTTN || !TWOTIMESBTTN ||!THREETIMESBTTN){
         fprintf(stderr, "Falha ao criar bitmap BTTN. \n");
         return false;
@@ -117,13 +118,19 @@ bool iniciarAllegro(){
         return false;
     } 
 
-    FONT = al_load_font("fonts/Raleway-Medium.ttf", 11, 0);
-
     FILA_EVENTOS = al_create_event_queue();
     if (!FILA_EVENTOS){
         fprintf(stderr, "Falha ao inicializar o fila de eventos.\n");
         return false;
     }
+
+    FONT = al_load_font("fonts/Raleway-Medium.ttf", 30, 0);
+    if (!FONT) {
+        fprintf(stderr,"Falha ao carregar a fonte do texto.");
+        return false;
+    }
+
+    FONT2 = al_load_font("fonts/Raleway-Medium.ttf", 11, 0);
     if (!FONT) {
         fprintf(stderr,"Falha ao carregar a fonte do texto.");
         return false;
@@ -132,6 +139,7 @@ bool iniciarAllegro(){
     al_set_window_title(JANELA, "BBC PI 3 - Sistema Autônomo");
 
     al_register_event_source(FILA_EVENTOS, al_get_mouse_event_source());
+    al_register_event_source(FILA_EVENTOS, al_get_display_event_source(JANELA));
     al_register_event_source(FILA_EVENTOS,al_get_timer_event_source(TIMER));
 
     return true;
