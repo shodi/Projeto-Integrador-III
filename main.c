@@ -30,11 +30,11 @@ int main(int argc, char *argv[]){
     SETUP = get_config(CONFIG_FILE);
     if(SETUP == NULL) return -1;
 
-    FILA_A = memory_allocation_array_fila(SETUP->A.qtd_postos);
-    FILA_B = memory_allocation_array_fila(SETUP->B.qtd_postos);
-    FILA_C = memory_allocation_array_fila(SETUP->C.qtd_postos);
-    FILA_D = memory_allocation_array_fila(SETUP->D.qtd_postos);
-    FILA_E = memory_allocation_array_fila(SETUP->E.qtd_postos);
+    FILA_A = memory_allocation_array_fila(SETUP->A->qtd_postos);
+    FILA_B = memory_allocation_array_fila(SETUP->B->qtd_postos);
+    FILA_C = memory_allocation_array_fila(SETUP->C->qtd_postos);
+    FILA_D = memory_allocation_array_fila(SETUP->D->qtd_postos);
+    FILA_E = memory_allocation_array_fila(SETUP->E->qtd_postos);
 
     iniciarAllegro();
 
