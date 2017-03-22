@@ -2,7 +2,7 @@
 #include <string.h>
 #include "../headers/structs.h"
 #include "../headers/fila_encadeada.h"
-#define SETUP_QTD_LINE 8
+#define SETUP_QTD_LINE 9
 
 Config *SETUP = NULL;
 Fila *FILA_A = NULL;
