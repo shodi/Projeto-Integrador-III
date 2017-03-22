@@ -132,6 +132,7 @@ bool iniciarAllegro(){
     al_set_window_title(JANELA, "BBC PI 3 - Sistema Autônomo");
 
     al_register_event_source(FILA_EVENTOS, al_get_mouse_event_source());
+    al_register_event_source(FILA_EVENTOS, al_get_display_event_source(JANELA));
     al_register_event_source(FILA_EVENTOS,al_get_timer_event_source(TIMER));
 
     return true;
