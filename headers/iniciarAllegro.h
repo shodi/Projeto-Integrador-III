@@ -105,8 +105,8 @@ bool iniciarAllegro(){
 
     PAUSEBTTN = al_load_bitmap("headers/Images/pausebttn.png");
     PLAYBTTN = al_load_bitmap("headers/Images/playbttn.png");
-    TWOTIMESBTTN = al_load_bitmap("headers/Images/2timesbttn.png");
-    THREETIMESBTTN = al_load_bitmap("headers/Images/3timesbttn.png");
+    TWOTIMESBTTN = al_load_bitmap("headers/Images/2timesbttn2.png");
+    THREETIMESBTTN = al_load_bitmap("headers/Images/3timesbttn2.png");
     if (!PAUSEBTTN || !PLAYBTTN || !TWOTIMESBTTN ||!THREETIMESBTTN){
         fprintf(stderr, "Falha ao criar bitmap BTTN. \n");
         return false;
