@@ -129,9 +129,9 @@ void _posto_setup(char *str, Config *params){
     }
 }
 
-Fila *memory_allocation_array_fila(int size){
+Fila *memory_allocation_array_fila(){
 
-    Fila *aux = (Fila *)malloc(size * sizeof(Fila));
+    Fila *aux = (Fila *)malloc(sizeof(Fila));
     return aux;
 
 }
@@ -149,6 +149,12 @@ Config* get_config(const char *file_name){
     char *line;
     size_t len = 0;
     Config *setup = (Config *)malloc(sizeof(Config));
+    setup->A = (Posto *)malloc(sizeof(Posto));
+    setup->B = (Posto *)malloc(sizeof(Posto));
+    setup->C = (Posto *)malloc(sizeof(Posto));
+    setup->D = (Posto *)malloc(sizeof(Posto));
+    setup->E = (Posto *)malloc(sizeof(Posto));
+
     int i;
     fp = fopen(file_name, "r");
     if(fp == NULL) printf("SOMETHING WENT WRONG WHILE OPENING THE ARCHIVE THAT LOADS THE CONFIG\n");    
