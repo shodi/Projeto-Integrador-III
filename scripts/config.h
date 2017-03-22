@@ -162,6 +162,13 @@ void load_queue(Fila **principal_array){
     }
 }
 
+int check_if_finish(Fila **principal){
+    if(*principal != NULL){
+        if((*principal)->cliente.in_process) return 0;
+        else return check_if_finish(&(*principal)->proximo);     
+    }
+    return 1;
+}
 
 void finish_client(Cliente *x){
 
@@ -202,10 +209,6 @@ void next_queue(Cliente *x){
 
 void update_queue(Fila **a, int qtd_postos, int time_to_attend){
     if(*a != NULL){
-        if(!(*a)->cliente.is_attending){
-            (*a)->cliente.duration = time_to_attend;
-            (*a)->cliente.is_attending = true;
-        }
         if((*a)->cliente.is_attending){
             if(!(*a)->cliente.duration){
                 int i = 0;
@@ -236,8 +239,12 @@ loop:           if((*a)->cliente.sequence[i] != '\0'){
                 (*a)->cliente.duration--;
             }
         }
-    }
+        if(!(*a)->cliente.is_attending){
+            (*a)->cliente.duration = time_to_attend;
+            (*a)->cliente.is_attending = true;
+        }
     update_queue(&(*a)->proximo, qtd_postos--, time_to_attend);
+    }
 }
 
 void check_queue_status(){

@@ -30,6 +30,17 @@ int iniciarJogo(const char *CLIENT_LIST_FILE){
                         new_client->cliente.current_step = new_client->cliente.sequence[0];
                         inclui_fila(&ARRAY_CLIENTES, new_client->cliente);
                         load_queue(&ARRAY_CLIENTES);
+                        check_queue_status();
+                        if(check_if_finish(&ARRAY_CLIENTES)){
+                            printf("TERMINOU ESSA PORRA\n");
+                            return 0;
+                        }
+                        print_fila(&FILA_A);
+                        print_fila(&FILA_B);
+                        print_fila(&FILA_C);
+                        print_fila(&FILA_D);
+                        print_fila(&FILA_E);
+
                         new_client = new_client->proximo;
                     }
                     print_fila(&ARRAY_CLIENTES);
