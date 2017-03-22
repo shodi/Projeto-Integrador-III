@@ -30,6 +30,12 @@ int main(int argc, char *argv[]){
     SETUP = get_config(CONFIG_FILE);
     if(SETUP == NULL) return -1;
 
+    FILA_A = memory_allocation_array_fila();
+    FILA_B = memory_allocation_array_fila();
+    FILA_C = memory_allocation_array_fila();
+    FILA_D = memory_allocation_array_fila();
+    FILA_E = memory_allocation_array_fila();
+
     iniciarAllegro();
 
     iniciarJogo(CLIENT_LIST_FILE);
