@@ -100,7 +100,7 @@ void carregarMenuInferior(){
     al_draw_textf(FONT, al_map_rgb(0, 0, 0), 60,  10,  ALLEGRO_ALIGN_CENTRE, "5");    
     al_draw_filled_rectangle(10,50,110,80, al_map_rgb(0,255,0));
     al_draw_textf(FONT, al_map_rgb(0, 0, 0), 60,  55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->A->flag);
-    al_draw_bitmap(GUICHEA1,  10,  80, 0);
+    al_draw_bitmap(GUICHEA1,  10,  80, 0); 
     
     al_draw_textf(FONT, al_map_rgb(0, 0, 0), 185,  10, ALLEGRO_ALIGN_CENTRE, "5");    
     al_draw_filled_rectangle(135,50,235,80, al_map_rgb(0,255,0));
