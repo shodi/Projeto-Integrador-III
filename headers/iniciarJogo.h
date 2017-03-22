@@ -101,42 +101,42 @@ void carregarMenuInferior(){
     // guichês
     al_draw_textf(FONT, al_map_rgb(0, 0, 0), 60,  10,  ALLEGRO_ALIGN_CENTRE, "5");    
     al_draw_filled_rectangle(10,50,110,80, al_map_rgb(0,255,0));
-    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 60,  55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->A.flag);
+    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 60,  55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->A->flag);
     al_draw_bitmap(GUICHE1,  10,  80, 0);
     
     al_draw_textf(FONT, al_map_rgb(0, 0, 0), 185,  10, ALLEGRO_ALIGN_CENTRE, "5");    
     al_draw_filled_rectangle(135,50,235,80, al_map_rgb(0,255,0));
-    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 185, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->A.flag);
+    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 185, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->A->flag);
     al_draw_bitmap(GUICHE2,  135, 80, 0);
     
     al_draw_textf(FONT, al_map_rgb(0, 0, 0), 315,  10, ALLEGRO_ALIGN_CENTRE, "5");    
     al_draw_filled_rectangle(265,50,365,80, al_map_rgb(0,255,0));
-    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 315, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->B.flag);
+    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 315, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->B->flag);
     al_draw_bitmap(GUICHE3,  265, 80, 0);
     
     al_draw_textf(FONT, al_map_rgb(0, 0, 0), 445,  10, ALLEGRO_ALIGN_CENTRE, "5");    
     al_draw_filled_rectangle(395,50,495,80, al_map_rgb(0,255,0));
-    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 445, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->B.flag);
+    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 445, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->B->flag);
     al_draw_bitmap(GUICHE4,  395, 80, 0);
     
     al_draw_textf(FONT, al_map_rgb(0, 0, 0), 575,  10, ALLEGRO_ALIGN_CENTRE, "5");    
     al_draw_filled_rectangle(525,50,625,80, al_map_rgb(0,255,0));
-    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 575, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->C.flag);
+    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 575, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->C->flag);
     al_draw_bitmap(GUICHE5,   525, 80, 0);
     
     al_draw_textf(FONT, al_map_rgb(0, 0, 0), 705,  10, ALLEGRO_ALIGN_CENTRE, "5");    
     al_draw_filled_rectangle(655,50,755,80, al_map_rgb(0,255,0));
-    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 705, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->D.flag);
+    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 705, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->D->flag);
     al_draw_bitmap(GUICHE6,  655, 80, 0);
     
     al_draw_textf(FONT, al_map_rgb(0, 0, 0), 835,  10, ALLEGRO_ALIGN_CENTRE, "5");    
     al_draw_filled_rectangle(785,50,885,80, al_map_rgb(0,255,0));
-    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 835, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->D.flag);
+    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 835, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->D->flag);
     al_draw_bitmap(GUICHE7,  785, 80, 0);
     
     al_draw_textf(FONT, al_map_rgb(0, 0, 0), 965,  10, ALLEGRO_ALIGN_CENTRE, "5");    
     al_draw_filled_rectangle(915,50,1015,80, al_map_rgb(0,255,0));
-    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 965, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->E.flag);
+    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 965, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->E->flag);
     al_draw_bitmap(GUICHE8,   915, 80, 0);
 
     //botões de controle
@@ -160,11 +160,11 @@ void carregarBackground(){
 
 void carregarFilas(){
     //carregar fila 1
-    switch (30)
+    switch (0)
     {
     //al_draw_bitmap(GUICHE1,  10,  80, 0);
         default:
-        if ( 30 >= 9 ){ 
+        if ( 0 >= 9 ){ 
             al_draw_circle(60, 600, 15, al_map_rgb(0, 0, 0), 10);
         }        
         case 8: 
@@ -186,15 +186,42 @@ void carregarFilas(){
             break;
         case 0:
             al_draw_circle(60, 200, 15, al_map_rgb(190, 190, 190), 10);
+    }     
 
-
+    //carregar fila 1
+    switch (0)
+    {
+    //al_draw_bitmap(GUICHE1,  10,  80, 0);
+        default:
+        if ( 0 >= 9 ){ 
+            al_draw_circle(60, 600, 15, al_map_rgb(0, 0, 0), 10);
+        }        
+        case 8: 
+            al_draw_circle(60, 550, 15, al_map_rgb(0, 0, 0), 10);        
+        case 7: 
+            al_draw_circle(60, 500, 15, al_map_rgb(0, 0, 0), 10);        
+        case 6: 
+            al_draw_circle(60, 450, 15, al_map_rgb(0, 0, 0), 10);
+        case 5: 
+            al_draw_circle(60, 400, 15, al_map_rgb(0, 0, 0), 10);
+        case 4: 
+            al_draw_circle(60, 350, 15, al_map_rgb(0, 0, 0), 10);
+        case 3: 
+            al_draw_circle(60, 300, 15, al_map_rgb(0, 0, 0), 10);
+        case 2:
+            al_draw_circle(60, 250, 15, al_map_rgb(0, 0, 0), 10);
+        case 1: 
+            al_draw_circle(60, 200, 15, al_map_rgb(0, 0, 0), 10);
+            break;
+        case 0:
+            al_draw_circle(60, 200, 15, al_map_rgb(190, 190, 190), 10);
     }    
 
-    switch (30)
+    switch (0)
     {
     //al_draw_bitmap(GUICHE2,  135, 80, 0);
         default:
-        if ( 30 >= 9 ){ 
+        if ( 0 >= 9 ){ 
             al_draw_circle(185, 600, 15, al_map_rgb(0, 0, 0), 10);
         }        
         case 8: 
@@ -216,16 +243,14 @@ void carregarFilas(){
             break;
         case 0:
             al_draw_circle(185, 200, 15, al_map_rgb(190, 190, 190), 10);
-
-
     }    
 
     //carregar fila 3
-    switch (30)
+    switch (0)
     {
     //al_draw_bitmap(GUICHE3,  265, 80, 0)
         default:
-        if ( 30 >= 9 ){ 
+        if ( 0 >= 9 ){ 
             al_draw_circle(315, 600, 15, al_map_rgb(0, 0, 0), 10);
         }        
         case 8: 
@@ -247,15 +272,14 @@ void carregarFilas(){
             break;
         case 0:
             al_draw_circle(315, 200, 15, al_map_rgb(190, 190, 190), 10);    
-
     }    
 
     //carregar fila 4
-    switch (30)
+    switch (0)
     {
     //al_draw_bitmap(GUICHE4,  395, 80, 0);
         default:
-        if ( 30 >= 9 ){ 
+        if ( 0 >= 9 ){ 
             al_draw_circle(445, 600, 15, al_map_rgb(0, 0, 0), 10);
         }        
         case 8: 
@@ -277,15 +301,14 @@ void carregarFilas(){
             break;
         case 0:
             al_draw_circle(445, 200, 15, al_map_rgb(190, 190, 190), 10);    
-
     }    
 
     //carregar fila 5
-    switch (30)
+    switch (0)
     {
     //al_draw_bitmap(GUICHE5,   525, 80, 0);
                 default:
-        if ( 30 >= 9 ){ 
+        if ( 0 >= 9 ){ 
             al_draw_circle(575, 600, 15, al_map_rgb(0, 0, 0), 10);
         }        
         case 8: 
@@ -310,11 +333,11 @@ void carregarFilas(){
     }    
 
     //carregar fila 6
-    switch (30)
+    switch (0)
     {
     //al_draw_bitmap(GUICHE6,  655, 80, 0);
         default:
-        if ( 30 >= 9 ){ 
+        if ( 0 >= 9 ){ 
             al_draw_circle(705, 600, 15, al_map_rgb(0, 0, 0), 10);
         }        
         case 8: 
@@ -339,11 +362,11 @@ void carregarFilas(){
     }
 
     //carregar fila 7
-    switch (30)
+    switch (0)
     {
     //al_draw_bitmap(GUICHE7,  785, 80, 0);
         default:
-        if ( 30 >= 9 ){ 
+        if ( 0 >= 9 ){ 
             al_draw_circle(835, 600, 15, al_map_rgb(0, 0, 0), 10);
         }        
         case 8: 
@@ -368,11 +391,11 @@ void carregarFilas(){
     }    
 
     //carregar fila 8
-    switch (30)
+    switch (0)
     {
     //al_draw_bitmap(GUICHE8,   915, 80, 0);
         default:
-        if ( 30 >= 9 ){ 
+        if ( 0 >= 9 ){ 
             al_draw_circle(970, 600, 15, al_map_rgb(0, 0, 0), 10);
         }        
         case 8: 
