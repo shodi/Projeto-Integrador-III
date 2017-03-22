@@ -139,8 +139,6 @@ Fila *memory_allocation_array_fila(const char post){
 
 void load_queue(Fila **principal_array){
     if(*principal_array != NULL){
-        printf("id: %d\n", (*principal_array)->cliente.id);
-        printf("current_step: %c\n", (*principal_array)->cliente.current_step);
         switch ((*principal_array)->cliente.current_step){
             case 'A':
                 inclui_fila(&FILA_A, (*principal_array)->cliente);
@@ -162,12 +160,27 @@ void load_queue(Fila **principal_array){
     }
 }
 
-int check_if_finish(Fila **principal){
+int check_if_each_finish(Fila **principal){
     if(*principal != NULL){
-        if((*principal)->cliente.in_process) return 0;
-        else return check_if_finish(&(*principal)->proximo);     
+        if((*principal)->cliente.in_process){
+            printf("CLIENTE NA FILA: %d\n", (*principal)->cliente.id);
+            printf("STEP: %c\n", (*principal)->cliente.current_step);
+            return 0;
+        }
+        check_if_each_finish(&(*principal)->proximo);     
     }
     return 1;
+}
+
+int check_if_finish(){
+
+    if(check_if_each_finish(&FILA_A) &&
+    check_if_each_finish(&FILA_B) &&
+    check_if_each_finish(&FILA_C) &&
+    check_if_each_finish(&FILA_D) &&
+    check_if_each_finish(&FILA_E)) return 1;
+    return 0;
+
 }
 
 void finish_client(Cliente *x){
@@ -179,15 +192,17 @@ void finish_client(Cliente *x){
 
 int get_string_length(const char *a){
 
-    int i;
+    int i = 0;
 s1: if(a[i] != '\0'){
         i++;
         goto s1;
     }
-    return i;
+    return i - 1;
 }
 
 void next_queue(Cliente *x){
+    printf("ID DO QUE IRA PRA OUTRA FILA: %d\n\n", x->id);
+    printf("ENTRARA NO STEP: %c\n", x->current_step);
     switch(x->current_step){
         case 'A':
             inclui_fila(&FILA_A, *x);
@@ -223,8 +238,11 @@ loop:           if((*a)->cliente.sequence[i] != '\0'){
                     int length = get_string_length((*a)->cliente.sequence), i;
                     for(i = 0; i < length; i++){
                         if((*a)->cliente.sequence[i] == (*a)->cliente.current_step){
-                            if((i + 1) > length){
+                            if((i + 1) < length){
                                 (*a)->cliente.current_step = (*a)->cliente.sequence[i + 1];
+                                if((*a)->cliente.id == 1){
+                                    printf("CURRENT_VALUE: %c\n", (*a)->cliente.current_step);
+                                }
                                 next_queue(&(*a)->cliente);
                             }
                             else{
@@ -236,10 +254,11 @@ loop:           if((*a)->cliente.sequence[i] != '\0'){
                 }
             }
             else{
+                printf("CURRENT DURATION: %d\n", (*a)->cliente.duration);
                 (*a)->cliente.duration--;
             }
         }
-        if(!(*a)->cliente.is_attending){
+        if((*a)->cliente.duration == -1 && qtd_postos > 0){
             (*a)->cliente.duration = time_to_attend;
             (*a)->cliente.is_attending = true;
         }
@@ -248,6 +267,7 @@ loop:           if((*a)->cliente.sequence[i] != '\0'){
 }
 
 void check_queue_status(){
+    printf("CHECK_QUEUE_STATUS\n");
     update_queue(&FILA_A, SETUP->A->qtd_postos, SETUP->A->time_to_attend);
     update_queue(&FILA_B, SETUP->B->qtd_postos, SETUP->B->time_to_attend);
     update_queue(&FILA_C, SETUP->C->qtd_postos, SETUP->C->time_to_attend);
@@ -314,6 +334,7 @@ Fila *get_client(const char *file_name, int value){
         if(set_arrival_time(line, &first_step) != value) continue;
         aux->is_attending = false;
         aux->in_process = true;
+        aux->duration = -1;
         aux->id = atoi(slice_str_with_end(line, 1, find_arrival_position(line)));
         aux->arrival_time = set_arrival_time(line, &first_step);
         aux->sequence = slice_str_with_end(line, first_step, strlen(line));

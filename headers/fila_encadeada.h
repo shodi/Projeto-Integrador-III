@@ -9,12 +9,14 @@ void inclui_fila(Fila **a, Cliente x){
     }
 }
 
-void print_fila(Fila **a){
+void print_fila(Fila **a, char flag){
 
     if(*a != NULL){
+        printf("VETOR %c\n", flag);
         printf("ID >>> %d\n", (*a)->cliente.id);
-        printf("ARRIVAL TIME >>> %d\n\n", (*a)->cliente.arrival_time);
-        print_fila(&(*a)->proximo);
+        printf("ARRIVAL TIME >>> %d\n", (*a)->cliente.arrival_time);
+        printf("CURRENT_STEP >>> %c\n", (*a)->cliente.current_step);
+        print_fila(&(*a)->proximo, flag);
     }
 
 }

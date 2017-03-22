@@ -32,19 +32,26 @@ int iniciarJogo(const char *CLIENT_LIST_FILE){
                         inclui_fila(&ARRAY_CLIENTES, new_client->cliente);
                         load_queue(&ARRAY_CLIENTES);
                         check_queue_status();
-                        if(check_if_finish(&ARRAY_CLIENTES)){
-                            printf("TERMINOU ESSA PORRA\n");
+                        int plau = check_if_finish(&ARRAY_CLIENTES);
+                        printf("RETORNO DA FUNCAO %d\n", plau);
+                        if(plau){
+                            printf("TERMINOU!!!!!\n");
                             return 0;
                         }
-                        print_fila(&FILA_A);
-                        print_fila(&FILA_B);
-                        print_fila(&FILA_C);
-                        print_fila(&FILA_D);
-                        print_fila(&FILA_E);
+                        // print_fila(&FILA_A, 'A');
+                        // printf("\n\n\n\n\n\n");
+                        // print_fila(&FILA_B, 'B');
+                        // printf("\n\n\n\n\n\n");
+                        // print_fila(&FILA_C, 'C');
+                        // printf("\n\n\n\n\n\n");
+                        // print_fila(&FILA_D, 'D');
+                        // printf("\n\n\n\n\n\n");
+                        // print_fila(&FILA_E, 'E');
+                        // printf("\n\n\n\n\n\n");
 
                         new_client = new_client->proximo;
                     }
-                    print_fila(&ARRAY_CLIENTES);
+                    // print_fila(&ARRAY_CLIENTES, 'G');
                     new_client = NULL;
                 }
             }
@@ -112,45 +119,45 @@ void carregarMenuInferior(){
         ALTURA_TELA - al_get_bitmap_height(BOTAO_SAIR) - 10, 0);
 
     // guichês
-    al_draw_textf(FONT, al_map_rgb(0, 0, 0), 60,  10,  ALLEGRO_ALIGN_CENTRE, "5");    
-    al_draw_filled_rectangle(10,50,110,80, al_map_rgb(0,255,0));
-    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 60,  55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->A->flag);
-    al_draw_bitmap(GUICHE1,  10,  80, 0);
+    // al_draw_textf(FONT, al_map_rgb(0, 0, 0), 60,  10,  ALLEGRO_ALIGN_CENTRE, "5");    
+    // al_draw_filled_rectangle(10,50,110,80, al_map_rgb(0,255,0));
+    // al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 60,  55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->A->flag);
+    // al_draw_bitmap(GUICHE1,  10,  80, 0);
     
-    al_draw_textf(FONT, al_map_rgb(0, 0, 0), 185,  10, ALLEGRO_ALIGN_CENTRE, "5");    
-    al_draw_filled_rectangle(135,50,235,80, al_map_rgb(0,255,0));
-    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 185, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->A->flag);
-    al_draw_bitmap(GUICHE2,  135, 80, 0);
+    // al_draw_textf(FONT, al_map_rgb(0, 0, 0), 185,  10, ALLEGRO_ALIGN_CENTRE, "5");    
+    // al_draw_filled_rectangle(135,50,235,80, al_map_rgb(0,255,0));
+    // al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 185, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->A->flag);
+    // al_draw_bitmap(GUICHE2,  135, 80, 0);
     
-    al_draw_textf(FONT, al_map_rgb(0, 0, 0), 315,  10, ALLEGRO_ALIGN_CENTRE, "5");    
-    al_draw_filled_rectangle(265,50,365,80, al_map_rgb(0,255,0));
-    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 315, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->B->flag);
-    al_draw_bitmap(GUICHE3,  265, 80, 0);
+    // al_draw_textf(FONT, al_map_rgb(0, 0, 0), 315,  10, ALLEGRO_ALIGN_CENTRE, "5");    
+    // al_draw_filled_rectangle(265,50,365,80, al_map_rgb(0,255,0));
+    // al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 315, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->B->flag);
+    // al_draw_bitmap(GUICHE3,  265, 80, 0);
     
-    al_draw_textf(FONT, al_map_rgb(0, 0, 0), 445,  10, ALLEGRO_ALIGN_CENTRE, "5");    
-    al_draw_filled_rectangle(395,50,495,80, al_map_rgb(0,255,0));
-    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 445, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->B->flag);
-    al_draw_bitmap(GUICHE4,  395, 80, 0);
+    // al_draw_textf(FONT, al_map_rgb(0, 0, 0), 445,  10, ALLEGRO_ALIGN_CENTRE, "5");    
+    // al_draw_filled_rectangle(395,50,495,80, al_map_rgb(0,255,0));
+    // al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 445, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->B->flag);
+    // al_draw_bitmap(GUICHE4,  395, 80, 0);
     
-    al_draw_textf(FONT, al_map_rgb(0, 0, 0), 575,  10, ALLEGRO_ALIGN_CENTRE, "5");    
-    al_draw_filled_rectangle(525,50,625,80, al_map_rgb(0,255,0));
-    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 575, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->C->flag);
-    al_draw_bitmap(GUICHE5,   525, 80, 0);
+    // al_draw_textf(FONT, al_map_rgb(0, 0, 0), 575,  10, ALLEGRO_ALIGN_CENTRE, "5");    
+    // al_draw_filled_rectangle(525,50,625,80, al_map_rgb(0,255,0));
+    // al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 575, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->C->flag);
+    // al_draw_bitmap(GUICHE5,   525, 80, 0);
     
-    al_draw_textf(FONT, al_map_rgb(0, 0, 0), 705,  10, ALLEGRO_ALIGN_CENTRE, "5");    
-    al_draw_filled_rectangle(655,50,755,80, al_map_rgb(0,255,0));
-    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 705, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->D->flag);
-    al_draw_bitmap(GUICHE6,  655, 80, 0);
+    // al_draw_textf(FONT, al_map_rgb(0, 0, 0), 705,  10, ALLEGRO_ALIGN_CENTRE, "5");    
+    // al_draw_filled_rectangle(655,50,755,80, al_map_rgb(0,255,0));
+    // al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 705, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->D->flag);
+    // al_draw_bitmap(GUICHE6,  655, 80, 0);
     
-    al_draw_textf(FONT, al_map_rgb(0, 0, 0), 835,  10, ALLEGRO_ALIGN_CENTRE, "5");    
-    al_draw_filled_rectangle(785,50,885,80, al_map_rgb(0,255,0));
-    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 835, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->D->flag);
-    al_draw_bitmap(GUICHE7,  785, 80, 0);
+    // al_draw_textf(FONT, al_map_rgb(0, 0, 0), 835,  10, ALLEGRO_ALIGN_CENTRE, "5");    
+    // al_draw_filled_rectangle(785,50,885,80, al_map_rgb(0,255,0));
+    // al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 835, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->D->flag);
+    // al_draw_bitmap(GUICHE7,  785, 80, 0);
     
-    al_draw_textf(FONT, al_map_rgb(0, 0, 0), 965,  10, ALLEGRO_ALIGN_CENTRE, "5");    
-    al_draw_filled_rectangle(915,50,1015,80, al_map_rgb(0,255,0));
-    al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 965, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->E->flag);
-    al_draw_bitmap(GUICHE8,   915, 80, 0);
+    // al_draw_textf(FONT, al_map_rgb(0, 0, 0), 965,  10, ALLEGRO_ALIGN_CENTRE, "5");    
+    // al_draw_filled_rectangle(915,50,1015,80, al_map_rgb(0,255,0));
+    // al_draw_textf(FONT2, al_map_rgb(0, 0, 0), 965, 55, ALLEGRO_ALIGN_CENTRE, "%s", SETUP->E->flag);
+    // al_draw_bitmap(GUICHE8,   915, 80, 0);
 
     //botões de controle
     al_draw_filled_rectangle(0,640,1080,720, al_map_rgb(255,255,255));
