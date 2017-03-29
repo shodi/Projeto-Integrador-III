@@ -26,26 +26,8 @@ int iniciarJogo(const char *CLIENT_LIST_FILE){
                     TURNO++;
                     new_client = get_client(CLIENT_LIST_FILE, TURNO);
                     while(new_client){
-                        // inclui_fila(&ARRAY_CLIENTES, new_client->cliente.current_step, new_client->cliente);
                         insert_element_by_key(&ARRAY_CLIENTES, new_client->cliente.current_step, new_client->cliente);
-                        print_super_fila(&ARRAY_CLIENTES);
-                        printf("RETORNO DO CHECK STATUS: %d\n", check_queue_status(&ARRAY_CLIENTES, 0));
-                        // int plau = check_if_finish(&ARRAY_CLIENTES);
-                        // printf("RETORNO DA FUNCAO %d\n", plau);
-                        // if(plau){
-                        //     printf("TERMINOU!!!!!\n");
-                        //     return 0;
-                        // }
-                        // print_fila(&FILA_A, 'A');
-                        // printf("\n\n\n\n\n\n");
-                        // print_fila(&FILA_B, 'B');
-                        // printf("\n\n\n\n\n\n");
-                        // print_fila(&FILA_C, 'C');
-                        // printf("\n\n\n\n\n\n");
-                        // print_fila(&FILA_D, 'D');
-                        // printf("\n\n\n\n\n\n");
-                        // print_fila(&FILA_E, 'E');
-                        // printf("\n\n\n\n\n\n");
+                        print_FDE(&ARRAY_CLIENTES->current_posto, 0);
 
                         new_client = new_client->proximo;
                     }

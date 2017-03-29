@@ -1,10 +1,37 @@
+void set_to_inicial_position(Fila **arr){
+    if(*arr != NULL){
+        if((*arr)->anterior != NULL) *arr = (*arr)->anterior;
+    }
+}
+
 void inclui_fila(Fila **a, Cliente x){
 
-    if(*a != NULL) inclui_fila(&(*a)->proximo, x);
-    Fila *aux = (Fila *)malloc(sizeof(Fila));
-    aux->cliente = x;
-    aux->proximo = NULL;
-    *a = aux;
+    if(*a == NULL){
+        printf("CRIA\n");
+        Fila *aux = (Fila *)malloc(sizeof(Fila));
+        aux->cliente = x;
+        aux->anterior = NULL;
+        aux->proximo = NULL;
+        *a = aux;
+        return;
+    }
+    if((*a)->proximo != NULL) inclui_fila(&(*a)->proximo, x);
+    else{
+        printf("INSERE\n");
+        Fila *aux = (Fila *)malloc(sizeof(Fila));
+        aux->cliente = x;
+        aux->proximo = NULL;
+        aux->anterior = *a;
+        (*a)->proximo = aux;
+        return;
+    }
+}
+
+void print_FDE(Fila **arr, int counter){
+
+    printf("ITERATION: %d\nID: %d\n", counter, (*arr)->cliente.id);
+    if((*arr)->proximo != NULL) print_FDE(&(*arr)->proximo, counter + 1);
+
 }
 
 void init_filas(ARR_FILAS **arr, char key){
@@ -39,7 +66,6 @@ void init_attendig(ARR_FILAS **arr, char key){
 }
 
 void insert_element_by_key(ARR_FILAS **arr, const char key, Cliente x){
-
     if(*arr != NULL){
         if((*arr)->posto == key){
             inclui_fila(&(*arr)->current_posto, x);
