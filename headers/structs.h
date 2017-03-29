@@ -24,18 +24,31 @@ typedef struct config{
 
     int qtd_atendentes;
     int time_to_change;
-    Posto *A;
-    Posto *B;
-    Posto *C;
-    Posto *D;
-    Posto *E;
+    char *relation;
+    char *attending;
+    // Posto *A;
+    // Posto *B;
+    // Posto *C;
+    // Posto *D;
+    // Posto *E;
 
 }Config;
 
 typedef struct fila{
 
-    char posto;
     struct fila *proximo;
     Cliente cliente;
 
 }Fila;
+
+typedef struct fila_de_filas{
+
+    struct fila_de_filas *proximo;
+    Fila *current_posto;
+    char posto;
+    char *label;
+    int qtd_postos;
+    int qtd_attendent;
+    int time_to_attend;
+
+}ARR_FILAS;

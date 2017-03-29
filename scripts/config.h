@@ -5,11 +5,7 @@
 #define SETUP_QTD_LINE 8
 
 Config *SETUP = NULL;
-Fila *FILA_A = NULL;
-Fila *FILA_B = NULL;
-Fila *FILA_C = NULL;
-Fila *FILA_D = NULL;
-Fila *FILA_E = NULL;
+ARR_FILAS *ARRAY_CLIENTES = NULL;
 
 char *slice_str_with_end(const char * str, size_t start, size_t end){
 
@@ -58,136 +54,36 @@ char* slice_str(const char * str, size_t start){
     return buffer;
 }
 
-void _relacao_de_postos(char *str, Config *params){
-    int i;
-    for(i = 0; str[i] != '\0'; i++){
-        switch(str[i]){
-            case 'A':
-                !params->A->qtd_postos ? params->A->qtd_postos = 1 : params->A->qtd_postos++;
-                break;
-            case 'B':
-                !params->B->qtd_postos ? params->B->qtd_postos = 1 : params->B->qtd_postos++;
-                break;
-            case 'C':
-                !params->C->qtd_postos ? params->C->qtd_postos = 1 : params->C->qtd_postos++;
-                break;
-            case 'D':
-                !params->D->qtd_postos ? params->D->qtd_postos = 1 : params->D->qtd_postos++;
-                break;
-            default:
-                !params->E->qtd_postos ? params->E->qtd_postos = 1 : params->E->qtd_postos++;
-                break;
-        }
+size_t find_marker(const char *str){
+
+    int i = 0;
+ck: if( str[i] == ':') return i;
+    i++;
+    goto ck;
+
+}
+
+void init_filas_in_arr(ARR_FILAS **arr, const char *str){
+
+    if(*arr != NULL) init_filas_in_arr(&(*arr)->proximo, str);
+    ARR_FILAS *aux = (ARR_FILAS *)malloc(sizeof(ARR_FILAS));
+    aux->proximo = NULL;
+    aux->current_posto = NULL;
+    aux->posto = str[0];
+    aux->time_to_attend = atoi(slice_str_with_end(str, 1, find_marker(str)));
+
+    if(str[0] != 'E'){
+        printf("STRING PARAMETRO: %s\n", str);
+        printf("TIME TO ATTEND: %d\n", aux->time_to_attend);
     }
-}
 
-void _relacao_de_atendimento(char *str, Config *params){
-    int i;
-    for(i = 0; str[i] != '\0'; i++){
-        switch(str[i]){
-            case 'A':
-                !params->A->qtd_atendentes ? params->A->qtd_atendentes = 1 : params->A->qtd_atendentes++;
-                break;
-            case 'B':
-                !params->B->qtd_atendentes ? params->B->qtd_atendentes = 1 : params->B->qtd_atendentes++;
-                break;
-            case 'C':
-                !params->C->qtd_atendentes ? params->C->qtd_atendentes = 1 : params->C->qtd_atendentes++;
-                break;
-            case 'D':
-                !params->D->qtd_atendentes ? params->D->qtd_atendentes = 1 : params->D->qtd_atendentes++;
-                break;
-            default:
-                !params->E->qtd_atendentes ? params->E->qtd_atendentes = 1 : params->E->qtd_atendentes++;
-                break;
-        }
-    }
-}
-
-void _posto_setup(char *str, Config *params){
-    switch(str[0]){
-            case 'A':
-                params->A->time_to_attend = str[1] - '0';
-                params->A->flag = slice_str(str, 3);
-                break;
-            case 'B':
-                params->B->time_to_attend = str[1] - '0';
-                params->B->flag = slice_str(str, 3);
-                break;
-            case 'C':
-                params->C->time_to_attend = str[1] - '0';
-                params->C->flag = slice_str(str, 3);
-                break;
-            case 'D':
-                params->D->time_to_attend = str[1] - '0';
-                params->D->flag = slice_str(str, 3);
-                break;
-            default:
-                params->E->time_to_attend = str[1] - '0';
-                params->E->flag = slice_str(str, 3);
-                break;
-    }
-}
-
-Fila *memory_allocation_array_fila(const char post){
-
-    Fila *aux = (Fila *)malloc(sizeof(Fila));
-    aux->posto = post;
-    return aux;
+    *arr = aux;
 
 }
 
-void load_queue(Fila **principal_array){
-    if(*principal_array != NULL){
-        switch ((*principal_array)->cliente.current_step){
-            case 'A':
-                inclui_fila(&FILA_A, (*principal_array)->cliente);
-                break;
-            case 'B':
-                inclui_fila(&FILA_B, (*principal_array)->cliente);
-                break;
-            case 'C':
-                inclui_fila(&FILA_C, (*principal_array)->cliente);
-                break;
-            case 'D':
-                inclui_fila(&FILA_D, (*principal_array)->cliente);
-                break;
-            case 'E':
-                inclui_fila(&FILA_E, (*principal_array)->cliente);
-                break;
-        }
-        load_queue(&(*principal_array)->proximo);
-    }
-}
-
-int check_if_each_finish(Fila **principal){
-    if(*principal != NULL){
-        if((*principal)->cliente.in_process){
-            printf("CLIENTE NA FILA: %d\n", (*principal)->cliente.id);
-            printf("STEP: %c\n", (*principal)->cliente.current_step);
-            return 0;
-        }
-        check_if_each_finish(&(*principal)->proximo);     
-    }
-    return 1;
-}
-
-int check_if_finish(){
-
-    if(check_if_each_finish(&FILA_A) &&
-    check_if_each_finish(&FILA_B) &&
-    check_if_each_finish(&FILA_C) &&
-    check_if_each_finish(&FILA_D) &&
-    check_if_each_finish(&FILA_E)) return 1;
-    return 0;
-
-}
-
-void finish_client(Cliente *x){
-
-    x->in_process = false;
-    x->is_attending = false;
-
+void _posto_setup(char *str){
+    printf("STRING PARAMTRO: %s\n", str);
+    // init_filas_in_arr(&ARRAY_CLIENTES, str);
 }
 
 int get_string_length(const char *a){
@@ -200,79 +96,47 @@ s1: if(a[i] != '\0'){
     return i - 1;
 }
 
-void next_queue(Cliente *x){
-    printf("ID DO QUE IRA PRA OUTRA FILA: %d\n\n", x->id);
-    printf("ENTRARA NO STEP: %c\n", x->current_step);
-    switch(x->current_step){
-        case 'A':
-            inclui_fila(&FILA_A, *x);
-            break;
-        case 'B':
-            inclui_fila(&FILA_B, *x);
-            break;
-        case 'C':
-            inclui_fila(&FILA_C, *x);
-            break;
-        case 'D':
-            inclui_fila(&FILA_D, *x);
-            break;
-        case 'E':
-            inclui_fila(&FILA_E, *x);
-            break;
+void _relacao_de_postos(Config *setup, char *str){
+
+    int i = 0;
+    setup->relation = str;
+    ARR_FILAS **helper;
+hlp:if(setup->relation[i] != '\0'){
+        helper = &ARRAY_CLIENTES;
+        init_filas(&ARRAY_CLIENTES, setup->relation[i]);
+        i++;
+        ARRAY_CLIENTES = *helper;
+        goto hlp;
+    }
+
+}
+
+void _relacao_de_atendimento(Config *setup, char *str){
+
+    int i = 0;
+    setup->attending = str;
+    print_super_fila(&ARRAY_CLIENTES);      
+hlp:if(setup->attending[i] != '\0'){
+        init_attendig(&ARRAY_CLIENTES, setup->attending[i]);
+        i++;
+        goto hlp;
     }
 }
 
-void update_queue(Fila **a, int qtd_postos, int time_to_attend){
-    if(*a != NULL){
-        if((*a)->cliente.is_attending){
-            if(!(*a)->cliente.duration){
-                int i = 0;
-loop:           if((*a)->cliente.sequence[i] != '\0'){
-                    if((*a)->cliente.sequence[i] != (*a)->cliente.current_step){
-                        i++;
-                        goto loop;
-                    }
-                }
-                if((*a)->cliente.sequence[i] == '\0') finish_client(&(*a)->cliente);
-                else{
-                    int length = get_string_length((*a)->cliente.sequence), i;
-                    for(i = 0; i < length; i++){
-                        if((*a)->cliente.sequence[i] == (*a)->cliente.current_step){
-                            if((i + 1) < length){
-                                (*a)->cliente.current_step = (*a)->cliente.sequence[i + 1];
-                                if((*a)->cliente.id == 1){
-                                    printf("CURRENT_VALUE: %c\n", (*a)->cliente.current_step);
-                                }
-                                next_queue(&(*a)->cliente);
-                            }
-                            else{
-                                finish_client(&(*a)->cliente);
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
-            else{
-                printf("CURRENT DURATION: %d\n", (*a)->cliente.duration);
-                (*a)->cliente.duration--;
-            }
-        }
-        if((*a)->cliente.duration == -1 && qtd_postos > 0){
-            (*a)->cliente.duration = time_to_attend;
-            (*a)->cliente.is_attending = true;
-        }
-    update_queue(&(*a)->proximo, qtd_postos--, time_to_attend);
-    }
+bool check_subqueue_status(Fila **arr, int counter){
+    if(*arr != NULL && !(*arr)->cliente.in_process && !(*arr)->cliente.is_attending)  
+        check_subqueue_status(&(*arr)->proximo, counter + 1);
+    else if(*arr == NULL && !counter) 
+        return false;
+    return true;
 }
 
-void check_queue_status(){
-    printf("CHECK_QUEUE_STATUS\n");
-    update_queue(&FILA_A, SETUP->A->qtd_postos, SETUP->A->time_to_attend);
-    update_queue(&FILA_B, SETUP->B->qtd_postos, SETUP->B->time_to_attend);
-    update_queue(&FILA_C, SETUP->C->qtd_postos, SETUP->C->time_to_attend);
-    update_queue(&FILA_D, SETUP->D->qtd_postos, SETUP->D->time_to_attend);
-    update_queue(&FILA_E, SETUP->E->qtd_postos, SETUP->E->time_to_attend);
+bool check_queue_status(ARR_FILAS **arr, int counter){
+    if(*arr != NULL && check_subqueue_status(&(*arr)->current_posto, 0)) 
+        check_queue_status(&(*arr)->proximo, counter + 1);
+    else if(*arr == NULL && !counter)
+        return false;
+    return true;
 }
 
 Config* get_config(const char *file_name){
@@ -281,35 +145,31 @@ Config* get_config(const char *file_name){
     char *line;
     size_t len = 0;
     Config *setup = (Config *)malloc(sizeof(Config));
-    setup->A = (Posto *)malloc(sizeof(Posto));
-    setup->B = (Posto *)malloc(sizeof(Posto));
-    setup->C = (Posto *)malloc(sizeof(Posto));
-    setup->D = (Posto *)malloc(sizeof(Posto));
-    setup->E = (Posto *)malloc(sizeof(Posto));
 
-    int i;
+    int i = 0;
     fp = fopen(file_name, "r");
     if(fp == NULL) printf("SOMETHING WENT WRONG WHILE OPENING THE ARCHIVE THAT LOADS THE CONFIG\n");    
 
-    for(i = 0; i < SETUP_QTD_LINE; i++){
-        getline(&line, &len, fp);
+get:if(getline(&line, &len, fp) != EOF){
         switch(i){
             case 0:
                 setup->qtd_atendentes = atoi(line);
                 break;
             case 1:
-                _relacao_de_postos(slice_str(line, 3), setup);
+                _relacao_de_postos(setup, slice_str(line, 3));
                 break;
             case 2:
-                _relacao_de_atendimento(slice_str(line, 3), setup);
+                _relacao_de_atendimento(setup, slice_str(line, 3));
                 break;
             case 3:
                 setup->time_to_change = atoi(slice_str(line, 6));
                 break;
             default:
-                _posto_setup(line, setup);
+                _posto_setup(line);
                 break;          
         }
+        i++;
+        goto get;
     }
 
     if(line) free(line);
@@ -338,6 +198,7 @@ Fila *get_client(const char *file_name, int value){
         aux->id = atoi(slice_str_with_end(line, 1, find_arrival_position(line)));
         aux->arrival_time = set_arrival_time(line, &first_step);
         aux->sequence = slice_str_with_end(line, first_step, strlen(line));
+        aux->current_step = aux->sequence[0];
         inclui_fila(&fila_de_clientes, *aux);
     }
 

@@ -3,14 +3,12 @@ ALLEGRO_EVENT evento;
 int MIN = 0, SEG = 0;
 int TURNO = 0;
 
-Fila *ARRAY_CLIENTES = NULL;
-
 void carregarMenuInferior();
 void carregarBackground();
 void carregarFilas();
 
 int iniciarJogo(const char *CLIENT_LIST_FILE){
-    bool sair = false;
+    int sair = 0;
     Fila *new_client = NULL;
     al_start_timer(TIMER);
 
@@ -28,16 +26,16 @@ int iniciarJogo(const char *CLIENT_LIST_FILE){
                     TURNO++;
                     new_client = get_client(CLIENT_LIST_FILE, TURNO);
                     while(new_client){
-                        new_client->cliente.current_step = new_client->cliente.sequence[0];
-                        inclui_fila(&ARRAY_CLIENTES, new_client->cliente);
-                        load_queue(&ARRAY_CLIENTES);
-                        check_queue_status();
-                        int plau = check_if_finish(&ARRAY_CLIENTES);
-                        printf("RETORNO DA FUNCAO %d\n", plau);
-                        if(plau){
-                            printf("TERMINOU!!!!!\n");
-                            return 0;
-                        }
+                        // inclui_fila(&ARRAY_CLIENTES, new_client->cliente.current_step, new_client->cliente);
+                        insert_element_by_key(&ARRAY_CLIENTES, new_client->cliente.current_step, new_client->cliente);
+                        print_super_fila(&ARRAY_CLIENTES);
+                        printf("RETORNO DO CHECK STATUS: %d\n", check_queue_status(&ARRAY_CLIENTES, 0));
+                        // int plau = check_if_finish(&ARRAY_CLIENTES);
+                        // printf("RETORNO DA FUNCAO %d\n", plau);
+                        // if(plau){
+                        //     printf("TERMINOU!!!!!\n");
+                        //     return 0;
+                        // }
                         // print_fila(&FILA_A, 'A');
                         // printf("\n\n\n\n\n\n");
                         // print_fila(&FILA_B, 'B');
@@ -60,7 +58,7 @@ int iniciarJogo(const char *CLIENT_LIST_FILE){
                 if (evento.mouse.x >= LARGURA_TELA - al_get_bitmap_width(BOTAO_SAIR) - 10 &&
                     evento.mouse.x <= LARGURA_TELA - 10 && evento.mouse.y <= ALTURA_TELA - 10 &&
                     evento.mouse.y >= ALTURA_TELA - al_get_bitmap_height(BOTAO_SAIR) - 10){
-                    sair = true;
+                    sair = 1;
                 } 
 
                 if (evento.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP){
@@ -98,7 +96,7 @@ int iniciarJogo(const char *CLIENT_LIST_FILE){
 
         }
         if (evento.type == ALLEGRO_EVENT_DISPLAY_CLOSE){
-                    sair = true;
+                    sair = 1;
                 }
 
         carregarBackground();

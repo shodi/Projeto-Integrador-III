@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <locale.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include "scripts/config.h"
 #include "headers/iniciarAllegro.h"
 #include "headers/iniciarJogo.h"
@@ -35,6 +34,9 @@ int main(int argc, char *argv[]){
     iniciarJogo(CLIENT_LIST_FILE);
     
     destruirTudo();
+
+    if(SETUP) free(SETUP);
+    if(ARRAY_CLIENTES) free(ARRAY_CLIENTES);
 
     return 0;
 }
