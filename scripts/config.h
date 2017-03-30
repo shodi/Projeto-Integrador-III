@@ -63,27 +63,15 @@ ck: if( str[i] == ':') return i;
 
 }
 
-void init_filas_in_arr(ARR_FILAS **arr, const char *str){
-
-    if(*arr != NULL) init_filas_in_arr(&(*arr)->proximo, str);
-    ARR_FILAS *aux = (ARR_FILAS *)malloc(sizeof(ARR_FILAS));
-    aux->proximo = NULL;
-    aux->current_posto = NULL;
-    aux->posto = str[0];
-    aux->time_to_attend = atoi(slice_str_with_end(str, 1, find_marker(str)));
-
-    if(str[0] != 'E'){
-        printf("STRING PARAMETRO: %s\n", str);
-        printf("TIME TO ATTEND: %d\n", aux->time_to_attend);
+void set_time_to_attend(ARR_FILAS **arr, const char *str){
+    if(*arr != NULL){
+        if((*arr)->posto == str[0]) (*arr)->time_to_attend = atoi(slice_str_with_end(str, 1, find_marker(str)));
+        else set_time_to_attend(&(*arr)->proximo, str);
     }
-
-    *arr = aux;
-
 }
 
 void _posto_setup(char *str){
-    printf("STRING PARAMTRO: %s\n", str);
-    // init_filas_in_arr(&ARRAY_CLIENTES, str);
+    set_time_to_attend(&ARRAY_CLIENTES, str);
 }
 
 int get_string_length(const char *a){
@@ -124,19 +112,28 @@ hlp:if(setup->attending[i] != '\0'){
 }
 
 bool check_subqueue_status(Fila **arr, int counter){
-    if(*arr != NULL && !(*arr)->cliente.in_process && !(*arr)->cliente.is_attending)  
-        check_subqueue_status(&(*arr)->proximo, counter + 1);
-    else if(*arr == NULL && !counter) 
-        return false;
-    return true;
+    if(*arr != NULL){
+        if((*arr)->cliente.in_process) check_subqueue_status(&(*arr)->proximo, counter + 1);
+        else return false;
+    }
+    return !counter ? false : true;
 }
 
 bool check_queue_status(ARR_FILAS **arr, int counter){
-    if(*arr != NULL && check_subqueue_status(&(*arr)->current_posto, 0)) 
-        check_queue_status(&(*arr)->proximo, counter + 1);
-    else if(*arr == NULL && !counter)
-        return false;
-    return true;
+    if(*arr != NULL){
+        if(check_subqueue_status(&(*arr)->current_posto, 0)) check_queue_status(&(*arr)->proximo, counter + 1);
+        else return false;
+    }
+    return !counter ? false : true;
+}
+
+void update_subqueue(Fila **arr){
+
+    // TODO: FUNCAO QUE ATUALIZA OS VALORES DA FILA
+    if(*arr != NULL){
+        
+    }
+
 }
 
 Config* get_config(const char *file_name){
@@ -195,6 +192,7 @@ Fila *get_client(const char *file_name, int value){
         aux->is_attending = false;
         aux->in_process = true;
         aux->duration = -1;
+        aux->spent_time = 0;
         aux->id = atoi(slice_str_with_end(line, 1, find_arrival_position(line)));
         aux->arrival_time = set_arrival_time(line, &first_step);
         aux->sequence = slice_str_with_end(line, first_step, strlen(line));

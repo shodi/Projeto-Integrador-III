@@ -29,7 +29,7 @@ void inclui_fila(Fila **a, Cliente x){
 
 void print_FDE(Fila **arr, int counter){
 
-    printf("ITERATION: %d\nID: %d\n", counter, (*arr)->cliente.id);
+    printf("ITERATION FILA: %d\nID: %d\n", counter, (*arr)->cliente.id);
     if((*arr)->proximo != NULL) print_FDE(&(*arr)->proximo, counter + 1);
 
 }
@@ -94,6 +94,10 @@ void print_fila(Fila **a){
 void print_super_fila(ARR_FILAS **arr){
 
     if(*arr != NULL){
+        printf("CURRENT FILA %c\n", (*arr)->posto);
+        printf("QTD_POSTOS: %d\n", (*arr)->qtd_postos);
+        printf("QTD_ATENDENTES: %d\n", (*arr)->qtd_attendent);
+        printf("TIME TO ATTEND: %d\n", (*arr)->time_to_attend);
         print_fila(&(*arr)->current_posto);
         print_super_fila(&(*arr)->proximo);
     }

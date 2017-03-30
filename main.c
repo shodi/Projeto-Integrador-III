@@ -31,7 +31,7 @@ int main(int argc, char *argv[]){
 
     iniciarAllegro();
 
-    iniciarJogo(CLIENT_LIST_FILE);
+    if(!iniciarJogo(CLIENT_LIST_FILE)) printf("ATENDIMENTO ENCERRADO");
     
     destruirTudo();
 
