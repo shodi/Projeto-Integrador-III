@@ -27,11 +27,6 @@ typedef struct config{
     int time_to_change;
     char *relation;
     char *attending;
-    // Posto *A;
-    // Posto *B;
-    // Posto *C;
-    // Posto *D;
-    // Posto *E;
 
 }Config;
 

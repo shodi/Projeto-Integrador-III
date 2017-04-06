@@ -7,7 +7,6 @@ void set_to_inicial_position(Fila **arr){
 void inclui_fila(Fila **a, Cliente x){
 
     if(*a == NULL){
-        printf("CRIA\n");
         Fila *aux = (Fila *)malloc(sizeof(Fila));
         aux->cliente = x;
         aux->anterior = NULL;
@@ -17,7 +16,6 @@ void inclui_fila(Fila **a, Cliente x){
     }
     if((*a)->proximo != NULL) inclui_fila(&(*a)->proximo, x);
     else{
-        printf("INSERE\n");
         Fila *aux = (Fila *)malloc(sizeof(Fila));
         aux->cliente = x;
         aux->proximo = NULL;
@@ -54,6 +52,18 @@ void init_filas(ARR_FILAS **arr, char key){
 }
 
 
+int remove_element(Fila *arr){
+    if(arr == NULL) return 0;    
+    else{
+        Fila *aux;
+        aux = arr;
+        arr = arr->proximo;
+        // arr->anterior = NULL;
+        free(aux);
+        return 1;
+    }
+}
+
 void init_attendig(ARR_FILAS **arr, char key){
 
     if(*arr != NULL && (*arr)->posto != key) init_attendig(&(*arr)->proximo, key);
@@ -68,24 +78,29 @@ void init_attendig(ARR_FILAS **arr, char key){
 void insert_element_by_key(ARR_FILAS **arr, const char key, Cliente x){
     if(*arr != NULL){
         if((*arr)->posto == key){
+            x.duration = (*arr)->time_to_attend;
+            x.current_step = key;
             inclui_fila(&(*arr)->current_posto, x);
         }else{
             insert_element_by_key(&(*arr)->proximo, key, x);
         }
     }
-    if(*arr == NULL) printf("ERRO AO BUSCAR FILA COM A KEY: %c\n", key);
+    if(*arr == NULL) printf("PROVAVELMENTE ELEMENTO JA PASSOU POR TODAS AS FILAS: %c\n", key);
     
 }
 
 
 void print_fila(Fila **a){
-
+    
     if(*a != NULL){
         printf("VETOR %c\n", (*a)->cliente.current_step);
         printf("ID >>> %d\n", (*a)->cliente.id);
+        printf("IS_ATTENDING >>> %d\n", (*a)->cliente.is_attending);
+        printf("DURATION >>> %d\n", (*a)->cliente.duration);
         printf("SEQUENCE >>> %s\n", (*a)->cliente.sequence);
         printf("ARRIVAL TIME >>> %d\n", (*a)->cliente.arrival_time);
         printf("CURRENT_STEP >>> %c\n", (*a)->cliente.current_step);
+        printf("SPENT TIME >>> %d\n", (*a)->cliente.spent_time);
         print_fila(&(*a)->proximo);
     }
 
@@ -97,8 +112,9 @@ void print_super_fila(ARR_FILAS **arr){
         printf("CURRENT FILA %c\n", (*arr)->posto);
         printf("QTD_POSTOS: %d\n", (*arr)->qtd_postos);
         printf("QTD_ATENDENTES: %d\n", (*arr)->qtd_attendent);
-        printf("TIME TO ATTEND: %d\n", (*arr)->time_to_attend);
+        printf("TIME TO ATTEND: %d\n\n\n\n\n", (*arr)->time_to_attend);
         print_fila(&(*arr)->current_posto);
+        printf("\n\n\n\n");
         print_super_fila(&(*arr)->proximo);
     }
 

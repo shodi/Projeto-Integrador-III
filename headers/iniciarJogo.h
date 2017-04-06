@@ -27,10 +27,12 @@ int iniciarJogo(const char *CLIENT_LIST_FILE){
                     new_client = get_client(CLIENT_LIST_FILE, TURNO);
                     while(new_client){
                         insert_element_by_key(&ARRAY_CLIENTES, new_client->cliente.current_step, new_client->cliente);
-                        print_FDE(&ARRAY_CLIENTES->current_posto, 0);
                         new_client = new_client->proximo;
                     }
-                    print_super_fila(&ARRAY_CLIENTES);
+                    set_all_queues_attending(&ARRAY_CLIENTES);
+                    // print_fila(&ARRAY_CLIENTES->current_posto);
+                    // print_super_fila(&ARRAY_CLIENTES);
+                    update_queues(&ARRAY_CLIENTES);
                     if((check_queue_status(&ARRAY_CLIENTES, 0))) return 0;
                     new_client = NULL;
                 }

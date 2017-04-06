@@ -20,6 +20,15 @@ char *slice_str_with_end(const char * str, size_t start, size_t end){
     return buffer;
 }
 
+char next_step(const char *sequence, const char current_step){
+    int i = 0;
+hlp:if(sequence[i] != current_step){
+        i++;
+        goto hlp;
+    }
+    return sequence[i + 1];
+}
+
 int find_arrival_position(char *str){
 
     int i = 0;
@@ -103,7 +112,6 @@ void _relacao_de_atendimento(Config *setup, char *str){
 
     int i = 0;
     setup->attending = str;
-    print_super_fila(&ARRAY_CLIENTES);      
 hlp:if(setup->attending[i] != '\0'){
         init_attendig(&ARRAY_CLIENTES, setup->attending[i]);
         i++;
@@ -127,13 +135,50 @@ bool check_queue_status(ARR_FILAS **arr, int counter){
     return !counter ? false : true;
 }
 
-void update_subqueue(Fila **arr){
 
-    // TODO: FUNCAO QUE ATUALIZA OS VALORES DA FILA
+void set_attending(Fila **arr, int qtd_atendentes){
     if(*arr != NULL){
-        
+        if(qtd_atendentes > 0){
+            if((*arr)->cliente.is_attending != true){
+                (*arr)->cliente.is_attending = true;
+            }
+            set_attending(&(*arr)->proximo, qtd_atendentes - 1);
+        }
+    }
+}
+
+void set_all_queues_attending(ARR_FILAS **arr){
+
+    if(*arr != NULL){
+        set_attending(&(*arr)->current_posto, (*arr)->time_to_attend);
+        set_all_queues_attending(&(*arr)->proximo);
     }
 
+}
+
+void update_subqueue_values(ARR_FILAS **super, Fila **arr){
+    if(*arr != NULL){
+        (*arr)->cliente.spent_time++;
+        if((*arr)->cliente.is_attending) (*arr)->cliente.duration --;
+        if((*arr)->cliente.duration == 0){
+            printf("\n\n\nPLAU PLAU PLAU\n\n\n");
+            char _next = next_step((*arr)->cliente.sequence, (*arr)->cliente.current_step);
+            (*arr)->cliente.is_attending = false;
+            insert_element_by_key(super, _next, (*arr)->cliente);
+            remove_element(*arr);
+            // set_to_inicial_position(arr);
+            print_fila(arr);    
+        }
+        update_subqueue_values(super, &(*arr)->proximo);
+    }
+    // if(*arr == NULL) return;
+}
+
+void update_queues(ARR_FILAS **arr){
+    if(*arr != NULL){
+        update_subqueue_values(arr, &(*arr)->current_posto);
+        update_queues(&(*arr)->proximo);
+    }
 }
 
 Config* get_config(const char *file_name){
