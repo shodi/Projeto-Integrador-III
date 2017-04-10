@@ -29,12 +29,12 @@ int iniciarJogo(const char *CLIENT_LIST_FILE){
                         insert_element_by_key(&ARRAY_CLIENTES, new_client->cliente.current_step, new_client->cliente);
                         new_client = new_client->proximo;
                     }
+                    new_client = NULL;
                     set_all_queues_attending(&ARRAY_CLIENTES);
+                    update_queues(&ARRAY_CLIENTES);
                     // print_fila(&ARRAY_CLIENTES->current_posto);
                     // print_super_fila(&ARRAY_CLIENTES);
-                    update_queues(&ARRAY_CLIENTES);
-                    if((check_queue_status(&ARRAY_CLIENTES, 0))) return 0;
-                    new_client = NULL;
+                    // if((check_queue_status(&ARRAY_CLIENTES, 0))) return 0;
                 }
             }
             

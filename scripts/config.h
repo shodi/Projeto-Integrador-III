@@ -157,17 +157,18 @@ void set_all_queues_attending(ARR_FILAS **arr){
 }
 
 void update_subqueue_values(ARR_FILAS **super, Fila **arr){
-    if(*arr != NULL){
+    if(*arr != NULL){ 
         (*arr)->cliente.spent_time++;
         if((*arr)->cliente.is_attending) (*arr)->cliente.duration --;
         if((*arr)->cliente.duration == 0){
-            printf("\n\n\nPLAU PLAU PLAU\n\n\n");
+            // printf("\n\n\nPLAU PLAU PLAU\n\n\n");
             char _next = next_step((*arr)->cliente.sequence, (*arr)->cliente.current_step);
             (*arr)->cliente.is_attending = false;
             insert_element_by_key(super, _next, (*arr)->cliente);
-            remove_element(*arr);
+            // if(remove_element(*arr))printf("\n\n\nREMOVE\n\n\n");
             // set_to_inicial_position(arr);
-            print_fila(arr);    
+            
+            print_super_fila(super);    
         }
         update_subqueue_values(super, &(*arr)->proximo);
     }

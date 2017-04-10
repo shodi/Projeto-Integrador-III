@@ -33,7 +33,6 @@ typedef struct config{
 typedef struct fila{
 
     struct fila *proximo;
-    struct fila *anterior;
     Cliente cliente;
 
 }Fila;

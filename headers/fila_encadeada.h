@@ -1,25 +1,23 @@
-void set_to_inicial_position(Fila **arr){
-    if(*arr != NULL){
-        if((*arr)->anterior != NULL) *arr = (*arr)->anterior;
-    }
-}
+// void set_to_inicial_position(Fila **arr){
+//     if(*arr != NULL){
+//         if((*arr)->anterior != NULL) *arr = (*arr)->anterior;
+//     }
+// }
 
 void inclui_fila(Fila **a, Cliente x){
 
     if(*a == NULL){
         Fila *aux = (Fila *)malloc(sizeof(Fila));
         aux->cliente = x;
-        aux->anterior = NULL;
         aux->proximo = NULL;
         *a = aux;
         return;
     }
-    if((*a)->proximo != NULL) inclui_fila(&(*a)->proximo, x);
-    else{
+    else if((*a)->proximo != NULL) inclui_fila(&(*a)->proximo, x);
+    else if((*a)->proximo == NULL){
         Fila *aux = (Fila *)malloc(sizeof(Fila));
         aux->cliente = x;
         aux->proximo = NULL;
-        aux->anterior = *a;
         (*a)->proximo = aux;
         return;
     }
@@ -58,8 +56,6 @@ int remove_element(Fila *arr){
         Fila *aux;
         aux = arr;
         arr = arr->proximo;
-        // arr->anterior = NULL;
-        free(aux);
         return 1;
     }
 }
@@ -78,9 +74,10 @@ void init_attendig(ARR_FILAS **arr, char key){
 void insert_element_by_key(ARR_FILAS **arr, const char key, Cliente x){
     if(*arr != NULL){
         if((*arr)->posto == key){
-            x.duration = (*arr)->time_to_attend;
-            x.current_step = key;
-            inclui_fila(&(*arr)->current_posto, x);
+            Cliente aux = x;
+            aux.duration = (*arr)->time_to_attend;
+            aux.current_step = key;
+            inclui_fila(&(*arr)->current_posto, aux);
         }else{
             insert_element_by_key(&(*arr)->proximo, key, x);
         }
