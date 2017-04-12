@@ -28,7 +28,7 @@ int main(int argc, char *argv[]){
 
     SETUP = get_config(CONFIG_FILE);
     if(SETUP == NULL) return -1;
-
+    
     iniciarAllegro();
 
     if(!iniciarJogo(CLIENT_LIST_FILE)) printf("ATENDIMENTO ENCERRADO");
@@ -37,6 +37,7 @@ int main(int argc, char *argv[]){
 
     if(SETUP) free(SETUP);
     if(ARRAY_CLIENTES) free(ARRAY_CLIENTES);
+    if(CLIENTES_FIN) free(CLIENTES_FIN);
 
     return 0;
 }

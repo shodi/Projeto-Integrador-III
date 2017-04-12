@@ -6,6 +6,7 @@
 
 Config *SETUP = NULL;
 ARR_FILAS *ARRAY_CLIENTES = NULL;
+Fila *CLIENTES_FIN = NULL;
 
 char *slice_str_with_end(const char * str, size_t start, size_t end){
 
@@ -165,10 +166,10 @@ void update_subqueue_values(ARR_FILAS **super, Fila **arr){
             char _next = next_step((*arr)->cliente.sequence, (*arr)->cliente.current_step);
             (*arr)->cliente.is_attending = false;
             insert_element_by_key(super, _next, (*arr)->cliente);
-            // if(remove_element(*arr))printf("\n\n\nREMOVE\n\n\n");
+            remove_element(*arr, CLIENTES_FIN);
             // set_to_inicial_position(arr);
             
-            print_super_fila(super);    
+            // print_super_fila(super);    
         }
         update_subqueue_values(super, &(*arr)->proximo);
     }

@@ -34,7 +34,7 @@ int iniciarJogo(const char *CLIENT_LIST_FILE){
                     update_queues(&ARRAY_CLIENTES);
                     // print_fila(&ARRAY_CLIENTES->current_posto);
                     // print_super_fila(&ARRAY_CLIENTES);
-                    // if((check_queue_status(&ARRAY_CLIENTES, 0))) return 0;
+                    if(check_queue_status(&ARRAY_CLIENTES, 0)) return 0;
                 }
             }
             

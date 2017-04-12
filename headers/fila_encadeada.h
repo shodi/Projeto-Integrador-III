@@ -24,10 +24,7 @@ void inclui_fila(Fila **a, Cliente x){
 }
 
 void print_FDE(Fila **arr, int counter){
-
-    printf("ITERATION FILA: %d\nID: %d\n", counter, (*arr)->cliente.id);
     if((*arr)->proximo != NULL) print_FDE(&(*arr)->proximo, counter + 1);
-
 }
 
 void init_filas(ARR_FILAS **arr, char key){
@@ -49,12 +46,12 @@ void init_filas(ARR_FILAS **arr, char key){
 
 }
 
-
-int remove_element(Fila *arr){
+int remove_element(Fila *arr, Fila *FINALIZADOS){
     if(arr == NULL) return 0;    
     else{
         Fila *aux;
         aux = arr;
+        inclui_fila(&FINALIZADOS, arr->cliente);
         arr = arr->proximo;
         return 1;
     }

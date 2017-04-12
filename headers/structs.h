@@ -48,3 +48,9 @@ typedef struct fila_de_filas{
     int time_to_attend;
 
 }ARR_FILAS;
+
+typedef struct finalizados{
+
+    Fila *finalizados;
+
+}FINALIZADOS;
