@@ -1,9 +1,3 @@
-// void set_to_inicial_position(Fila **arr){
-//     if(*arr != NULL){
-//         if((*arr)->anterior != NULL) *arr = (*arr)->anterior;
-//     }
-// }
-
 void inclui_fila(Fila **a, Cliente x){
 
     if(*a == NULL){
@@ -46,12 +40,9 @@ void init_filas(ARR_FILAS **arr, char key){
 
 }
 
-int remove_element(Fila *arr, Fila *FINALIZADOS){
+int remove_element(Fila *arr){
     if(arr == NULL) return 0;    
     else{
-        Fila *aux;
-        aux = arr;
-        inclui_fila(&FINALIZADOS, arr->cliente);
         arr = arr->proximo;
         return 1;
     }
@@ -68,7 +59,7 @@ void init_attendig(ARR_FILAS **arr, char key){
 
 }
 
-void insert_element_by_key(ARR_FILAS **arr, const char key, Cliente x){
+void insert_element_by_key(ARR_FILAS **arr, Fila **finalizado, const char key, Cliente x){
     if(*arr != NULL){
         if((*arr)->posto == key){
             Cliente aux = x;
@@ -76,12 +67,14 @@ void insert_element_by_key(ARR_FILAS **arr, const char key, Cliente x){
             aux.current_step = key;
             inclui_fila(&(*arr)->current_posto, aux);
         }else{
-            insert_element_by_key(&(*arr)->proximo, key, x);
+            insert_element_by_key(&(*arr)->proximo, finalizado, key, x);
         }
     }
-    if(*arr == NULL) printf("PROVAVELMENTE ELEMENTO JA PASSOU POR TODAS AS FILAS: %c\n", key);
-    
-}
+    if(*arr == NULL){
+        printf("REMOVE CLIENTE ID: %d\n", x.id);
+        inclui_fila(finalizado, x);
+    }
+} // fazer isso retornar algo pra funcao principal para poder transferir o cliente pra fila de finalizados
 
 
 void print_fila(Fila **a){

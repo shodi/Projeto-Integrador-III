@@ -7,6 +7,7 @@
 Config *SETUP = NULL;
 ARR_FILAS *ARRAY_CLIENTES = NULL;
 Fila *CLIENTES_FIN = NULL;
+int QTD_CLIENTES = 0;
 
 char *slice_str_with_end(const char * str, size_t start, size_t end){
 
@@ -49,16 +50,18 @@ int set_arrival_time(char *str, int *helper){
     }
     *helper = i;
     return atoi(slice_str_with_end(str, aux, i + 1));
-}
+}   
 
 char* slice_str(const char * str, size_t start){  
     
     const size_t len = strlen(str);
     char *buffer = (char *)malloc(len * sizeof(char));
     size_t j = 0;
-    size_t i;
-    for ( i = start; str[i] != '\n' ; ++i ) {
+    size_t i = start;
+hlp:if(str[i] != '\n'){
         buffer[j++] = str[i];
+        ++i;
+        goto hlp;
     }
     buffer[j] = 0;
     return buffer;
@@ -136,6 +139,27 @@ bool check_queue_status(ARR_FILAS **arr, int counter){
     return !counter ? false : true;
 }
 
+// bool check_if_finished(Fila **arr, int counter){  
+//     if(*arr != NULL) check_if_finished(&(*arr)->proximo, counter + 1);
+//     if(*arr == NULL){
+//         if(!counter) return false;
+//         printf("COUNTER: %d\n", counter);
+//         return counter == QTD_CLIENTES ? true : false;
+//     }
+// }
+
+bool check_if_finished(Fila **arr){
+    Fila *aux = *arr;
+    int i = 0;
+hlp:if((aux) != NULL){
+        aux = aux->proximo;
+        i++;
+        goto hlp;
+    }
+    printf("VALOR DE I: %d\n", i);
+    if(i == 0) return false;
+    return i == QTD_CLIENTES ? true : false;
+}
 
 void set_attending(Fila **arr, int qtd_atendentes){
     if(*arr != NULL){
@@ -162,11 +186,14 @@ void update_subqueue_values(ARR_FILAS **super, Fila **arr){
         (*arr)->cliente.spent_time++;
         if((*arr)->cliente.is_attending) (*arr)->cliente.duration --;
         if((*arr)->cliente.duration == 0){
-            // printf("\n\n\nPLAU PLAU PLAU\n\n\n");
             char _next = next_step((*arr)->cliente.sequence, (*arr)->cliente.current_step);
             (*arr)->cliente.is_attending = false;
-            insert_element_by_key(super, _next, (*arr)->cliente);
-            remove_element(*arr, CLIENTES_FIN);
+            insert_element_by_key(super, &CLIENTES_FIN, _next, (*arr)->cliente);
+            // {
+            //     printf("INSERE\n");
+            // inclui_fila(&CLIENTES_FIN, (*arr)->cliente);
+            // }
+            remove_element(*arr);
             // set_to_inicial_position(arr);
             
             // print_super_fila(super);    
@@ -223,6 +250,8 @@ get:if(getline(&line, &len, fp) != EOF){
 
 Fila *get_client(const char *file_name, int value){
 
+    printf("QTD_CLIENTES: %d\n", QTD_CLIENTES);
+
     Fila *fila_de_clientes = NULL;
     Cliente *aux = (Cliente *)malloc(sizeof(Cliente));
 
@@ -234,8 +263,8 @@ Fila *get_client(const char *file_name, int value){
     fp = fopen(file_name, "r");
     if(fp == NULL) printf("SOMETHING WENT WRONG WHILE OPENING THE ARCHIVE THAT LOADS THE CLIENT\n");
 
-    while(getline(&line, &len, fp) != EOF){
-        if(set_arrival_time(line, &first_step) != value) continue;
+aux:if(getline(&line, &len, fp) != EOF){
+        if(set_arrival_time(line, &first_step) != value) goto aux;
         aux->is_attending = false;
         aux->in_process = true;
         aux->duration = -1;
@@ -245,6 +274,8 @@ Fila *get_client(const char *file_name, int value){
         aux->sequence = slice_str_with_end(line, first_step, strlen(line));
         aux->current_step = aux->sequence[0];
         inclui_fila(&fila_de_clientes, *aux);
+        QTD_CLIENTES++;
+        goto aux;
     }
 
     fclose(fp);

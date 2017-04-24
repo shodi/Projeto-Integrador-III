@@ -49,8 +49,8 @@ typedef struct fila_de_filas{
 
 }ARR_FILAS;
 
-typedef struct finalizados{
+// typedef struct finalizados{
 
-    Fila *finalizados;
+//     Fila *finalizados;
 
-}FINALIZADOS;
+// }FINALIZADOS;

@@ -11,7 +11,7 @@ int iniciarJogo(const char *CLIENT_LIST_FILE){
     int sair = 0;
     Fila *new_client = NULL;
     al_start_timer(TIMER);
-
+    
     while (!sair){
         
         while (!al_is_event_queue_empty(FILA_EVENTOS)){            
@@ -22,20 +22,20 @@ int iniciarJogo(const char *CLIENT_LIST_FILE){
                     MIN++;
                     SEG = 0;
                 }
-                if(0 == SEG % 1){
-                    TURNO++;
-                    new_client = get_client(CLIENT_LIST_FILE, TURNO);
-                    while(new_client){
-                        insert_element_by_key(&ARRAY_CLIENTES, new_client->cliente.current_step, new_client->cliente);
-                        new_client = new_client->proximo;
-                    }
-                    new_client = NULL;
-                    set_all_queues_attending(&ARRAY_CLIENTES);
-                    update_queues(&ARRAY_CLIENTES);
-                    // print_fila(&ARRAY_CLIENTES->current_posto);
-                    // print_super_fila(&ARRAY_CLIENTES);
-                    if(check_queue_status(&ARRAY_CLIENTES, 0)) return 0;
+                TURNO++;
+                new_client = get_client(CLIENT_LIST_FILE, TURNO);
+                while(new_client){
+                    insert_element_by_key(&ARRAY_CLIENTES, NULL, new_client->cliente.current_step, new_client->cliente);
+                    new_client = new_client->proximo;
                 }
+                new_client = NULL;
+                set_all_queues_attending(&ARRAY_CLIENTES);
+                update_queues(&ARRAY_CLIENTES);
+                // print_fila(&CLIENTES_FIN);
+                // print_super_fila(&ARRAY_CLIENTES);
+                // if(check_queue_status(&ARRAY_CLIENTES, 0)) return 0;
+                if(check_if_finished(&CLIENTES_FIN)) return 0;
+            
             }
             
             if (evento.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP){                                
