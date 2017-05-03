@@ -142,34 +142,32 @@ bool check_queue_status(ARR_FILAS **arr, int counter){
     return !counter ? false : true;
 }
 
-// bool check_if_finished(Fila **arr, int counter){  
-//     if(*arr != NULL) check_if_finished(&(*arr)->proximo, counter + 1);
-//     if(*arr == NULL){
-//         if(!counter) return false;
-//         printf("COUNTER: %d\n", counter);
-//         return counter == QTD_CLIENTES ? true : false;
-//     }
-// }
-
 bool check_if_finished(Fila **arr){
-    Fila *aux = *arr;
-    int i = 0;
-hlp:if((aux) != NULL){
-        aux = aux->proximo;
-        i++;
-        goto hlp;
+    if(FINISHED_READING){
+        Fila *aux = *arr;
+        int i = 0;
+    hlp:if((aux) != NULL){
+            aux = aux->proximo;
+            i++;
+            goto hlp;
+        }
+        if(i == 0) return false;
+        return i == QTD_CLIENTES ? true : false;
     }
-    if(i == 0) return false;
-    return i == QTD_CLIENTES ? true : false;
+    return false;
 }
 
 void set_attending(Fila **arr, int qtd_atendentes){
     if(*arr != NULL){
         if(qtd_atendentes > 0){
-            if((*arr)->cliente.is_attending != true){
+            if((*arr)->cliente.duration >= 0 && !(*arr)->cliente.is_attending){
+                // printf("CLIENT ID: %d\nDURATION: %d\nCURRENT STEP: %c\n", (*arr)->cliente.id, (*arr)->cliente.duration, (*arr)->cliente.current_step);
                 (*arr)->cliente.is_attending = true;
+                set_attending(&(*arr)->proximo, qtd_atendentes - 1);
+            }else{
+                (*arr)->cliente.is_attending = false;
+                set_attending(&(*arr)->proximo, qtd_atendentes);
             }
-            set_attending(&(*arr)->proximo, qtd_atendentes - 1);
         }
     }
 }
@@ -177,16 +175,21 @@ void set_attending(Fila **arr, int qtd_atendentes){
 void set_all_queues_attending(ARR_FILAS **arr){
 
     if(*arr != NULL){
-        set_attending(&(*arr)->current_posto, (*arr)->time_to_attend);
+        set_attending(&(*arr)->current_posto, (*arr)->qtd_attendent);
         set_all_queues_attending(&(*arr)->proximo);
     }
 
 }
 
 void update_subqueue_values(ARR_FILAS **super, Fila **arr){
-    if(*arr != NULL){ 
+    if(*arr != NULL){
+        // if((*arr)->cliente.is_attending){
+        //     print_client((*arr)->cliente);
+        // }
+        if((*arr)->cliente.id == 2)
+            print_client((*arr)->cliente);
         (*arr)->cliente.spent_time++;
-        if((*arr)->cliente.is_attending) (*arr)->cliente.duration --;
+        if((*arr)->cliente.is_attending) (*arr)->cliente.duration--;
         if((*arr)->cliente.duration == 0){
             char _next = next_step((*arr)->cliente.sequence, (*arr)->cliente.current_step);
             (*arr)->cliente.is_attending = false;
@@ -194,8 +197,9 @@ void update_subqueue_values(ARR_FILAS **super, Fila **arr){
             // {
             //     printf("INSERE\n");
             // inclui_fila(&CLIENTES_FIN, (*arr)->cliente);
-            // }
-            remove_element(*arr);
+            // }    
+            // if(!remove_element(*arr))
+            //     printf("ERRO AO REMOVER ELEMENTO\n\n");
             // set_to_inicial_position(arr);
             
             // print_super_fila(super);    

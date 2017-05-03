@@ -34,7 +34,7 @@ int iniciarJogo(const char *CLIENT_LIST_FILE){
                 // print_super_fila(&ARRAY_CLIENTES);
                 // if(check_queue_status(&ARRAY_CLIENTES, 0)) return 0;
                 TURNO++;
-                if(check_if_finished(&CLIENTES_FIN)) return 0;
+                if(check_if_finished(&CLIENTES_FIN)){printf("TEMPO TOTAL DE ATENDIMENTO: %d\n", TURNO); return 0;}
             
             }
             

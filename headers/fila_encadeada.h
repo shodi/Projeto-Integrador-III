@@ -59,7 +59,23 @@ void init_attendig(ARR_FILAS **arr, char key){
 
 }
 
+void print_client(Cliente x){
+
+    printf("ID: %d\n", x.id);
+    printf("DURATION: %d\n", x.duration);
+    printf("SPENT_TIME: %d\n", x.spent_time);
+    printf("IN PROCESS: ");
+    x.in_process ? printf("TRUE\n") : printf("FALSE\n");
+    printf("IS ATTENDING: ");
+    x.is_attending ? printf("TRUE\n") : printf("FALSE\n");
+    printf("CURRENT STEP: %c\n", x.current_step);
+
+}
+
 void insert_element_by_key(ARR_FILAS **arr, Fila **finalizado, const char key, Cliente x){
+    if((key == '\0' || key == '\n' || key == ' ')){
+        goto fi;
+    }
     if(*arr != NULL){
         if((*arr)->posto == key){
             Cliente aux = x;
@@ -71,10 +87,11 @@ void insert_element_by_key(ARR_FILAS **arr, Fila **finalizado, const char key, C
         }
     }
     if(*arr == NULL){
-        printf("REMOVE CLIENTE ID: %d\n", x.id);
+      fi:
+        printf("FINALIZA ATENDIMENTO DO CLIENTE %d\n\n", x.id);
         inclui_fila(finalizado, x);
     }
-} // fazer isso retornar algo pra funcao principal para poder transferir o cliente pra fila de finalizados
+}
 
 
 void print_fila(Fila **a){
