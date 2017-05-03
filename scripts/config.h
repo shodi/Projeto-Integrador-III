@@ -250,11 +250,11 @@ get:if(getline(&line, &len, fp) != EOF){
     return setup;
 }
 
-Fila *get_client(const char *file_name, int value){
+Fila *get_client(const char *file_name, int current_time){
 
     Fila *fila_de_clientes = NULL;
     if(AWAITING != NULL){
-        if(AWAITING->arrival_time != value)
+        if(AWAITING->arrival_time != current_time)
             goto fim;
         else{
             printf("INCLUINDO CLIENTE %d NA FILA\n", AWAITING->id);
@@ -292,8 +292,7 @@ Fila *get_client(const char *file_name, int value){
         AWAITING->arrival_time = set_arrival_time(line, &first_step);
         AWAITING->sequence = slice_str_with_end(line, first_step, strlen(line));
         AWAITING->current_step = AWAITING->sequence[0];
-        printf("\n\nID: %d\nARRIVAL TIME: %d\nTIMER: %d\n", AWAITING->id, AWAITING->arrival_time, value);
-        if(AWAITING->arrival_time == value){
+        if(AWAITING->arrival_time == current_time){
             printf("INCLUINDO CLIENTE %d NA FILA\n", AWAITING->id);
             inclui_fila(&fila_de_clientes, *AWAITING);
             QTD_CLIENTES++;
