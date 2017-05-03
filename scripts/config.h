@@ -5,9 +5,12 @@
 #define SETUP_QTD_LINE 8
 
 Config *SETUP = NULL;
+FILE *CLIENT_FILE;
 ARR_FILAS *ARRAY_CLIENTES = NULL;
 Fila *CLIENTES_FIN = NULL;
+bool FINISHED_READING = false;
 int QTD_CLIENTES = 0;
+Cliente *AWAITING = NULL;
 
 char *slice_str_with_end(const char * str, size_t start, size_t end){
 
@@ -156,7 +159,6 @@ hlp:if((aux) != NULL){
         i++;
         goto hlp;
     }
-    printf("VALOR DE I: %d\n", i);
     if(i == 0) return false;
     return i == QTD_CLIENTES ? true : false;
 }
@@ -250,35 +252,56 @@ get:if(getline(&line, &len, fp) != EOF){
 
 Fila *get_client(const char *file_name, int value){
 
-    printf("QTD_CLIENTES: %d\n", QTD_CLIENTES);
-
     Fila *fila_de_clientes = NULL;
-    Cliente *aux = (Cliente *)malloc(sizeof(Cliente));
-
-    FILE *fp;
-    char *line;
-    size_t len = 0;
-    int first_step;
-
-    fp = fopen(file_name, "r");
-    if(fp == NULL) printf("SOMETHING WENT WRONG WHILE OPENING THE ARCHIVE THAT LOADS THE CLIENT\n");
-
-aux:if(getline(&line, &len, fp) != EOF){
-        if(set_arrival_time(line, &first_step) != value) goto aux;
-        aux->is_attending = false;
-        aux->in_process = true;
-        aux->duration = -1;
-        aux->spent_time = 0;
-        aux->id = atoi(slice_str_with_end(line, 1, find_arrival_position(line)));
-        aux->arrival_time = set_arrival_time(line, &first_step);
-        aux->sequence = slice_str_with_end(line, first_step, strlen(line));
-        aux->current_step = aux->sequence[0];
-        inclui_fila(&fila_de_clientes, *aux);
+    if(AWAITING != NULL && AWAITING->arrival_time == value){
+        printf("INCLUINDO CLIENTE %d NA FILA\n", AWAITING->id);
+        inclui_fila(&fila_de_clientes, *AWAITING);
         QTD_CLIENTES++;
-        goto aux;
+        free(AWAITING);
+        AWAITING = NULL;
     }
-
-    fclose(fp);
-    if(line) free(line);
-    return fila_de_clientes;
+    else if(AWAITING != NULL && AWAITING->arrival_time != value)
+        goto fim;
+    
+    if(!FINISHED_READING){
+        if(!CLIENT_FILE){
+            CLIENT_FILE = fopen(file_name, "r");
+            if(!CLIENT_FILE)
+                printf("SOMETHING WENT WRONG WHILE OPENING THE ARCHIVE THAT LOADS THE CLIENT\n");
+        }
+        char *line;
+        size_t len = 0;
+        int first_step;
+        
+        aux:if(getline(&line, &len, CLIENT_FILE) == EOF){
+            printf("FIM DA LEITURA\n"); 
+            FINISHED_READING = true;
+            if(line) free(line);
+            fclose(CLIENT_FILE);
+            goto fim;
+        }
+        
+        AWAITING = (Cliente *)malloc(sizeof(Cliente));
+        AWAITING->is_attending = false;
+        AWAITING->in_process = true;
+        AWAITING->duration = -1;
+        AWAITING->spent_time = 0;
+        AWAITING->id = atoi(slice_str_with_end(line, 1, find_arrival_position(line)));
+        AWAITING->arrival_time = set_arrival_time(line, &first_step);
+        AWAITING->sequence = slice_str_with_end(line, first_step, strlen(line));
+        AWAITING->current_step = AWAITING->sequence[0];
+        printf("\n\nID: %d\nARRIVAL TIME: %d\nTIMER: %d\n", AWAITING->id, AWAITING->arrival_time, value);
+        if(AWAITING->arrival_time == value){
+            printf("INCLUINDO CLIENTE %d NA FILA\n", AWAITING->id);
+            inclui_fila(&fila_de_clientes, *AWAITING);
+            QTD_CLIENTES++;
+            free(line);
+            free(AWAITING);
+            AWAITING = NULL;
+            goto aux;
+        }
+        
+        
+    }
+    fim:return fila_de_clientes;
 }
