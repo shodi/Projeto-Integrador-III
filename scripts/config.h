@@ -253,16 +253,18 @@ get:if(getline(&line, &len, fp) != EOF){
 Fila *get_client(const char *file_name, int value){
 
     Fila *fila_de_clientes = NULL;
-    if(AWAITING != NULL && AWAITING->arrival_time == value){
-        printf("INCLUINDO CLIENTE %d NA FILA\n", AWAITING->id);
-        inclui_fila(&fila_de_clientes, *AWAITING);
-        QTD_CLIENTES++;
-        free(AWAITING);
-        AWAITING = NULL;
-    }
-    else if(AWAITING != NULL && AWAITING->arrival_time != value)
-        goto fim;
-    
+    if(AWAITING != NULL){
+        if(AWAITING->arrival_time != value)
+            goto fim;
+        else{
+            printf("INCLUINDO CLIENTE %d NA FILA\n", AWAITING->id);
+            inclui_fila(&fila_de_clientes, *AWAITING);
+            QTD_CLIENTES++;
+            free(AWAITING);
+            AWAITING = NULL;
+        }
+    } 
+     
     if(!FINISHED_READING){
         if(!CLIENT_FILE){
             CLIENT_FILE = fopen(file_name, "r");
@@ -295,7 +297,6 @@ Fila *get_client(const char *file_name, int value){
             printf("INCLUINDO CLIENTE %d NA FILA\n", AWAITING->id);
             inclui_fila(&fila_de_clientes, *AWAITING);
             QTD_CLIENTES++;
-            free(line);
             free(AWAITING);
             AWAITING = NULL;
             goto aux;
