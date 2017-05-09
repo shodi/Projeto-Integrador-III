@@ -164,8 +164,6 @@ void set_attending(Fila **arr, int qtd_atendentes){
                 // printf("CLIENT ID: %d\nDURATION: %d\nCURRENT STEP: %c\n", (*arr)->cliente.id, (*arr)->cliente.duration, (*arr)->cliente.current_step);
                 (*arr)->cliente.is_attending = true;
                 set_attending(&(*arr)->proximo, qtd_atendentes - 1);
-            }else{
-                set_attending(&(*arr)->proximo, qtd_atendentes);
             }
         }
     }
