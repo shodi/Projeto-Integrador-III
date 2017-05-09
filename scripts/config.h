@@ -160,12 +160,11 @@ bool check_if_finished(Fila **arr){
 void set_attending(Fila **arr, int qtd_atendentes){
     if(*arr != NULL){
         if(qtd_atendentes > 0){
-            if((*arr)->cliente.duration >= 0 && !(*arr)->cliente.is_attending){
+            if((*arr)->cliente.duration > 0 && !(*arr)->cliente.is_attending){
                 // printf("CLIENT ID: %d\nDURATION: %d\nCURRENT STEP: %c\n", (*arr)->cliente.id, (*arr)->cliente.duration, (*arr)->cliente.current_step);
                 (*arr)->cliente.is_attending = true;
                 set_attending(&(*arr)->proximo, qtd_atendentes - 1);
             }else{
-                (*arr)->cliente.is_attending = false;
                 set_attending(&(*arr)->proximo, qtd_atendentes);
             }
         }
@@ -182,27 +181,17 @@ void set_all_queues_attending(ARR_FILAS **arr){
 }
 
 void update_subqueue_values(ARR_FILAS **super, Fila **arr){
-    if(*arr != NULL){
-        // if((*arr)->cliente.is_attending){
+    s1:if(*arr != NULL){
+        // if((*arr)->cliente.id == 2)
         //     print_client((*arr)->cliente);
-        // }
-        if((*arr)->cliente.id == 2)
-            print_client((*arr)->cliente);
         (*arr)->cliente.spent_time++;
         if((*arr)->cliente.is_attending) (*arr)->cliente.duration--;
         if((*arr)->cliente.duration == 0){
             char _next = next_step((*arr)->cliente.sequence, (*arr)->cliente.current_step);
             (*arr)->cliente.is_attending = false;
             insert_element_by_key(super, &CLIENTES_FIN, _next, (*arr)->cliente);
-            // {
-            //     printf("INSERE\n");
-            // inclui_fila(&CLIENTES_FIN, (*arr)->cliente);
-            // }    
-            // if(!remove_element(*arr))
-            //     printf("ERRO AO REMOVER ELEMENTO\n\n");
-            // set_to_inicial_position(arr);
-            
-            // print_super_fila(super);    
+            *arr = remove_element(*arr);
+            if(*arr == NULL) goto s1;
         }
         update_subqueue_values(super, &(*arr)->proximo);
     }

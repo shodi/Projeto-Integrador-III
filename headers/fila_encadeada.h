@@ -40,11 +40,16 @@ void init_filas(ARR_FILAS **arr, char key){
 
 }
 
-int remove_element(Fila *arr){
-    if(arr == NULL) return 0;    
+Fila* remove_element(Fila *arr){
+    if(arr->proximo == NULL){
+        printf("ULTIMO ELEMENTO REMOVIDO DA FILA %d\n\n", arr->cliente.id);
+        return NULL;
+    }
     else{
-        arr = arr->proximo;
-        return 1;
+        Fila *aux = (Fila *)malloc(sizeof(Fila));
+        aux = arr->proximo;
+        free(arr);
+        return aux;
     }
 }
 
@@ -69,6 +74,7 @@ void print_client(Cliente x){
     printf("IS ATTENDING: ");
     x.is_attending ? printf("TRUE\n") : printf("FALSE\n");
     printf("CURRENT STEP: %c\n", x.current_step);
+    printf("\n\n\n\n"); 
 
 }
 
@@ -88,7 +94,7 @@ void insert_element_by_key(ARR_FILAS **arr, Fila **finalizado, const char key, C
     }
     if(*arr == NULL){
       fi:
-        printf("FINALIZA ATENDIMENTO DO CLIENTE %d\n\n", x.id);
+        printf("FINALIZA ATENDIMENTO DO CLIENTE %d No step %c\n\n", x.id, x.current_step);
         inclui_fila(finalizado, x);
     }
 }
