@@ -11,6 +11,7 @@ typedef struct cliente{
 
 }Cliente;
 
+
 typedef struct posto{
 
     int time_to_attend;
@@ -49,6 +50,12 @@ typedef struct fila_de_filas{
 
 }ARR_FILAS;
 
+typedef struct relatorio{
+
+    double avg_time;
+    double (*get_average_time) (struct relatorio* , Fila *);
+
+}Relatorio;
 // typedef struct finalizados{
 
 //     Fila *finalizados;
