@@ -20,3 +20,32 @@ void print_fila(Fila **a, char flag){
     }
 
 }
+
+
+int total_postos(ARR_FILAS **arr, int counter){
+
+    if((*arr) != NULL){
+        counter = total_postos(&(*arr)->proximo, counter + (*arr)->qtd_postos);
+    }
+    
+    return counter;
+    
+
+}
+
+int variedade_postos(ARR_FILAS **arr, int counter, char postoB){
+
+    if((*arr) != NULL){
+
+        printf("%c\n", postoB);
+        if (postoB != (*arr)->posto){
+
+            counter = variedade_postos(&(*arr)->proximo, counter + (*arr)->qtd_postos, (*arr)->posto);
+            
+        }
+    }
+    
+    return counter;
+    
+
+}
