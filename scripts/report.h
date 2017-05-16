@@ -1,7 +1,7 @@
 void __print_group_info__(Group_info **arr, FILE *report, int counter){
     if((*arr)->anterior != NULL && !counter) __print_group_info__(&(*arr)->anterior, report, counter);
     else if(*arr != NULL){
-        fprintf(report, "SEQUENCE: %s", (*arr)->sequence);
+        fprintf(report, "GRUPO: %s", (*arr)->sequence);
         fprintf(report, "TOTAL_TIME: %d\n", (*arr)->total_time);
         fprintf(report, "QTD CLIENTES: %d\n", (*arr)->qtd_clientes);
         fprintf(report, "AVG_TIME: %.2lf\n\n", (*arr)->avg_time);
@@ -69,14 +69,16 @@ con:if(arr != NULL){
     return self->avg_time;
 }
 
-void __get_group_avg_time(Relatorio *self, Fila *aux){
+void __get_group_avg_time(Relatorio *self, Fila *arr){
 
-    // Fila *aux = arr;
+    Fila *aux = arr;
 con:if(aux != NULL){
         insert_to_group(&(self->route_avg_time), aux->cliente);
+    loop:if(self->route_avg_time->anterior != NULL) {self->route_avg_time = self->route_avg_time->anterior;goto loop;}
         aux = aux->proximo;
         goto con;
     }
+    arr = aux;
     FILE *report = fopen("/tmp/report.txt", "w+");
     __print_group_info__(&(self)->route_avg_time, report, ~EOF);     
     fclose(report);
