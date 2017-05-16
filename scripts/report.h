@@ -1,7 +1,7 @@
 void __print_group_info__(Group_info **arr, FILE *report, int counter){
     if((*arr)->anterior != NULL && !counter) __print_group_info__(&(*arr)->anterior, report, counter);
     else if(*arr != NULL){
-        fprintf(report, "\nSEQUENCE: %s", (*arr)->sequence);
+        fprintf(report, "SEQUENCE: %s", (*arr)->sequence);
         fprintf(report, "TOTAL_TIME: %d\n", (*arr)->total_time);
         fprintf(report, "QTD CLIENTES: %d\n", (*arr)->qtd_clientes);
         fprintf(report, "AVG_TIME: %.2lf\n\n", (*arr)->avg_time);
@@ -95,7 +95,10 @@ void generate_report(){
     Relatorio *report = new_report();
 
     report->get_group_avg_time(report, CLIENTES_FIN);
-    printf("TEMPO MEDIO DE ATENDIMENTO: %.2lf\n", report->get_general_average_time(report, CLIENTES_FIN));
+    report->get_general_average_time(report, CLIENTES_FIN);
+    FILE *fp = fopen("/tmp/report.txt", "a");
+    fprintf(fp, "TEMPO MEDIO DE ATENDIMENTO: %.2lf\n", report->avg_time);
+    fclose(fp);
     free(report);
     
 }
