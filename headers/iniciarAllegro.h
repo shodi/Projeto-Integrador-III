@@ -3,14 +3,7 @@ ALLEGRO_EVENT_QUEUE *FILA_EVENTOS = NULL;
 ALLEGRO_BITMAP *BOTAO_SAIR = NULL, 
                *AREA_CENTRAL = 0,  
                *BACKGROUND = NULL, 
-               *GUICHE1 = NULL,
-               *GUICHE2 = NULL,
-               *GUICHE3 = NULL,
-               *GUICHE4 = NULL,
-               *GUICHE5 = NULL,
-               *GUICHE6 = NULL,
-               *GUICHE7 = NULL,
-               *GUICHE8 = NULL,
+               *GUICHE = NULL,
                *PAUSEBTTN = NULL,
                *PLAYBTTN = NULL,
                *TWOTIMESBTTN = NULL,
@@ -20,7 +13,7 @@ ALLEGRO_TIMER *TIMER = 0;
 ALLEGRO_FONT *FONT  = NULL,
              *FONT2 = NULL;
 
-const int LARGURA_TELA = 1024;
+const int LARGURA_TELA = 1080;
 const int ALTURA_TELA = 720;
 const int tamanho = 300;
 
@@ -90,15 +83,8 @@ bool iniciarAllegro(){
         return false;
     }
 
-    GUICHE1 = al_load_bitmap("headers/Images/guiche.png");
-    GUICHE2 = al_load_bitmap("headers/Images/guiche.png");
-    GUICHE3 = al_load_bitmap("headers/Images/guiche.png");
-    GUICHE4 = al_load_bitmap("headers/Images/guiche.png");
-    GUICHE5 = al_load_bitmap("headers/Images/guiche.png");
-    GUICHE6 = al_load_bitmap("headers/Images/guiche.png");
-    GUICHE7 = al_load_bitmap("headers/Images/guiche.png");
-    GUICHE8 = al_load_bitmap("headers/Images/guiche.png");
-    if (!GUICHE1 || !GUICHE2 || !GUICHE3 ||!GUICHE4 ||!GUICHE5 ||!GUICHE6 ||!GUICHE7 ||!GUICHE8){
+    GUICHE = al_load_bitmap("headers/Images/guiche.png");
+    if (!GUICHE){
         fprintf(stderr, "Falha ao criar bitmap GUICHE. \n");
         return false;
     }
