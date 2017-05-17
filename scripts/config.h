@@ -81,7 +81,10 @@ ck: if( str[i] == ':') return i;
 
 void set_time_to_attend(ARR_FILAS **arr, const char *str){
     if(*arr != NULL){
-        if((*arr)->posto == str[0]) (*arr)->time_to_attend = atoi(slice_str_with_end(str, 1, find_marker(str)));
+        if((*arr)->posto == str[0]){
+            (*arr)->time_to_attend = atoi(slice_str_with_end(str, 1, find_marker(str)));
+            (*arr)->label = slice_str_with_end(str, find_marker(str) + 1, strlen(str) - 1);
+        }
         else set_time_to_attend(&(*arr)->proximo, str);
     }
 }
