@@ -32,7 +32,7 @@ int main(int argc, char *argv[]){
     
     iniciarAllegro();
 
-    if(!iniciarJogo(CLIENT_LIST_FILE)) printf("ATENDIMENTO ENCERRADO");
+    if(!iniciarJogo(CLIENT_LIST_FILE)) printf("ATENDIMENTO ENCERRADO\n\n");
     
     destruirTudo();
 
@@ -40,6 +40,7 @@ int main(int argc, char *argv[]){
     if(ARRAY_CLIENTES) free(ARRAY_CLIENTES);
     generate_report();
     if(CLIENTES_FIN) free(CLIENTES_FIN);
+    system("xdg-open /tmp/report.txt");
 
     return 0;
 }

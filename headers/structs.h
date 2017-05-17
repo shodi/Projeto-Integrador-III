@@ -50,14 +50,20 @@ typedef struct fila_de_filas{
 
 }ARR_FILAS;
 
+typedef struct grupo_de_informacoes{
+    struct grupo_de_informacoes *anterior;
+    struct grupo_de_informacoes *proximo;
+    const char *sequence;
+    int qtd_clientes;
+    double avg_time;
+    int total_time;
+}Group_info;
+
 typedef struct relatorio{
 
+    Group_info *route_avg_time;
     double avg_time;
-    double (*get_average_time) (struct relatorio* , Fila *);
+    double (*get_general_average_time) (struct relatorio*, Fila *);
+    void (*get_group_avg_time) (struct relatorio *, Fila *);
 
 }Relatorio;
-// typedef struct finalizados{
-
-//     Fila *finalizados;
-
-// }FINALIZADOS;

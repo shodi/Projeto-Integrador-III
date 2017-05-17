@@ -16,7 +16,3 @@ Integrantes: Caio Luzano, Gustavo Diogo, Henrique Shodi e Luiz Frederico
 *adicione as librarys que são utilizadas ao longo do projeto, estas são só um exemplo
 
 > ./main &lt;arquivo de configuracao&gt; &lt;arquivo da fila&gt;
-
-##Windows
-
->Windows é para otários, se vira ai
