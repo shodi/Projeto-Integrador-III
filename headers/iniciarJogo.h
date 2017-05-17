@@ -105,18 +105,18 @@ void carregarMenuInferior(){
         ALTURA_TELA - al_get_bitmap_height(BOTAO_SAIR) - 10, 0);
 
 
-    //char **nome = NULL;
-    //int *qtd_postos = 0;
-    //int *qtd_attendent = 0;
-    //int *is_atend = 0;
+    char *nome = NULL;
+    // int *qtd_postos = 0;
+    // int *qtd_attendent = 0;
+    int is_atend = 0;
     // guichês
     qtdPostos = total_postos(&ARRAY_CLIENTES, qtdPostos);
     for (int i = 0; i <= qtdPostos; ++i){
 
         //detalhe_guiche(&ARRAY_CLIENTES, nome, qtd_postos, qtd_attendent, is_atend);
-        detalhe_guiche(&ARRAY_CLIENTES, nome, is_atend);
+        detalhe_guiche(&ARRAY_CLIENTES, &nome, &is_atend);
         al_draw_filled_rectangle(xGuiche, 65, (xGuiche+54),80, al_map_rgb(255,0,0));
-        al_draw_textf(FONT2, al_map_rgb(1, 1, 1), (xGuiche+27), 65, ALLEGRO_ALIGN_CENTRE, "%s",**nome);    
+        al_draw_textf(FONT2, al_map_rgb(1, 1, 1), (xGuiche+27), 65, ALLEGRO_ALIGN_CENTRE, "oie");    
         al_draw_bitmap(GUICHE, xGuiche, 80, 0);
         xGuiche += 1080/qtdPostos;
 
