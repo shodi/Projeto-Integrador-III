@@ -10,6 +10,7 @@ ARR_FILAS *ARRAY_CLIENTES = NULL;
 Fila *CLIENTES_FIN = NULL;
 bool FINISHED_READING = false;
 int QTD_CLIENTES = 0;
+bool CAN_CHANGE = false;
 Cliente *AWAITING = NULL;
 
 char *slice_str_with_end(const char * str, size_t start, size_t end){
@@ -232,6 +233,7 @@ get:if(getline(&line, &len, fp) != EOF){
                 break;
             case 3:
                 setup->time_to_change = atoi(slice_str(line, 6));
+                if(setup->time_to_change) CAN_CHANGE = true;
                 break;
             default:
                 _posto_setup(line);
