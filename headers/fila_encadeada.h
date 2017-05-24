@@ -84,6 +84,7 @@ void insert_element_by_key(ARR_FILAS **arr, Fila **finalizado, const char key, C
     }
     if(*arr != NULL){
         if((*arr)->posto == key){
+            (*arr)->qtd_pessoas ++;
             Cliente aux = x;
             aux.duration = (*arr)->time_to_attend;
             aux.current_step = key;
@@ -168,12 +169,14 @@ int verifica_atendente(Fila **a){
 
 }
 
-void detalhe_guiche(ARR_FILAS **arr, char **nome, int *is_atend){
+void detalhe_guiche(ARR_FILAS **arr, char **nome, int *is_atend, int *qtdPostosV, int *qtdAtendsV, int *qtsPessoas){
 
     if(*arr != NULL){
         *nome = ((*arr)->label);
         *is_atend = verifica_atendente(&(*arr)->current_posto);
-        //ARR_FILAS **arr = &(*arr)->proximo;
+        *qtdPostosV = ((*arr)->qtd_postos);
+        *qtdAtendsV = ((*arr)->qtd_attendent);
+        *qtsPessoas = ((*arr)->qtd_pessoas);
     }
 
 }

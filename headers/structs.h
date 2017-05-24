@@ -46,6 +46,7 @@ typedef struct fila_de_filas{
     char *label;
     int qtd_postos;
     int qtd_attendent;
+    int qtd_pessoas;
     int time_to_attend;
 
 }ARR_FILAS;

@@ -6,7 +6,7 @@ int TURNO = 0, xGuiche = 0, xFila = 20;
 //variaveis temporarias
 int qtdPostos = 0;
 int variedade = 0;
-int qtdpessoas = 10;
+int qtdPessoas = 0;
 char posto;
 
 void carregarMenuInferior();
@@ -106,33 +106,69 @@ void carregarMenuInferior(){
 
 
     char *nome = NULL;
-    // int *qtd_postos = 0;
-    // int *qtd_attendent = 0;
     int is_atend = 0;
-    // guichês
+    int qtdPostosV = 0;
+    int qtdAtendsV = 0;
+    
+    // guichês;
     qtdPostos = total_postos(&ARRAY_CLIENTES, qtdPostos);
-    for (int i = 0; i <= qtdPostos; ++i){
+    
+    variedade = variedade_postos(&ARRAY_CLIENTES, variedade, posto);
+    
+    ARR_FILAS **aux = &ARRAY_CLIENTES;
+    
+    detalhe_guiche(aux, &nome, &is_atend, &qtdPostosV, &qtdAtendsV, &qtdPessoas);
+    
+    int temp_xGuiche = xGuiche;
+    
+    for (int i = 0; i < variedade; ++i){    
+        
 
-        //detalhe_guiche(&ARRAY_CLIENTES, nome, qtd_postos, qtd_attendent, is_atend);
-        detalhe_guiche(&ARRAY_CLIENTES, &nome, &is_atend);
-        al_draw_filled_rectangle(xGuiche, 65, (xGuiche+54),80, al_map_rgb(255,0,0));
-        al_draw_textf(FONT2, al_map_rgb(1, 1, 1), (xGuiche+27), 65, ALLEGRO_ALIGN_CENTRE, "oie");    
+        al_draw_filled_rectangle(((qtdPostosV*xFila)/2.0), 150, ((qtdPostosV*xFila)/2.0+14), (qtdPessoas*50+155), al_map_rgb(0,0,255));
+
+        for (int j = 0; j < qtdPostosV; ++j){
+            if (qtdAtendsV > 0){
+                if (is_atend > 0){
+                   al_draw_filled_rectangle(xGuiche, 60, (xGuiche+54), 80, al_map_rgb(0,0,255));
+                   --is_atend;
+                }
+                else al_draw_filled_rectangle(xGuiche, 60, (xGuiche+54), 80, al_map_rgb(0,255,0));
+                --qtdAtendsV;
+            }
+            else al_draw_filled_rectangle(xGuiche, 60, (xGuiche+54), 80, al_map_rgb(255,0,0));
+            al_draw_textf(FONT2, al_map_rgb(1, 1, 1), (xGuiche+27), 65, ALLEGRO_ALIGN_CENTRE, "%s", nome);    
+            xGuiche += 1080/qtdPostos;
+        }
+        aux = &(*aux)->proximo;
+        nome = NULL;
+        is_atend = 0;
+        qtdPostosV = 0;
+        
+        //al_draw_filled_rectangle(xFila, 150, (xFila+14), (qtdPessoas*50+155), al_map_rgb(0,0,255));
+        al_draw_textf(FONT, al_map_rgb(1, 1, 1), (xFila+7), (qtdPessoas*50+160), ALLEGRO_ALIGN_CENTRE, "%d",qtdPessoas);    
+        xFila += 1080/variedade;
+        detalhe_guiche(aux, &nome, &is_atend, &qtdPostosV, &qtdAtendsV, &qtdPessoas);
+    }
+    
+    xGuiche = temp_xGuiche;
+    
+    for (int i = 0; i < qtdPostos; ++i){       
         al_draw_bitmap(GUICHE, xGuiche, 80, 0);
         xGuiche += 1080/qtdPostos;
-
     }
+    
     xGuiche = 0;
+    
     qtdPostos = 0;
     
     // filas dos guichês
-    variedade = variedade_postos(&ARRAY_CLIENTES, variedade, posto);
-    for (int i = 0; i < variedade; ++i)
-    {
-        al_draw_filled_rectangle(xFila, 150, (xFila+14), (qtdpessoas+300), al_map_rgb(0,0,255));
-        al_draw_textf(FONT, al_map_rgb(1, 1, 1), (xFila+7), (qtdpessoas+305), ALLEGRO_ALIGN_CENTRE, "%d",TURNO);    
-        xFila += 1080/variedade;
+    //for (int i = 0; i < variedade; ++i)
+    //{
+    //    al_draw_filled_rectangle(xFila, 150, (xFila+14), (qtdPessoas+300), al_map_rgb(0,0,255));
+    //    al_draw_textf(FONT, al_map_rgb(1, 1, 1), (xFila+7), (qtdPessoas+305), ALLEGRO_ALIGN_CENTRE, "%d",TURNO);    
+    //    xFila += 1080/variedade;        
     
-    }
+    //}
     variedade = 0;
     xFila = 20;
 

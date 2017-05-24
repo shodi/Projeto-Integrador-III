@@ -193,6 +193,7 @@ void update_subqueue_values(ARR_FILAS **super, Fila **arr){
             char _next = next_step((*arr)->cliente.sequence, (*arr)->cliente.current_step);
             (*arr)->cliente.is_attending = false;
             insert_element_by_key(super, &CLIENTES_FIN, _next, (*arr)->cliente);
+            (*super)->qtd_pessoas --;
             *arr = remove_element(*arr);
             if(*arr == NULL) goto s1;
         }
