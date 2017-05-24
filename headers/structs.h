@@ -6,6 +6,7 @@ typedef struct cliente{
     bool in_process;
     bool is_attending;
     int arrival_time;
+    int arrival_time_current_step;
     char *sequence;
     char current_step;
 
@@ -44,6 +45,7 @@ typedef struct fila_de_filas{
     Fila *current_posto;
     char posto;
     char *label;
+    double avg_time;
     int qtd_postos;
     int qtd_attendent;
     int time_to_attend;

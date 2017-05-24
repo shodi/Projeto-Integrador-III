@@ -68,6 +68,7 @@ void print_client(Cliente x){
 
     printf("ID: %d\n", x.id);
     printf("DURATION: %d\n", x.duration);
+    printf("TIME CURRENT STEP: %d\n", x.arrival_time_current_step);
     printf("SPENT_TIME: %d\n", x.spent_time);
     printf("IN PROCESS: ");
     x.in_process ? printf("TRUE\n") : printf("FALSE\n");
@@ -78,7 +79,7 @@ void print_client(Cliente x){
 
 }
 
-void insert_element_by_key(ARR_FILAS **arr, Fila **finalizado, const char key, Cliente x){
+void insert_element_by_key(ARR_FILAS **arr, Fila **finalizado, const char key, Cliente x, int current_time){
     if((key == '\0' || key == '\n' || key == ' ')){
         goto fi;
     }
@@ -87,9 +88,10 @@ void insert_element_by_key(ARR_FILAS **arr, Fila **finalizado, const char key, C
             Cliente aux = x;
             aux.duration = (*arr)->time_to_attend;
             aux.current_step = key;
+            aux.arrival_time_current_step = current_time;
             inclui_fila(&(*arr)->current_posto, aux);
         }else{
-            insert_element_by_key(&(*arr)->proximo, finalizado, key, x);
+            insert_element_by_key(&(*arr)->proximo, finalizado, key, x, current_time);
         }
     }
     if(*arr == NULL){
@@ -128,4 +130,38 @@ void print_super_fila(ARR_FILAS **arr){
         print_super_fila(&(*arr)->proximo);
     }
 
+}
+
+int time_sum(Fila **arr, int current_time, int total_time){
+    if(*arr != NULL){
+        print_client((*arr)->cliente);
+        int diff = current_time - (*arr)->cliente.arrival_time_current_step;
+        total_time += diff;
+        time_sum(&(*arr)->proximo, current_time, total_time);
+    }
+    return total_time;
+}
+
+void setting_avg_time(ARR_FILAS **arr, int current_time){
+    if(*arr != NULL){
+        printf("Fila: %c\n", (*arr)->posto);
+        printf("Tempo de atendimento: %d\n", time_sum(&(*arr)->current_posto, current_time, 0));
+        setting_avg_time(&(*arr)->proximo, current_time);
+    }
+}
+
+int is_empty_queue(Fila **arr, int qtd_atendentes, int working_attendants){
+    if(*arr != NULL){
+        if((*arr)->cliente.is_attending) is_empty_queue(&(*arr)->proximo, qtd_atendentes, ++working_attendants);
+        else is_empty_queue(&(*arr)->proximo, qtd_atendentes, ++working_attendants);
+    }
+    return working_attendants;
+}
+
+void search_for_empty_queue(ARR_FILAS **arr){
+    if(*arr != NULL){
+        printf("FILA: %c\n", (*arr)->posto);
+        printf("QTD DE ATENDENTES LIVRES: %d\n", (*arr)->qtd_attendent - is_empty_queue(&(*arr)->current_posto, (*arr)->qtd_attendent, 0));
+        search_for_empty_queue(&(*arr)->proximo);
+    }
 }

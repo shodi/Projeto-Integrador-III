@@ -24,12 +24,14 @@ int iniciarJogo(const char *CLIENT_LIST_FILE){
                 }
                 new_client = get_client(CLIENT_LIST_FILE, TURNO);
                 while(new_client){
-                    insert_element_by_key(&ARRAY_CLIENTES, NULL, new_client->cliente.current_step, new_client->cliente);
+                    insert_element_by_key(&ARRAY_CLIENTES, NULL, new_client->cliente.current_step, new_client->cliente, TURNO);
                     new_client = new_client->proximo;
                 }
                 new_client = NULL;
                 set_all_queues_attending(&ARRAY_CLIENTES);
-                update_queues(&ARRAY_CLIENTES);
+                update_queues(&ARRAY_CLIENTES, TURNO);
+                // search_for_empty_queue(&ARRAY_CLIENTES);
+                setting_avg_time(&ARRAY_CLIENTES, TURNO);
                 // print_fila(&CLIENTES_FIN);
                 // print_super_fila(&ARRAY_CLIENTES);
                 // if(check_queue_status(&ARRAY_CLIENTES, 0)) return 0;

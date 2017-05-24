@@ -109,7 +109,7 @@ void _relacao_de_postos(Config *setup, char *str){
     int i = 0;
     setup->relation = str;
     ARR_FILAS **helper;
-hlp:if(setup->relation[i] != '\0'){
+hlp:if(setup->relation[i] != '\0' && setup->relation[i] != '\n'){
         helper = &ARRAY_CLIENTES;
         init_filas(&ARRAY_CLIENTES, setup->relation[i]);
         i++;
@@ -184,7 +184,7 @@ void set_all_queues_attending(ARR_FILAS **arr){
 
 }
 
-void update_subqueue_values(ARR_FILAS **super, Fila **arr){
+void update_subqueue_values(ARR_FILAS **super, Fila **arr, int current_time){
     s1:if(*arr != NULL){
         // if((*arr)->cliente.id == 2)
         //     print_client((*arr)->cliente);
@@ -193,19 +193,19 @@ void update_subqueue_values(ARR_FILAS **super, Fila **arr){
         if((*arr)->cliente.duration == 0){
             char _next = next_step((*arr)->cliente.sequence, (*arr)->cliente.current_step);
             (*arr)->cliente.is_attending = false;
-            insert_element_by_key(super, &CLIENTES_FIN, _next, (*arr)->cliente);
+            insert_element_by_key(super, &CLIENTES_FIN, _next, (*arr)->cliente, current_time);
             *arr = remove_element(*arr);
             if(*arr == NULL) goto s1;
         }
-        update_subqueue_values(super, &(*arr)->proximo);
+        update_subqueue_values(super, &(*arr)->proximo, current_time);
     }
     // if(*arr == NULL) return;
 }
 
-void update_queues(ARR_FILAS **arr){
+void update_queues(ARR_FILAS **arr, int current_time){
     if(*arr != NULL){
-        update_subqueue_values(arr, &(*arr)->current_posto);
-        update_queues(&(*arr)->proximo);
+        update_subqueue_values(arr, &(*arr)->current_posto, current_time);
+        update_queues(&(*arr)->proximo, current_time);
     }
 }
 
@@ -256,6 +256,7 @@ Fila *get_client(const char *file_name, int current_time){
             goto fim;
         else{
             printf("INCLUINDO CLIENTE %d NA FILA\n", AWAITING->id);
+            AWAITING->arrival_time_current_step = current_time;
             inclui_fila(&fila_de_clientes, *AWAITING);
             QTD_CLIENTES++;
             free(AWAITING);
