@@ -1,7 +1,8 @@
 ALLEGRO_EVENT evento;
 
 int MIN = 0, SEG = 0;
-int TURNO = 0, xGuiche = 0, xFila = 20;
+int TURNO = 0; 
+double xGuiche = 0, xFila = 20;
 
 //variaveis temporarias
 int qtdPostos = 0;
@@ -123,39 +124,51 @@ void carregarMenuInferior(){
     
     for (int i = 0; i < variedade; ++i){    
         
-
-        al_draw_filled_rectangle(((qtdPostosV*xFila)/2.0), 150, ((qtdPostosV*xFila)/2.0+14), (qtdPessoas*50+155), al_map_rgb(0,0,255));
-
         for (int j = 0; j < qtdPostosV; ++j){
             if (qtdAtendsV > 0){
                 if (is_atend > 0){
-                   al_draw_filled_rectangle(xGuiche, 60, (xGuiche+54), 80, al_map_rgb(0,0,255));
-                   --is_atend;
+                    al_draw_filled_rectangle(xGuiche, 60, (xGuiche+54), 80, al_map_rgb(0,0,255));
+                    al_draw_bitmap(GUICHEAC, xGuiche, 80, 0);
+                    --is_atend;
                 }
-                else al_draw_filled_rectangle(xGuiche, 60, (xGuiche+54), 80, al_map_rgb(0,255,0));
-                --qtdAtendsV;
+                else if(qtdAtendsV > 0){ 
+                    al_draw_bitmap(GUICHEA, xGuiche, 80, 0);
+                    al_draw_filled_rectangle(xGuiche, 60, (xGuiche+54), 80, al_map_rgb(0,255,0));
+                    --qtdAtendsV;
+                }
             }
-            else al_draw_filled_rectangle(xGuiche, 60, (xGuiche+54), 80, al_map_rgb(255,0,0));
-            al_draw_textf(FONT2, al_map_rgb(1, 1, 1), (xGuiche+27), 65, ALLEGRO_ALIGN_CENTRE, "%s", nome);    
+            else{ 
+                al_draw_bitmap(GUICHE, xGuiche, 80, 0);
+                al_draw_filled_rectangle(xGuiche, 60, (xGuiche+54), 80, al_map_rgb(255,0,0));
+            }
+            al_draw_textf(FONT2, al_map_rgb(1, 1, 1), (xGuiche+27), 65, ALLEGRO_ALIGN_CENTRE, "%s", nome);
             xGuiche += 1080/qtdPostos;
         }
+            xFila = xGuiche - (qtdPostosV*(1080/qtdPostos))/2.0 - 40;    
+
+        //al_draw_filled_rectangle((xFila-5), 170, (xFila+5), (qtdPessoas*50+175), al_map_rgb(0,0,255));
+        for (int i = 0; i < qtdPessoas; ++i)
+        {
+            al_draw_bitmap(CLIENTE, xFila-15, 170+i*30, ALLEGRO_ALIGN_CENTRE);
+        }
+        al_draw_textf(FONT, al_map_rgb(1, 1, 1), (xFila), (qtdPessoas*30+180), ALLEGRO_ALIGN_CENTRE, "%d",qtdPessoas);    
+
         aux = &(*aux)->proximo;
         nome = NULL;
         is_atend = 0;
         qtdPostosV = 0;
         
         //al_draw_filled_rectangle(xFila, 150, (xFila+14), (qtdPessoas*50+155), al_map_rgb(0,0,255));
-        al_draw_textf(FONT, al_map_rgb(1, 1, 1), (xFila+7), (qtdPessoas*50+160), ALLEGRO_ALIGN_CENTRE, "%d",qtdPessoas);    
         xFila += 1080/variedade;
         detalhe_guiche(aux, &nome, &is_atend, &qtdPostosV, &qtdAtendsV, &qtdPessoas);
     }
     
     xGuiche = temp_xGuiche;
     
-    for (int i = 0; i < qtdPostos; ++i){       
-        al_draw_bitmap(GUICHE, xGuiche, 80, 0);
-        xGuiche += 1080/qtdPostos;
-    }
+    //for (int i = 0; i < qtdPostos; ++i){       
+    //    al_draw_bitmap(GUICHE, xGuiche, 80, 0);
+    //    xGuiche += 1080/qtdPostos;
+    //}
     
     xGuiche = 0;
     

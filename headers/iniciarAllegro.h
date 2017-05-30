@@ -4,6 +4,9 @@ ALLEGRO_BITMAP *BOTAO_SAIR = NULL,
                *AREA_CENTRAL = 0,  
                *BACKGROUND = NULL, 
                *GUICHE = NULL,
+               *GUICHEA = NULL,
+               *GUICHEAC = NULL,
+               *CLIENTE = NULL,
                *PAUSEBTTN = NULL,
                *PLAYBTTN = NULL,
                *TWOTIMESBTTN = NULL,
@@ -84,7 +87,10 @@ bool iniciarAllegro(){
     }
 
     GUICHE = al_load_bitmap("headers/Images/guiche.png");
-    if (!GUICHE){
+    GUICHEA = al_load_bitmap("headers/Images/guicheA.png");
+    GUICHEAC = al_load_bitmap("headers/Images/guicheAC.png");
+    CLIENTE = al_load_bitmap("headers/Images/cliente.png");
+    if (!GUICHE || !GUICHEA || !GUICHEAC || !CLIENTE){
         fprintf(stderr, "Falha ao criar bitmap GUICHE. \n");
         return false;
     }

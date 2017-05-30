@@ -157,37 +157,28 @@ int variedade_postos(ARR_FILAS **arr, int counter, char postoB){
     
 } 
 
-int verifica_atendente(Fila **a){
+int verifica_atendente(Fila **a, int is_atend){
 
-    int is_atend;
-    
     if(*a != NULL){
-        is_atend = ((*a)->cliente.is_attending);
-        return is_atend;
+        if ((*a)->cliente.is_attending == 0){
+        return is_atend = verifica_atendente(&(*a)->proximo, (is_atend + 1));
+        }
     } 
-    else return 0;
+    
+    return is_atend;
 
 }
 
 void detalhe_guiche(ARR_FILAS **arr, char **nome, int *is_atend, int *qtdPostosV, int *qtdAtendsV, int *qtsPessoas){
 
+    int qtd_attendent = 0;
+
     if(*arr != NULL){
         *nome = ((*arr)->label);
-        *is_atend = verifica_atendente(&(*arr)->current_posto);
+        *is_atend = verifica_atendente(&(*arr)->current_posto, qtd_attendent);
         *qtdPostosV = ((*arr)->qtd_postos);
         *qtdAtendsV = ((*arr)->qtd_attendent);
         *qtsPessoas = ((*arr)->qtd_pessoas);
     }
 
 }
-
-//void detalhe_guiche(ARR_FILAS **arr, char **nome, int *qtd_postos, int *qtd_attendent, int *is_atend){
-
-//    if(*arr != NULL){
-//        *qtd_postos = ((*arr)->qtd_postos);
-//        *qtd_attendent = ((*arr)->qtd_attendent);
-//        *nome = ((*arr)->label);
-//        *is_atend = verifica_atendente(&(*arr)->current_posto);
-//   }
-
-//}
