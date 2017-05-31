@@ -10,7 +10,9 @@ ARR_FILAS *ARRAY_CLIENTES = NULL;
 Fila *CLIENTES_FIN = NULL;
 bool FINISHED_READING = false;
 int QTD_CLIENTES = 0;
+bool CAN_CHANGE = false;
 Cliente *AWAITING = NULL;
+Troca *TROCA = NULL;
 
 char *slice_str_with_end(const char * str, size_t start, size_t end){
 
@@ -183,7 +185,7 @@ void set_all_queues_attending(ARR_FILAS **arr){
 
 }
 
-void update_subqueue_values(ARR_FILAS **super, Fila **arr){
+void update_subqueue_values(ARR_FILAS **super, Fila **arr, int TURNO){
     s1:if(*arr != NULL){
         // if((*arr)->cliente.id == 2)
         //     print_client((*arr)->cliente);
@@ -192,19 +194,113 @@ void update_subqueue_values(ARR_FILAS **super, Fila **arr){
         if((*arr)->cliente.duration == 0){
             char _next = next_step((*arr)->cliente.sequence, (*arr)->cliente.current_step);
             (*arr)->cliente.is_attending = false;
-            insert_element_by_key(super, &CLIENTES_FIN, _next, (*arr)->cliente);
+            insert_element_by_key(super, &CLIENTES_FIN, _next, (*arr)->cliente, TURNO);
+            (*super)->qtd_pessoas --;
             *arr = remove_element(*arr);
             if(*arr == NULL) goto s1;
         }
-        update_subqueue_values(super, &(*arr)->proximo);
+        update_subqueue_values(super, &(*arr)->proximo, TURNO);
     }
     // if(*arr == NULL) return;
 }
 
-void update_queues(ARR_FILAS **arr){
+double avg_time_current_fila(Fila *arr, int TIMER){
+    Fila *aux = arr;
+    int qtd_clientes = 0;
+    int total_time = 0;
+s1: if(aux != NULL){
+        total_time += TIMER - aux->cliente.arrival_time_current_step;
+        qtd_clientes++;
+        aux = aux->proximo;
+        goto s1;
+    }
+    aux = arr;
+    return !qtd_clientes ? 0 : total_time / (double) qtd_clientes;
+}
+
+void set_avg_time(ARR_FILAS **arr, int current_time){
     if(*arr != NULL){
-        update_subqueue_values(arr, &(*arr)->current_posto);
-        update_queues(&(*arr)->proximo);
+        (*arr)->avg_time_in_queue = avg_time_current_fila((*arr)->current_posto, current_time);
+        set_avg_time(&(*arr)->proximo, current_time);
+    }
+}
+
+char search_for_changeble(ARR_FILAS **arr){
+    ARR_FILAS *aux = *arr;
+    char higher_timer = -1;
+    int peaple_counter = 0;
+s1: if(aux != NULL){
+        if(aux->qtd_pessoas > peaple_counter || aux->qtd_postos > aux->qtd_attendent){
+            peaple_counter = aux->qtd_pessoas;
+            higher_timer = aux->posto;
+        }
+        aux = aux->proximo;
+        goto s1;
+    }
+    aux = *arr;
+    return higher_timer;
+}
+
+char search_for_changeble_queue(ARR_FILAS **arr){
+    ARR_FILAS *aux = *arr;
+    char changeble_queue = -1;
+    int diff = 0;
+s1: if(aux != NULL){
+        if(aux->qtd_attendent <= 1)
+            goto s2;
+        if(aux->avg_time_in_queue - SETUP->time_to_change > diff){
+            diff = aux->avg_time_in_queue - SETUP->time_to_change;
+            changeble_queue = aux->posto;
+        }
+        s2: aux = aux->proximo;
+        goto s1;
+    }
+    aux = *arr;
+    return changeble_queue;
+}
+
+int operate_an_attendant(ARR_FILAS **arr, char posto, int operation){
+    if(*arr != NULL){
+        if((*arr)->posto == posto){
+            operation ? (*arr)->qtd_attendent++ : (*arr)->qtd_attendent--;
+            return 1;
+        }
+        operate_an_attendant(&(*arr)->proximo, posto, operation);
+    }
+    return 0;
+}
+
+void do_change(ARR_FILAS **arr){
+    if(!CAN_CHANGE)
+        return;
+    if(TROCA != NULL){
+        TROCA->counter--;
+        if(TROCA->counter == 0){
+            operate_an_attendant(arr, TROCA->to, 1);
+            free(TROCA);
+            TROCA = NULL;
+        }
+        return;
+    }
+    if(TROCA == NULL){
+        char higher_timer = search_for_changeble(arr);
+        char changeble = search_for_changeble_queue(arr);
+        if(higher_timer == -1 || changeble == -1)
+            return;
+        
+        TROCA = (Troca *)malloc(sizeof(Troca));
+        TROCA->from = changeble;
+        TROCA->to = higher_timer;
+        TROCA->counter = SETUP->time_to_change;
+        operate_an_attendant(arr, TROCA->from, 0);
+    }
+
+}
+
+void update_queues(ARR_FILAS **arr, int TURNO){
+    if(*arr != NULL){
+        update_subqueue_values(arr, &(*arr)->current_posto, TURNO);
+        update_queues(&(*arr)->proximo, TURNO);
     }
 }
 
@@ -232,6 +328,7 @@ get:if(getline(&line, &len, fp) != EOF){
                 break;
             case 3:
                 setup->time_to_change = atoi(slice_str(line, 6));
+                if(setup->time_to_change) CAN_CHANGE = true;
                 break;
             default:
                 _posto_setup(line);
@@ -254,6 +351,7 @@ Fila *get_client(const char *file_name, int current_time){
             goto fim;
         else{
             printf("INCLUINDO CLIENTE %d NA FILA\n", AWAITING->id);
+            AWAITING->arrival_time_current_step = current_time;
             inclui_fila(&fila_de_clientes, *AWAITING);
             QTD_CLIENTES++;
             free(AWAITING);
@@ -290,6 +388,7 @@ Fila *get_client(const char *file_name, int current_time){
         AWAITING->current_step = AWAITING->sequence[0];
         if(AWAITING->arrival_time == current_time){
             printf("INCLUINDO CLIENTE %d NA FILA\n", AWAITING->id);
+            AWAITING->arrival_time_current_step = current_time;
             inclui_fila(&fila_de_clientes, *AWAITING);
             QTD_CLIENTES++;
             free(AWAITING);

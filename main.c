@@ -24,6 +24,8 @@ int main(int argc, char *argv[]){
         return -1;
     }
 
+    system("kill -9 $(ps aux | grep /tmp/report.txt | grep -v grep | awk '{print $2}')");
+
     CONFIG_FILE = argv[1];
     CLIENT_LIST_FILE = argv[2];
 
