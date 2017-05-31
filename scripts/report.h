@@ -1,47 +1,29 @@
 void __make_header(FILE *report){
-    fprintf(report, "<!DOCTYPE html>");
-    fprintf(report, "<html lang=");
-    fprintf(report, "%c",  34);
-    fprintf(report, "en");
-    fprintf(report, "%c",  34);
-    fprintf(report, "><head><title>Relatório</title><meta charset=");
-    fprintf(report, "%c",  34);
-    fprintf(report, "utf-8");
-    fprintf(report, "%c",  34);
-    fprintf(report, "><meta name=");
-    fprintf(report, "%c",  34);
-    fprintf(report, "viewport");
-    fprintf(report, "%c",  34);
-    fprintf(report, " content=");
-    fprintf(report, "%c",  34);
-    fprintf(report, "width=device-width, initial-scale=1");
-    fprintf(report, "%c",  34);
-    fprintf(report, "><link rel=");
-    fprintf(report, "%c",  34);
-    fprintf(report, "stylesheet");
-    fprintf(report, "%c",  34);
-    fprintf(report, " href=");
-    fprintf(report, "%c",  34);
-    fprintf(report, "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css");
-    fprintf(report, "%c",  34);
-    fprintf(report, "><script src=");
-    fprintf(report, "%c",  34);
-    fprintf(report, "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js");
-    fprintf(report, "%c",  34);
-    fprintf(report, "></script><script src=");
-    fprintf(report, "%c",  34);
-    fprintf(report, "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js");
-    fprintf(report, "%c",  34);
-    fprintf(report, "></script></head><body><div class=");
-    fprintf(report, "%c",  34);
-    fprintf(report, "container");
-    fprintf(report, "%c",  34);
-    fprintf(report, "><h2>Relatório da ultima execução</h2><table class=");
-    fprintf(report, "%c",  34);
-    fprintf(report, "table table-striped table-bordered");
-    fprintf(report, "%c",  34);
-    fprintf(report, "><thead><tr><th>Grupo</th><th>Quantidade de clientes</th><th>Tempo total</th><th>Tempo médio</th></tr></thead>");
-    fprintf(report, "<tbody>");
+    fprintf(report, 
+        "<!DOCTYPE html>"\
+        "<html lang=\"en\">"\
+        "<head>"\
+            "<title>Relatório</title>"\
+            "<meta charset=\"utf-8\">"\
+            "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"\
+            "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">"\
+            "<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js\"></script>"\
+            "<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script>"\
+        "</head>"\
+        "<body>"\
+            "<div class=\"container\">"\
+                "<h2>Relatório da ultima execução</h2>"\
+                "<table class=\"table table-striped table-bordered\">"\
+                    "<thead>"\
+                        "<tr>"\
+                            "<th>Grupo</th>"\
+                            "<th>Quantidade de clientes</th>"\
+                            "<th>Tempo total</th>"\
+                            "<th>Tempo médio</th>"\
+                        "</tr>"\
+                    "</thead>"\
+                    "<tbody>"\
+                    );
 
 }
 
