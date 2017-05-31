@@ -24,8 +24,6 @@ int main(int argc, char *argv[]){
         return -1;
     }
 
-    system("kill -9 $(ps aux | grep /tmp/report.txt | grep -v grep | awk '{print $2}')");
-
     CONFIG_FILE = argv[1];
     CLIENT_LIST_FILE = argv[2];
 
@@ -42,7 +40,7 @@ int main(int argc, char *argv[]){
     if(ARRAY_CLIENTES) free(ARRAY_CLIENTES);
     generate_report();
     if(CLIENTES_FIN) free(CLIENTES_FIN);
-    system("xdg-open /tmp/report.txt");
+    system("xdg-open /tmp/report.html >/dev/null 2>&1 &");
 
     return 0;
 }

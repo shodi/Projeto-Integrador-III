@@ -1,10 +1,59 @@
+void __make_header(FILE *report){
+    fprintf(report, "<!DOCTYPE html>");
+    fprintf(report, "<html lang=");
+    fprintf(report, "%c",  34);
+    fprintf(report, "en");
+    fprintf(report, "%c",  34);
+    fprintf(report, "><head><title>Relatório</title><meta charset=");
+    fprintf(report, "%c",  34);
+    fprintf(report, "utf-8");
+    fprintf(report, "%c",  34);
+    fprintf(report, "><meta name=");
+    fprintf(report, "%c",  34);
+    fprintf(report, "viewport");
+    fprintf(report, "%c",  34);
+    fprintf(report, " content=");
+    fprintf(report, "%c",  34);
+    fprintf(report, "width=device-width, initial-scale=1");
+    fprintf(report, "%c",  34);
+    fprintf(report, "><link rel=");
+    fprintf(report, "%c",  34);
+    fprintf(report, "stylesheet");
+    fprintf(report, "%c",  34);
+    fprintf(report, " href=");
+    fprintf(report, "%c",  34);
+    fprintf(report, "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css");
+    fprintf(report, "%c",  34);
+    fprintf(report, "><script src=");
+    fprintf(report, "%c",  34);
+    fprintf(report, "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js");
+    fprintf(report, "%c",  34);
+    fprintf(report, "></script><script src=");
+    fprintf(report, "%c",  34);
+    fprintf(report, "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js");
+    fprintf(report, "%c",  34);
+    fprintf(report, "></script></head><body><div class=");
+    fprintf(report, "%c",  34);
+    fprintf(report, "container");
+    fprintf(report, "%c",  34);
+    fprintf(report, "><h2>Relatório da ultima execução</h2><table class=");
+    fprintf(report, "%c",  34);
+    fprintf(report, "table table-striped table-bordered");
+    fprintf(report, "%c",  34);
+    fprintf(report, "><thead><tr><th>Grupo</th><th>Quantidade de clientes</th><th>Tempo total</th><th>Tempo médio</th></tr></thead>");
+    fprintf(report, "<tbody>");
+
+}
+
 void __print_group_info__(Group_info **arr, FILE *report, int counter){
     if((*arr)->anterior != NULL && !counter) __print_group_info__(&(*arr)->anterior, report, counter);
     else if(*arr != NULL){
-        fprintf(report, "GRUPO: %s", (*arr)->sequence);
-        fprintf(report, "TOTAL_TIME: %d\n", (*arr)->total_time);
-        fprintf(report, "QTD CLIENTES: %d\n", (*arr)->qtd_clientes);
-        fprintf(report, "AVG_TIME: %.2lf\n\n", (*arr)->avg_time);
+        fprintf(report, "<tr>");
+        fprintf(report, "<td><b>%s</b></td>", (*arr)->sequence);
+        fprintf(report, "<td>%d</td>", (*arr)->qtd_clientes);
+        fprintf(report, "<td>%d</td>", (*arr)->total_time);
+        fprintf(report, "<td>%.2lf</td>", (*arr)->avg_time);
+        fprintf(report, "</tr>");
         if((*arr)->proximo != NULL) __print_group_info__(&(*arr)->proximo, report, ++counter);
     }
     return;
@@ -79,7 +128,8 @@ con:if(aux != NULL){
         goto con;
     }
     arr = aux;
-    FILE *report = fopen("/tmp/report.txt", "w+");
+    FILE *report = fopen("/tmp/report.html", "w+");
+    __make_header(report);
     __print_group_info__(&(self)->route_avg_time, report, ~EOF);     
     fclose(report);
 
@@ -98,8 +148,13 @@ void generate_report(){
 
     report->get_group_avg_time(report, CLIENTES_FIN);
     report->get_general_average_time(report, CLIENTES_FIN);
-    FILE *fp = fopen("/tmp/report.txt", "a");
-    fprintf(fp, "TEMPO MEDIO DE ATENDIMENTO: %.2lf\n", report->avg_time);
+    FILE *fp = fopen("/tmp/report.html", "a");
+    fprintf(fp, "<tr><td colspan=");
+    fprintf(fp, "%c",  34);
+    fprintf(fp, "%c", 51);
+    fprintf(fp, "%c",  34);
+    fprintf(fp, "><b>TEMPO MEDIO DE ATENDIMENTO:</b></td><td>%.2lf</td>", report->avg_time);
+    fprintf(fp, "</tbody></table></div></body></html>");
     fclose(fp);
     free(report);
     
