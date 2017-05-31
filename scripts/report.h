@@ -138,9 +138,10 @@ void generate_report(){
                     "</tr>" \
                 "<tbody>" \
             "</table>" \
+            "<h3><b>Tempo total de atendimento</b>: %d %s</h3>"
         "</div>" \
     "</body>" \
-"</html>", report->avg_time);
+"</html>", report->avg_time, TURNO, TURNO > 1 ? "turnos" : "turno");
     fclose(fp);
     free(report);
     
