@@ -149,11 +149,11 @@ void carregarMenuInferior(){
             al_draw_textf(FONT2, al_map_rgb(1, 1, 1), (xGuiche+27), 65, ALLEGRO_ALIGN_CENTRE, "%s", nome);
             xGuiche += 1080/qtdPostos;
         }
-            xFila = xGuiche - (qtdPostosV*(1080/qtdPostos))/2.0 - 40;    
+        
+        xFila = xGuiche - (qtdPostosV*(1080/qtdPostos))/2.0 - 40;    
 
         //al_draw_filled_rectangle((xFila-5), 170, (xFila+5), (qtdPessoas*50+175), al_map_rgb(0,0,255));
-        for (int i = 0; i < qtdPessoasF; ++i)
-        {
+        for (int i = 0; i < qtdPessoasF; ++i){
             al_draw_bitmap(CLIENTE, xFila-15, 170+i*30, ALLEGRO_ALIGN_CENTRE);
         }
         al_draw_textf(FONT, al_map_rgb(1, 1, 1), (xFila), (qtdPessoas*30+180), ALLEGRO_ALIGN_CENTRE, "%d",qtdPessoas);    

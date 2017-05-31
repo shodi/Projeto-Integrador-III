@@ -160,8 +160,10 @@ int variedade_postos(ARR_FILAS **arr, int counter, char postoB){
 int verifica_atendente(Fila **a, int is_atend){
 
     if(*a != NULL){
-        printf("O Cliente está na fila %c e sendo %d\n",(*a)->cliente.current_step, (*a)->cliente.is_attending);
+        //printf("O Cliente está na fila %c e sendo %d\n",(*a)->cliente.current_step, (*a)->cliente.is_attending);
+        printf("O Cliente está na fila %c e sendo %d\n",(*a)->cliente.current_step, (*a)->cliente.duration);
         if ((*a)->cliente.is_attending == true){
+        //if ((*a)->cliente.duration > 0){
         return is_atend = verifica_atendente(&(*a)->proximo, (is_atend + 1));
         }
     } 
@@ -180,7 +182,7 @@ void detalhe_guiche(ARR_FILAS **arr, char **nome, int *is_atend, int *qtdPostosV
         *qtdPostosV = ((*arr)->qtd_postos);
         *qtdAtendsV = ((*arr)->qtd_attendent);
         *qtsPessoas = ((*arr)->qtd_pessoas);
-        printf("Quantidade de pessoas: %d na fila %s\n", *qtsPessoas, *nome);
+        //printf("Quantidade de pessoas: %d na fila %s\n", *is_atend, *nome);
     }
 
 }
