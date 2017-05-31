@@ -160,9 +160,9 @@ int variedade_postos(ARR_FILAS **arr, int counter, char postoB){
 int verifica_atendente(Fila **a, int is_atend){
 
     if(*a != NULL){
-        //printf("O Cliente está na fila %c e sendo %d\n",(*a)->cliente.current_step, (*a)->cliente.is_attending);
-        printf("O Cliente está na fila %c e sendo %d\n",(*a)->cliente.current_step, (*a)->cliente.duration);
-        if ((*a)->cliente.is_attending == true){
+        printf("O Cliente está na fila %c e sendo %d\n",(*a)->cliente.current_step, (*a)->cliente.is_attending);
+        //printf("O Cliente está na fila %c e sendo %d\n",(*a)->cliente.current_step, (*a)->cliente.duration);
+        if ((*a)->cliente.duration >= 0){
         //if ((*a)->cliente.duration > 0){
         return is_atend = verifica_atendente(&(*a)->proximo, (is_atend + 1));
         }
