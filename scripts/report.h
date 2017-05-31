@@ -131,12 +131,16 @@ void generate_report(){
     report->get_group_avg_time(report, CLIENTES_FIN);
     report->get_general_average_time(report, CLIENTES_FIN);
     FILE *fp = fopen("/tmp/report.html", "a");
-    fprintf(fp, "<tr><td colspan=");
-    fprintf(fp, "%c",  34);
-    fprintf(fp, "%c", 51);
-    fprintf(fp, "%c",  34);
-    fprintf(fp, "><b>TEMPO MEDIO DE ATENDIMENTO:</b></td><td>%.2lf</td>", report->avg_time);
-    fprintf(fp, "</tbody></table></div></body></html>");
+    fprintf(fp, \
+                    "<tr>" \
+                        "<td colspan=\"3\"><b>TEMPO MEDIO DE ATENDIMENTO:</b></td>" \
+                        "<td>%.2lf</td>" \
+                    "</tr>" \
+                "<tbody>" \
+            "</table>" \
+        "</div>" \
+    "</body>" \
+"</html>", report->avg_time);
     fclose(fp);
     free(report);
     
