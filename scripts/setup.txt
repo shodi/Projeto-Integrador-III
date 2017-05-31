@@ -1,7 +1,7 @@
 6
 RP:AABBCDDE
 RA:ABCDDE
-TROCA:3
+TROCA:0
 A2:Triagem
 B5:Formulários
 C7:Fotografia

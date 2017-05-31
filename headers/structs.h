@@ -3,6 +3,7 @@ typedef struct cliente{
     int id;
     int duration;
     int spent_time;
+    int arrival_time_current_step;
     bool in_process;
     bool is_attending;
     int arrival_time;
@@ -46,10 +47,19 @@ typedef struct fila_de_filas{
     char *label;
     int qtd_postos;
     int qtd_attendent;
+    double avg_time_in_queue;
     int qtd_pessoas;
     int time_to_attend;
 
 }ARR_FILAS;
+
+typedef struct Troca{
+
+    char from;
+    char to;
+    int counter;
+
+}Troca;
 
 typedef struct grupo_de_informacoes{
     struct grupo_de_informacoes *anterior;

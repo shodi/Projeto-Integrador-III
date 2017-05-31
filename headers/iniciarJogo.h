@@ -28,16 +28,19 @@ int iniciarJogo(const char *CLIENT_LIST_FILE){
                     MIN++;
                     SEG = 0;
                 }
+                if(SEG % 2 == 0)
+                    set_avg_time(&ARRAY_CLIENTES, TURNO);
                 new_client = get_client(CLIENT_LIST_FILE, TURNO);
                 while(new_client){
-                    insert_element_by_key(&ARRAY_CLIENTES, NULL, new_client->cliente.current_step, new_client->cliente);
+                    insert_element_by_key(&ARRAY_CLIENTES, NULL, new_client->cliente.current_step, new_client->cliente, TURNO);
                     new_client = new_client->proximo;
                 }
                 new_client = NULL;
                 set_all_queues_attending(&ARRAY_CLIENTES);
-                update_queues(&ARRAY_CLIENTES);
+                update_queues(&ARRAY_CLIENTES, TURNO);
                 // print_fila(&CLIENTES_FIN);
-                // print_super_fila(&ARRAY_CLIENTES);
+                count_qtd_pessoas(&ARRAY_CLIENTES, 0);
+                do_change(&ARRAY_CLIENTES);
                 // if(check_queue_status(&ARRAY_CLIENTES, 0)) return 0;
                 TURNO++;
                 if(check_if_finished(&CLIENTES_FIN)){printf("TEMPO TOTAL DE ATENDIMENTO: %d\n", TURNO); return 0;}

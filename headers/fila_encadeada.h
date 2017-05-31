@@ -35,6 +35,7 @@ void init_filas(ARR_FILAS **arr, char key){
         aux->posto = key;
         aux->qtd_postos = 1;
         aux->qtd_attendent = 0;
+        aux->avg_time_in_queue = -1;
         *arr = aux;
     }
 
@@ -78,7 +79,7 @@ void print_client(Cliente x){
 
 }
 
-void insert_element_by_key(ARR_FILAS **arr, Fila **finalizado, const char key, Cliente x){
+void insert_element_by_key(ARR_FILAS **arr, Fila **finalizado, const char key, Cliente x, int TURNO){
     if((key == '\0' || key == '\n' || key == ' ')){
         goto fi;
     }
@@ -88,9 +89,10 @@ void insert_element_by_key(ARR_FILAS **arr, Fila **finalizado, const char key, C
             Cliente aux = x;
             aux.duration = (*arr)->time_to_attend;
             aux.current_step = key;
+            aux.arrival_time_current_step = TURNO;
             inclui_fila(&(*arr)->current_posto, aux);
         }else{
-            insert_element_by_key(&(*arr)->proximo, finalizado, key, x);
+            insert_element_by_key(&(*arr)->proximo, finalizado, key, x, TURNO);
         }
     }
     if(*arr == NULL){
@@ -117,14 +119,23 @@ void print_fila(Fila **a){
 
 }
 
+
+void count_qtd_pessoas(ARR_FILAS **arr, int count){
+    if(*arr != NULL){
+        printf("Quantidade de pessoas fila %c: %d\n\n", (*arr)->posto, (*arr)->qtd_pessoas);
+        count_qtd_pessoas(&(*arr)->proximo, count + (*arr)->qtd_pessoas);
+    }
+}
+
 void print_super_fila(ARR_FILAS **arr){
 
     if(*arr != NULL){
         printf("CURRENT FILA %c\n", (*arr)->posto);
         printf("QTD_POSTOS: %d\n", (*arr)->qtd_postos);
+        printf("%d CLIENTES NA FILA\n", (*arr)->qtd_pessoas);
         printf("QTD_ATENDENTES: %d\n", (*arr)->qtd_attendent);
         printf("TIME TO ATTEND: %d\n\n\n\n\n", (*arr)->time_to_attend);
-        print_fila(&(*arr)->current_posto);
+        // print_fila(&(*arr)->current_posto);
         printf("\n\n\n\n");
         print_super_fila(&(*arr)->proximo);
     }
