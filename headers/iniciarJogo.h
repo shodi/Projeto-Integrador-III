@@ -110,7 +110,7 @@ void carregarMenuInferior(){
     int is_atend = 0;
     int qtdPostosV = 0;
     int qtdAtendsV = 0;
-    
+    int qtdPessoasF = 0;
     // guichês;
     qtdPostos = total_postos(&ARRAY_CLIENTES, qtdPostos);
     
@@ -124,12 +124,17 @@ void carregarMenuInferior(){
     
     for (int i = 0; i < variedade; ++i){    
         
+        //printf("Guiche: %s Quantidade de clientes: %d Quantidade de atendentes: %d\n", nome, is_atend, qtdAtendsV);
+
+        qtdPessoasF = qtdPessoas - is_atend;
+        
         for (int j = 0; j < qtdPostosV; ++j){
             if (qtdAtendsV > 0){
                 if (is_atend > 0){
                     al_draw_filled_rectangle(xGuiche, 60, (xGuiche+54), 80, al_map_rgb(0,0,255));
                     al_draw_bitmap(GUICHEAC, xGuiche, 80, 0);
                     --is_atend;
+                    --qtdAtendsV;
                 }
                 else if(qtdAtendsV > 0){ 
                     al_draw_bitmap(GUICHEA, xGuiche, 80, 0);
@@ -147,7 +152,7 @@ void carregarMenuInferior(){
             xFila = xGuiche - (qtdPostosV*(1080/qtdPostos))/2.0 - 40;    
 
         //al_draw_filled_rectangle((xFila-5), 170, (xFila+5), (qtdPessoas*50+175), al_map_rgb(0,0,255));
-        for (int i = 0; i < qtdPessoas; ++i)
+        for (int i = 0; i < qtdPessoasF; ++i)
         {
             al_draw_bitmap(CLIENTE, xFila-15, 170+i*30, ALLEGRO_ALIGN_CENTRE);
         }
@@ -157,31 +162,17 @@ void carregarMenuInferior(){
         nome = NULL;
         is_atend = 0;
         qtdPostosV = 0;
-        
-        //al_draw_filled_rectangle(xFila, 150, (xFila+14), (qtdPessoas*50+155), al_map_rgb(0,0,255));
+
         xFila += 1080/variedade;
         detalhe_guiche(aux, &nome, &is_atend, &qtdPostosV, &qtdAtendsV, &qtdPessoas);
     }
     
     xGuiche = temp_xGuiche;
     
-    //for (int i = 0; i < qtdPostos; ++i){       
-    //    al_draw_bitmap(GUICHE, xGuiche, 80, 0);
-    //    xGuiche += 1080/qtdPostos;
-    //}
-    
     xGuiche = 0;
     
     qtdPostos = 0;
     
-    // filas dos guichês
-    //for (int i = 0; i < variedade; ++i)
-    //{
-    //    al_draw_filled_rectangle(xFila, 150, (xFila+14), (qtdPessoas+300), al_map_rgb(0,0,255));
-    //    al_draw_textf(FONT, al_map_rgb(1, 1, 1), (xFila+7), (qtdPessoas+305), ALLEGRO_ALIGN_CENTRE, "%d",TURNO);    
-    //    xFila += 1080/variedade;        
-    
-    //}
     variedade = 0;
     xFila = 20;
 
