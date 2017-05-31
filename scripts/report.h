@@ -13,7 +13,7 @@ void __make_header(FILE *report){
         "<body>"\
             "<div class=\"container\">"\
                 "<h2>Relatório da ultima execução</h2>"\
-                "<table class=\"table table-striped table-bordered\">"\
+                "<table class=\"table table-striped table-hover table-bordered\">"\
                     "<thead>"\
                         "<tr>"\
                             "<th>Grupo</th>"\
