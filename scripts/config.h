@@ -225,12 +225,35 @@ void set_avg_time(ARR_FILAS **arr, int current_time){
     }
 }
 
+int last_valid(ARR_FILAS **arr, char fila_1, char fila_2){
+    if(fila_1 == -1 || fila_2 == -1)
+        return 0;
+    ARR_FILAS *aux = *arr;
+
+    int fila_1_pessoas = -1;
+    // int fila_1_guiche = -1;
+
+    int fila_2_pessoas = -1;
+    // int fila_2_guiche = -1;
+    s1:if(aux != NULL){
+        if(aux->posto == fila_1){ fila_1_pessoas = aux->qtd_pessoas; /*fila_1_guiche = aux->qtd_postos;*/}
+        if(aux->posto == fila_2){ fila_2_pessoas = aux->qtd_pessoas; /*fila_2_guiche = aux->qtd_postos;*/}
+        aux = aux->proximo;
+        goto s1;
+    }
+    aux = *arr;
+    if(fila_1_pessoas == 0 && fila_2_pessoas == 0)
+        return 0;
+    else
+        return 1;
+}
+
 char search_for_changeble(ARR_FILAS **arr){
     ARR_FILAS *aux = *arr;
     char higher_timer = -1;
-    int peaple_counter = 0;
+    int peaple_counter = -1;
 s1: if(aux != NULL){
-        if(aux->qtd_pessoas > peaple_counter || aux->qtd_postos > aux->qtd_attendent){
+        if(aux->qtd_pessoas > peaple_counter && aux->qtd_postos > aux->qtd_attendent){
             peaple_counter = aux->qtd_pessoas;
             higher_timer = aux->posto;
         }
@@ -246,10 +269,9 @@ char search_for_changeble_queue(ARR_FILAS **arr){
     char changeble_queue = -1;
     int diff = 0;
 s1: if(aux != NULL){
-        if(aux->qtd_attendent <= 1)
-            goto s2;
-        if(aux->avg_time_in_queue - SETUP->time_to_change > diff){
-            diff = aux->avg_time_in_queue - SETUP->time_to_change;
+        if((aux->qtd_attendent && aux->qtd_pessoas > 0) || aux->qtd_attendent == 0) goto s2;
+        if(aux->qtd_postos - aux->qtd_attendent >= diff){
+            diff = aux->qtd_postos - aux->qtd_attendent;
             changeble_queue = aux->posto;
         }
         s2: aux = aux->proximo;
@@ -285,9 +307,8 @@ void do_change(ARR_FILAS **arr){
     if(TROCA == NULL){
         char higher_timer = search_for_changeble(arr);
         char changeble = search_for_changeble_queue(arr);
-        if(higher_timer == -1 || changeble == -1)
+        if((higher_timer == -1 || changeble == -1) || !last_valid(arr, changeble, higher_timer))
             return;
-        
         TROCA = (Troca *)malloc(sizeof(Troca));
         TROCA->from = changeble;
         TROCA->to = higher_timer;
