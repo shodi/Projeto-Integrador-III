@@ -74,7 +74,7 @@ int iniciarJogo(const char *CLIENT_LIST_FILE){
                     if(evento.mouse.x >= 200 && evento.mouse.x <= 300 &&
                         evento.mouse.y >= 650 && evento.mouse.y <= 750){
                         al_start_timer(TIMER);
-                        al_set_timer_speed(TIMER,0.33);
+                        al_set_timer_speed(TIMER,0.1);
 
                     }
                     if (evento.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP){
@@ -155,11 +155,12 @@ void carregarMenuInferior(){
         
         xFila = xGuiche  - (qtdPostosV*(1080/qtdPostos)) + ((qtdPostosV * 50)/2);    
 
-        //al_draw_filled_rectangle((xFila-5), 170, (xFila+5), (qtdPessoas*50+175), al_map_rgb(0,0,255));
+        //filas
+        al_draw_textf(FONT, al_map_rgb(1, 1, 1), (xFila), (160), ALLEGRO_ALIGN_CENTRE, "%d",qtdPessoas);    
+        al_draw_filled_rectangle(xFila-20, 203, (xFila+20), 205, al_map_rgb(255,0,0));
         for (int i = 0; i < qtdPessoasF + is_atend; ++i){
-            al_draw_bitmap(CLIENTE, xFila - 15, 170+i*30, ALLEGRO_ALIGN_CENTRE);
+            al_draw_bitmap(CLIENTE, xFila - 15, 210+i*30, ALLEGRO_ALIGN_CENTRE);
         }
-        al_draw_textf(FONT, al_map_rgb(1, 1, 1), (xFila), (qtdPessoas*30+180), ALLEGRO_ALIGN_CENTRE, "%d",qtdPessoas);    
 
         aux = &(*aux)->proximo;
         nome = NULL;
@@ -188,10 +189,19 @@ void carregarMenuInferior(){
 
     //relogio
     al_draw_text(FONT, al_map_rgb(0, 0, 0), 400, 655, ALLEGRO_ALIGN_CENTRE, "Turno:");
-    al_draw_textf(FONT, al_map_rgb(0, 0, 200), 480, 655, ALLEGRO_ALIGN_CENTRE, "%d",TURNO);    
+    al_draw_textf(FONT, al_map_rgb(0, 0, 0), 480, 655, ALLEGRO_ALIGN_CENTRE, "%d",TURNO);    
     al_draw_text(FONT, al_map_rgb(0, 0, 0), 670, 655, ALLEGRO_ALIGN_CENTRE, "Tempo:");
-    al_draw_textf(FONT, al_map_rgb(255, 0, 0), 790, 655, ALLEGRO_ALIGN_CENTRE, "%d:%d",MIN, SEG);
+    al_draw_textf(FONT, al_map_rgb(0, 0, 0), 790, 655, ALLEGRO_ALIGN_CENTRE, "%d:%d",MIN, SEG);
+
+    //legenda
+    al_draw_filled_rectangle(850, 655,890,670, al_map_rgb(255,0,0));
+    al_draw_text(FONT2, al_map_rgb(0, 0, 0), 900, 655, ALLEGRO_ALIGN_LEFT, "Guichê Vazio");    
+    al_draw_filled_rectangle(850, 675,890,690, al_map_rgb(0,255,0));
+    al_draw_text(FONT2, al_map_rgb(0, 0, 0), 900, 675, ALLEGRO_ALIGN_LEFT, "Guichê Disponivel");
+    al_draw_filled_rectangle(850, 695,890,710, al_map_rgb(0,0,255));
+    al_draw_text(FONT2, al_map_rgb(0, 0, 0), 900, 695, ALLEGRO_ALIGN_LEFT, "Guichê Ocupado");
     }
+
 
 void carregarBackground(){  
     al_clear_to_color(al_map_rgb(190, 190, 190));
