@@ -20,3 +20,5 @@ Integrantes: Caio Luzano, Gustavo Diogo, Henrique Shodi e Luiz Frederico
 > ./main &lt;arquivo de configuracao&gt; &lt;arquivo da fila&gt;
 
 >Apenas digite `make run` e o projeto deverá inciar automaticamente
+
+*O projeto necessita de acesso à internet para poder gerar, corretamente, o relatório ao final de sua execução.
